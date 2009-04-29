@@ -1,0 +1,13 @@
+<validators>
+	<validator id='1' name='PDF' method='extract' argument='pdf-hul' priority='1'>
+	<validator id='2' name='RXML' method='extract' argument='xml-hul' priority='1'>
+	<validator id='3' name='FormatBase' method='extract' argument='html-hul' priority='1'>		
+	<validator id='4' name='ASCII' method='extract' argument='pdf-hul' priority='1'>
+	<validator id='5' name='UTF8' method='extract' argument='utf8-hul' priority='2'>
+	<validator id='6' name='Tiff' method='extract' argument='tiff-hul' priority='1'>
+	<validator id='7' name='Jpeg' method='extract' argument='jpeg-hul' priority='1'>
+	<validator id='8' name='Image' method='extract' argument='jpeg2000-hul' priority='1'>
+	<validator id='9' name='Image' method='extract' argument='gif-hul' priority='1'>			
+	<validator id='10' name='Audio' method='extract' argument='aiff-hul' priority='1'>
+	<validator id='11' name='Audio' method='extract' argument='wave-hul' priority='1'>										
+</validtors>

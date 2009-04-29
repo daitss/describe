@@ -1,0 +1,90 @@
+The format server provide format identification and validation for DAITSS 2.  It requires rjb, mongrel and log4r gems installed.  Prior to installation, please make sure that ruby, java and mysql are set up on the system.   http://rjb.rubyforge.org/ has more information about rjb. 
+
+INSTALLATION FOR DEVELOPMENT ENVIRONMENT
+- install required gems
+  gem install rjb
+  gem install mongrel
+  gem install log4r
+
+
+note that to install rjb, you'll have to have JAVA_HOME set - on our Macs (OS X 10.5), thats
+
+   setenv JAVA_HOME /Library/Java/Home
+
+- check out codes from svn, the svn URL is svn://tupelo.fcla.edu/shades/describe/trunk
+
+- create mysql database named as shades_dev
+
+- add "lib" to the RUBYLIB environment variable
+
+- setup shades_dev database
+  run the database migrations "ruby migrate.rb"
+
+- start up format server
+  ruby formatserver.rb
+
+FORMAT SERVER COMPONENTS
+The format server is composed of three individually addressable handers.
+
+1.  The "ident" handler implements the format identification, i.e., given a file url, it returns a list of formats 
+    (in PUID) which match the format signatures in the file.  For example,
+
+# format identification on a tiff
+
+curl http://localhost:3002/ident?'url=/Users/Carol/Desktop/work/testdata/image/tiff/florida.tif
+
+2.  The extract handler takes two parameters, url and format.  The url tells the extract service the location of 
+    the file to be analyzed.  The format parameter is the PUID returns from the format identification.    After 
+    analyzing the file, the extract service will display the technical metadata exhibited in the file in xml.
+
+The extract service can be accessed by using curl or on the browser directly.  Here are some curl examples.  
+
+# format extraction on a tiff
+
+curl http://localhost:3002/extract?'url=/Users/Carol/Desktop/work/testdata/image/tiff/florida.tif&format=fmt/8'
+
+#format extraction on a pdf
+curl http://localhost:3002/extract?'url=/Users/Carol/Desktop/work/testdata/pdf/etd.pdf&format=fmt/17'
+
+3.  The describe handler is a composite service, it extracts the format identifier and metadata on a given url.  Ex.
+
+#describe a pdf
+curl http://localhost:3002/describe/Users/Carol/Desktop/work/testdata/pdf/etd.pdf
+
+The describe handler is the one that will be used by Ingest.
+
+HOW THE DESCRIBE HANDLER PERFORMS FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION PROCESS
+
+A. Internally, the format identification is performed via Droid.  Based on the format signatures 
+   exhibited in the file(URL), Droid will return the PUIDs matching the format signatures in the file(URL).
+	1.  If there is no PUID returned from Droid => something that means "no id found"
+	2.  If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
+		2.1  If there is no defined validator for any PUID, retrieve the GDFR ID using PUID and then
+		     continue from D (Question: choose any one?).
+		2.2  If there is only one validator for all of the PUIDs, => continue from B
+		2.3  If there are multiple validators, retrieve a prioritized list of validators (using an evaluator*) 
+		     and validate the file with each validator (in B) until it is determined to be valid and well-formed 
+		     by a validator or exhausts all applicable validators.
+	3.  Exception from Droid, => say we can't identify it and log an internal message for development trouble shooting.
+	
+B.  The describe handler proceeds to the format validation and characterization process via the validator.  The validator 
+    should return the validation result, anomalies and all technical metadata extracted from the file (URL). 
+	1.  If the required metadata is missing (for example, missing MIX or AES.  This indicates the possibility of  bugs 
+	    in the validator), log an internal service message for developers. 
+	2.  Exception encountered during validation, => log an internal message (submit to development service?).  We can't 
+	    validate it.  Continue from D.
+
+C.  retrieve GDFR ID directly from GDFR search, using the format information returned from the validator 
+    (format name+ version + profile).  Otherwise, map the format information from JHOVE result to GDFR ID.
+
+D.	(phase 2) Retrieve the risk information from GDFR using GDFR ID.  Calculate format risk, based on the format, 
+    metadata and anomaly (using validation impact database)
+
+E.  Return GDFR ID, and optionally technical metadata and anomaly.
+
+
+*Evaluator:  Given a list of validators, return a prioritized list of validators.  Each validator will be 
+ assigned a priority value.  A higher value indicates higher priority.  For example, ASCII validator will 
+ have priority value 1 whereas UTF8 validator will have priority 2.  If a file matches the signatures for 
+ both ASCII and UTF8, the evaluator will return the both UTF8 and ASCII validators but with UTF8 having 
+ higher priority in the list.
