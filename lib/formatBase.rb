@@ -120,13 +120,14 @@ class FormatBase
         @fileObject.formatVersion = @jhove.elements['version'].get_text
 
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
-        fmt = Format.find(:first, :conditions => ["lookup = ?", lookup])
         
+        record = Format2Validator.instance.find_by_lookup(lookup)
         # make sure there is a format record, 
         # if the format identifier has been decided (by format identification), skip this
-        unless (fmt.nil? || @formatKnown)
+        unless (@formatKnown || record.nil?)
+          fmt = Format.instance.find_puid(record.rid)
           @registry = fmt.registry
-          @registryKey = fmt.rid
+          @registryKey = fmt.puid
           DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
         end
         DescribeLogger.instance.info "formatKnown = #{@formatKnown}"

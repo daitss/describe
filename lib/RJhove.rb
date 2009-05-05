@@ -1,25 +1,11 @@
 #!/usr/local/env ruby
 require 'rubygems'
 require 'rjb'
-require 'active_record'
 require 'singleton'
 require 'premis'
+require 'registry'
 require 'DescribeLogger'
 
-ActiveRecord::Base.establish_connection(
-:adapter  => "mysql",
-:host     => "localhost",
-:database => "shades_dev",
-:username => "root",
-:password => "")
-
-class Format < ActiveRecord::Base
-  validates_presence_of :registry, :rid
-end
-
-class Validator < ActiveRecord::Base
-  validates_presence_of :id
-end
 
 class RJhove
   attr_reader :jhoveEngine
@@ -33,31 +19,37 @@ class RJhove
     Dir.glob("lib/*.rb").each do |file|
       load(file) unless file ==$0
     end
+    
+    @validators = XML::Document.file('config/validators.xml')
   end
 
   # given a tentative format id, extract technical metadata of the input file
   def extract(input, format)
     # retrieve the validator used for this format
-    fmt = Format.find(:first, :conditions => ["rid = ?", format])
+    vdr = Format2Validator.instance.find_by_rid(format)
 
     # make sure this is a valid format
-    if (fmt.nil?)
+    if (vdr.nil?)
       DescribeLogger.instance.warn "no format for this format id #{format}"
       result = nil
     else
-      DescribeLogger.instance.info "validator id #{fmt.validator}"
-      vdr = Validator.find(:first, :conditions => ["id = ?", fmt.validator])
+      DescribeLogger.instance.info "validator id #{vdr.validator}"
+      xml = @validators.find_first("//validator[name/text()='#{vdr.validator}']")
 
       # make sure there is a validator defined for this format
-      unless (vdr.nil?)        
+      unless (xml.nil?)    
+        validator = Validator.new(@validators, "//validator[name/text()='#{vdr.validator}']")    
         # create the parser
-        DescribeLogger.instance.info "validator: #{vdr.name} method: #{vdr.routine}" 
-        parser = eval(vdr.name).new vdr.arguments
+        DescribeLogger.instance.info "validator: #{validator.class} method: #{validator.method}" 
+        parser = eval(validator.class).new validator.parameter
 
-        parser.setFormat(fmt.registry, fmt.rid)
-        
+        # retrive the format record
+        fmt = Format.instance.find_puid(format)
+        DescribeLogger.instance.info "registry: #{fmt.registry} puid: #{fmt.puid}" 
+        parser.setFormat(fmt.registry, fmt.puid)
+         
         # validate and extract the metadata
-        result = parser.send vdr.routine, input
+        result = parser.send validator.method, input
       else
         DescribeLogger.instance.warn "No validator is defined for this format " + format
         result = nil
@@ -77,18 +69,18 @@ class RJhove
     unless (validators.empty?)
       validators.each do |vdr|
         premis = nil
-        DescribeLogger.instance.info "validator: #{vdr.name}, method: #{vdr.routine}, arguments: #{vdr.arguments}"
+        DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
-        parser = eval(vdr.name).new vdr.arguments
+        parser = eval(vdr.class).new vdr.parameter
 
         #set the format identifier if known
         if (formats.size ==  1)
           # retrive the format record
-          format = Format.find(:first, :conditions => ["rid = ?", formats.first])
-          parser.setFormat(format.registry, format.rid)
+          format = Format.instance.find_puid(formats.first)
+          parser.setFormat(format.registry, format.puid)
         end
         # validate and extract the metadata
-        premis = parser.send vdr.routine, input
+        premis = parser.send vdr.method, input
         
         #if result shows an invalid file, try the next validator in the list if there is one
         if (premis != nil && isValid(premis.toDocument))
@@ -112,17 +104,17 @@ class RJhove
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which one
-        format = Format.find(:first, :conditions => ["rid = ?", formats.first])
-        fileObject.formatName = format.info
+        format = Format.instance.find_puid(formats.first)
+        fileObject.formatName = format.name
         fileObject.registryName = format.registry
-        fileObject.registryKey = format.rid
+        fileObject.registryKey = format.puid
         status = "format identified"
       else
         # ambiguous formats, need to find a temporary format identifier for future resolution
         formatName = String.new
         formats.each do |f|
-          format = Format.find(:first, :conditions => ["rid = ?", f])
-          formatName << format.info
+          format = Format.instance.find_puid(f)
+          formatName << format.name + format.version
           formatName << ', '
         end
         fileObject.formatName = formatName
@@ -149,32 +141,28 @@ class RJhove
   def getValidator(formats)
     validators_list = nil
     validator = nil
-    
+
+    # Set does not allow duplicate, thus it makes sure only a unique validator is put into the ValidatorSet.
     validatorSet = Set.new
     formats.each do |format|
-      fmt = Format.find(:first, :conditions => ["rid = ?", format])
-      # make sure there is a validator defined
-      unless (fmt.nil? || fmt.validator.nil?)
-        DescribeLogger.instance.info "#{fmt.registry}/#{fmt.rid}, #{fmt.info}"
-        # add unqiue validator id to our validators set
-        validatorSet.add(fmt.validator)
+      validator = Format2Validator.instance.find_by_rid(format)
+      unless validator.nil?
+        DescribeLogger.instance.info "#{format}"
+        validatorSet.add(validator.validator)
       end
     end
-    
-    DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"
-    #return a prioritized list of validators if applicable
-    validators = Validator.find(:all, :conditions => {:id => validatorSet.to_a}, :order=> "priority DESC")
-    validators
-  end
 
-  def selectFormat(formats)
-    format = nil
-    # TODO: if only one format return the one.  Otherwise, 
-    formats.each do |f|
-      format = Format.find(:first, :conditions => ["rid = ?", f])
-      break
+    DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
+    # return a prioritized list of validators if applicable
+    validators = SortedSet.new
+    validatorSet.each do |val|
+      xml = @validators.find_first("//validator[name/text()='#{val}']")
+      unless (xml.nil?)
+        val = Validator.new(@validators, "//validator[name/text()='#{val}']")
+        validators.add val
+      end
     end
-    format
+    validators.sort
   end
    
   def isValid(xml)
@@ -188,4 +176,5 @@ class RJhove
     end
     valid
   end
+  
 end

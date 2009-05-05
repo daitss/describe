@@ -6,8 +6,8 @@ class UTF8 < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    asciiMD = @jhove.elements['//property[name/text()="UTF8Metadata"]']
-    unless (asciiMD.nil?)
+    utf8MD = @jhove.elements['//property[name/text()="UTF8Metadata"]']
+    unless (utf8MD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
       xslt.xsl = REXML::Document.new File.read("xsl/utf2TextMD.xsl")

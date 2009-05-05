@@ -143,7 +143,7 @@ Then /^mix should exist$/ do
 end
 
 Then /^textmd should exist$/ do
-  puts response.body
+  # puts response.body
   lambda {response.body.to_s =~ /textMD>/ }.call.should_not be_nil
 end
 
