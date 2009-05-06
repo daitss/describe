@@ -79,8 +79,12 @@ Given /^an utf\-8 file$/ do
   @file = "location=file://#{abs}/files/Doc1.txt"
 end
 
-Given /^a file whose format is currently unsupported$/ do
+Given /^a file with unknown format$/ do
   @file = "location=file://#{abs}/files/rawfree.datafile"
+end
+
+Given /^a file whose format is power point$/ do
+  @file = "location=file://#{abs}/files/test.ppt"
 end
 
 Given /^a wave file$/ do
