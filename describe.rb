@@ -87,7 +87,10 @@ def description
   @formats = droid.identify(@input)
 
   if (@formats.empty?)
-    premis = jhove.retrieveFileProperties(@input, @formats)
+    premis = Premis.new
+    fileObject = jhove.retrieveFileProperties(@input, @formats)
+    premis.createFileObject(fileObject)
+    eventOutcomeInfo = premis.createEventOutcomeInfo(@status, nil, nil)
   else
     # extract the technical metadata
     premis = jhove.extractAll(@input, @formats)

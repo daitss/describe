@@ -3,6 +3,12 @@ require 'rubygems'
 require 'active_record'
 require 'digest/md5'
 
+class Inhibitor
+  attr_accessor :type
+  attr_accessor :target
+  attr_accessor :key
+end
+
 class FileObject
   attr_accessor :url
   attr_accessor :size
@@ -16,11 +22,15 @@ class FileObject
   attr_accessor :createAppName
   attr_accessor :createAppVersion
   attr_accessor :createDate
+
+  def initialize
+    @inhibitors = Array.new
+  end
 end
 
 class Premis
   attr_reader :root
-  
+
   def initialize
     #create premis 
     @root = Element.new('premis') 
@@ -70,13 +80,13 @@ class Premis
     objectChar.add_element createFormat(fileObject)     
     objectChar.add_element createCreatingApplication(fileObject)
     objectChar.add_element createFixity(fileObject.url)
-    
+
     unless (fileObject.objectExtension.nil?)
       objectChar.add_element fileObject.objectExtension
     end
-    
+
     unless (fileObject.inhibitors.nil?)
-      objectChar.add_element fileObject.inhibitors
+      objectChar.add_element createInhibitor(fileObject.inhibitors)
     end
 
     object.add_element objectChar
@@ -114,7 +124,7 @@ class Premis
         format.add_element formatRegistry
       end
     end
-    
+
     format
   end
 
@@ -138,7 +148,7 @@ class Premis
     end
     creatingApplication
   end
-  
+
   # create premis agent
   def createAgent(url)
     agent = Element.new('agent')
@@ -225,46 +235,49 @@ class Premis
 
     eventOutcomeInfo
   end
-  
-  def createInhibitor(type, target, key)
+
+  def createInhibitor(inhbs)
     # create inhibitors
     inhibitors = Element.new('inhibitors')
-    
-    unless (type.nil?)
-      inhibitorType = Element.new('inhibitorType')
-      inhibitorType.add_text(type)
-      inhibitors.add_element inhibitorType
+
+    inhbs.each do |inhibitor|
+      unless (inhibitor.type.nil?)
+        inhibitorType = Element.new('inhibitorType')
+        inhibitorType.add_text(inhibitor.type)
+        inhibitors.add_element inhibitorType
+      end
+
+      unless (inhibitor.target.nil?)
+        inhibitorTarget = Element.new('inhibitorTarget')
+        inhibitorTarget.add_text(inhibitor.target)
+        inhibitors.add_element inhibitorTarget
+      end
+
+      unless (inhibitor.key.nil?)
+        inhibitorKey = Element.new('inhibitorKey')
+        inhibitorKey.add_text(inhibitor.key)
+        inhibitors.add_element inhibitorKey
+      end
+
     end
-    
-    unless (target)
-      inhibitorTarget = Element.new('inhibitorTarget')
-      inhibitorTarget.add_text(target)
-      inhibitors.add_element inhibitorTarget
-    end
-    
-    unless (key.nil?)
-      inhibitorKey = Element.new('inhibitorKey')
-      inhibitorKey.add_text(key)
-      inhibitors.add_element inhibitorKey
-    end
-    
     inhibitors
   end
-  
+
   def createFixity(url)
     fixity = Element.new('fixity')
-    
+
     # message Digest Type
     messageDigestType = Element.new('messageDigestAlgorithm')
     messageDigestType.add_text('MD5')
     fixity.add_element messageDigestType
-    
+
     # message digest value
     messageDigest = Element.new('messageDigest')
     value = Digest::MD5.hexdigest(File.read(url))
     messageDigest.add_text(value)
     fixity.add_element messageDigest
-    
+
     fixity
   end
+
 end

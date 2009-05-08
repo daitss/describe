@@ -21,21 +21,17 @@ class PDF < FormatBase
 
       # check if the pdf is encrypted
       encrypt = pdfMD.elements['//property[name/text()="Encryption"]']
+      
       unless (encrypt.nil?)
-        inhibitors = Element.new('Inhibitors')
+        inhibitor = Inhibitor.new 
         handler = encrypt.elements['//property[name/text()="SecurityHandler"]/values/value']
         # based on PDF spec., "Standard" implies passwork-protected
         if (handler.get_text == "Standard") 
-          inhibitorType = Element.new("inhibitorType")
-          inhibitorType.add_text "Password protection"
-          inhibitors.add_element inhibitorType
+          inhibitor.type = "Password protection"
           encrypt.elements['//property[name/text()="StandardSecurityHandler"]/values/property[name/text()="UserAccess"]/values'].each_element do |ele| 
-            targetValue = 'UserAccess: ' + ele.get_text.to_s
-            inhibitorTarget = Element.new('inhibitorTarget')
-            inhibitorTarget.add_text targetValue
-            inhibitors.add_element inhibitorTarget
+            inhibitor.target = 'UserAccess: ' + ele.get_text.to_s
           end
-          @fileObject.inhibitors = inhibitors
+          @fileObject.inhibitors << inhibitor
         end
       end
 

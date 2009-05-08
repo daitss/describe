@@ -60,7 +60,8 @@ class RJhove
 
   # given a list of tentative format id, extract technical metadata of the input file
   def extractAll(input, formats)
-    premis = nil
+    fileObject = nil
+    anomaly = nil
     
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
@@ -80,24 +81,35 @@ class RJhove
           parser.setFormat(format.registry, format.puid)
         end
         # validate and extract the metadata
-        premis = parser.send vdr.method, input
+        @status = parser.send vdr.method, input
+        anomaly = parser.anomaly
+        fileObject = parser.fileObject
         
         #if result shows an invalid file, try the next validator in the list if there is one
-        if (premis != nil && isValid(premis.toDocument))
+        if (premis != nil && isValid(@status))
             DescribeLogger.instance.info "valid #{vdr.name}"
           break
         end
       end
     else
       DescribeLogger.instance.info "no validator is defined for these formats #{formats}"
-      # no validator, record the basic file properties
-      premis = retrieveFileProperties(input, formats)
+      # no validator, create the base validator to record the basic file properties
+      fileObject = retrieveFileProperties(input, formats)
     end
+    
+    premis = Premis.new
+    premis.createFileObject(fileObject)
+    
+    unless (anomaly.nil?)
+      eventOutcomeInfo = premis.createEventOutcomeInfo(@status, 'anomaly', anomaly)
+    else
+      eventOutcomeInfo = premis.createEventOutcomeInfo(@status, nil, nil)
+    end
+    premis.createEvent('1', eventOutcomeInfo)
     premis
   end
   
   def retrieveFileProperties(input, formats)
-    premis = Premis.new
     fileObject = FileObject.new
     fileObject.url = input
     fileObject.size = File.size(input).to_s
@@ -108,7 +120,7 @@ class RJhove
         fileObject.formatName = format.name
         fileObject.registryName = format.registry
         fileObject.registryKey = format.puid
-        status = "format identified"
+        @status = "format identified"
       else
         # ambiguous formats, need to find a temporary format identifier for future resolution
         formatName = String.new
@@ -118,7 +130,7 @@ class RJhove
           formatName << ', '
         end
         fileObject.formatName = formatName
-        status = "multiple formats identified"
+        @status = "multiple formats identified"
       end
     else
       # for empty file, the format Name should be 'N/A'
@@ -128,14 +140,10 @@ class RJhove
         # for unempty file that can't be identified, the format name is 'unknown'
         fileObject.formatName = 'unknown'
       end
-      status = "cannot identify this file: #{input}"
+      @status = "cannot identify this file: #{input}"
     end
     
-    premis.createFileObject(fileObject)
-    eventOutcomeInfo = premis.createEventOutcomeInfo(status, nil, nil)
-    premis.createEvent('1', eventOutcomeInfo)
-  
-    premis
+    fileObject
   end
   
   def getValidator(formats)
@@ -165,12 +173,11 @@ class RJhove
     validators.sort
   end
    
-  def isValid(xml)
+  def isValid(status)
     valid = false
-    result = xml.root.elements['/premis/event/eventOutcomeInformation/eventOutcome']
-    unless result.nil?
+    unless status.nil?
       DescribeLogger.instance.info "status : #{result.text}"
-      if result.text.casecmp("well-formed and valid") >=0
+      if status.text.casecmp("well-formed and valid") >=0
         valid = true
       end
     end

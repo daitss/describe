@@ -8,26 +8,31 @@ include REXML
 class FormatError < StandardError; end
   
 class FormatBase
+  attr_reader :fileObject
+  attr_reader :bsObjects
+  attr_reader :anomaly
+  attr_reader :status
+  
   def initialize(jhoveModule)
     @module = jhoveModule
-    @formatKnown = false
+    @anomaly = Set.new
   end
 
   public
   def setFormat(registry, registryKey)
-    @formatKnown = true
     @registry = registry
     @registryKey = registryKey
   end
   
   def extractWOparse(input)
     jhove = RJhove.instance
-    # a temperary file to hold the jhove extraction result
+
+    # A temporary file to hold the jhove extraction result
     tmp = Tempfile.new("extract-format.xml")
     output = tmp.path()
     DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
     jhove.jhoveEngine.validateFile @module, input, output
-    #TODO what shall we do if JHOVE crash while validating the file?
+
     io = open output
     doc = Document.new io
     premis = Premis.new
@@ -40,39 +45,37 @@ class FormatBase
     jhove = RJhove.instance
 
     # create a temperary file to hold the jhove extraction result
-    tmp = Tempfile.new("extract-format.xml")
-    output = tmp.path()
-    jhove.jhoveEngine.validateFile @module, input, output
+    unless (@module.nil?)
+      tmp = Tempfile.new("extract-format.xml")
+      output = tmp.path()
+      jhove.jhoveEngine.validateFile @module, input, output
 
-    #TODO what if JHOVE crash while validating the file?
-    io = open output
-    doc = Document.new io
-    
-    premis = nil
-    # parse the jhove output, extracting only the information we need
-    begin
-      parse(doc) 
-      premis = Premis.new
-      premis.createFileObject(@fileObject)
+      io = open output
+      doc = Document.new io
 
-      anomaly = getAnomaly
-      eventOutcomeInfo = premis.createEventOutcomeInfo(@jhove.elements['status'].get_text, 'anomaly', anomaly)
-      premis.createEvent('1', eventOutcomeInfo)
+      # parse the jhove output, extracting only the information we need
+      begin
+        parse(doc) 
+
+        # parse the validation result, record anomaly
+        @jhove.elements.each('messages//message') do |msg|
+          @anomaly.add msg.text
+        end
+        
+        @status = @jhove.elements['status'].get_text
+      rescue FormatError => ex
+        DescribeLogger.instance.error ex.message
+      end
+    else
       
-    rescue FormatError => ex
-      DescribeLogger.instance.error ex.message
     end
-
-    premis
+    @status
   end
 
   protected
   def parse(xml)
-    @jhove = xml.root.elements['/jhove/repInfo']
-    
+    @jhove = xml.root.elements['/jhove/repInfo']    
     unless (@jhove.nil?)
-      #puts @jhove
-
       @fileObject = FileObject.new
       @fileObject.url = @jhove.attributes['uri'].to_s
       @fileObject.size = @jhove.elements['size'].get_text.to_s
@@ -82,19 +85,9 @@ class FormatBase
       # create the object characteristic extension element to hold the format metadata
       @fileObject.objectExtension = Element.new('objectCharacteristicsExtension')
     else
+      # if JHOVE crash while validating the file, there would be no JHOVE output
       raise FormatError.new("No JHOVE output")
-    end
- 
-  end
-
-  def getAnomaly()
-    anomaly = Set.new
-
-    # parse the validation result, record anomaly
-    @jhove.elements.each('messages//message') do |msg|
-      anomaly.add msg.text
-    end
-    anomaly
+    end 
   end
 
   def recordFormat
@@ -113,7 +106,6 @@ class FormatBase
       # end
       
       @fileObject.formatName = formatName
-      # puts @jhove.elements['format']
       # retrieve the format version
       unless (@jhove.elements['version'].nil?)
         # puts @jhove.elements['version']
@@ -124,13 +116,12 @@ class FormatBase
         record = Format2Validator.instance.find_by_lookup(lookup)
         # make sure there is a format record, 
         # if the format identifier has been decided (by format identification), skip this
-        unless (@formatKnown || record.nil?)
+        unless (record.nil?)
           fmt = Format.instance.find_puid(record.rid)
           @registry = fmt.registry
           @registryKey = fmt.puid
           DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
         end
-        DescribeLogger.instance.info "formatKnown = #{@formatKnown}"
       end
     end
 
