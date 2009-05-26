@@ -1,0 +1,24 @@
+  <!-- generate premis event -->
+  <event>
+    <eventIdentifier>
+      <eventIdentifierType>DAITSS</eventIdentifierType>
+      <eventIdentifierValue>1</eventIdentifierValue>
+    </eventIdentifier>
+    <eventType>Format Description</eventType>
+    <eventDateTime><%= Time.now %></eventDateTime>
+    <eventOutcomeInformation>
+      <eventOutcome><%= @status %>
+      </eventOutcome>
+    </eventOutcomeInformation>
+    <eventOutcomeDetail>
+		<eventOutcomeDetailExtension>
+		<% @anomalies.each do |anomaly| %>
+		<anomaly><%= anomaly %></anomaly>
+		<% end %>
+		</eventOutcomeDetailExtension>
+    </eventOutcomeDetail>
+    <linkingAgentIdentifier>
+      <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+      <linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
+    </linkingAgentIdentifier>
+  </event>

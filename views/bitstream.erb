@@ -1,0 +1,19 @@
+<!-- generate premis object -->
+<object xsi:type="bitstream">
+	<objectIdentifier>
+		<objectIdentifierType>DAITSS</objectIdentifierType>
+		<objectIdentifierValue><%= @bstream.url %></objectIdentifierValue>
+	</objectIdentifier>
+	<objectCharacteristics>
+		<format>
+			<% unless @bsObject.formatName.nil? %>
+			<formatDesignation>
+				<formatName><%= @bsObject.formatName%></formatName>
+			</formatDesignation>
+			<% end %>
+		</format>
+		<objectCharacteristicExtension>
+		  <%= @bsObject.objectExtension %>
+		</objectCharacteristicExtension>
+	</objectCharacteristics>
+</object>
