@@ -1,4 +1,4 @@
-require 'formatBase'
+require 'format/formatBase'
 require 'xml/xslt'
 require 'DescribeLogger.rb'
 
@@ -11,7 +11,7 @@ class RXML < FormatBase
       DescribeLogger.instance.info "transforming JHOVE output to XML"
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
-      xslt.xsl = REXML::Document.new File.read("xsl/xml2TextMD.xsl")
+      xslt.xsl = "xsl/xml2TextMD.xsl"
       textMDString = xslt.serve()
       #convert the xml string into xml element
       tmpDoc = XML::Document.string(textMDString)

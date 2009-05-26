@@ -23,8 +23,13 @@ class RJhove
     jhoveEngine =Rjb::import('shades.JhoveEngine')
     @jhoveEngine = jhoveEngine.new('config/jhove.conf')
     #find and load all the plugin
-    Dir.glob("lib/*.rb").each do |file|
-      load(file) unless file ==$0
+    
+    Dir.glob("lib/format/*.rb").each do |file|
+      begin
+        require(file) 
+      rescue => e
+        puts e
+      end
     end
 
     @validators = XML::Document.file('config/validators.xml')

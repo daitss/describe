@@ -1,5 +1,5 @@
 require 'xml'
-require 'formatBase.rb'
+require 'format/formatBase.rb'
 require "DescribeLogger.rb"
 
 class Image < FormatBase

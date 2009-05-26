@@ -1,6 +1,4 @@
-require 'rexml/document'
-require 'RJhove.rb'
-require 'image.rb'
+require 'format/image.rb'
 
 include REXML
 

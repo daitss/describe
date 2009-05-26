@@ -1,8 +1,5 @@
-require 'rexml/document'
-require 'formatBase.rb'
+require 'format/formatBase.rb'
 require 'DescribeLogger.rb'
-
-include REXML
 
 class Audio < FormatBase
   protected

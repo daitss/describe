@@ -2,18 +2,17 @@ require File.dirname(__FILE__) + "/../../describe"
 
 # Force the application name because polyglot breaks the auto-detection logic.
 Sinatra::Application.app_file = File.join(File.dirname(__FILE__), "/../../describe")
-
+require 'rack/test'
 # RSpec matchers
 require 'spec/expectations'
 
-# Required for RSpec to play nice with Sinatra/Test
-# require 'spec/interop/test'
-
-# Sinatra/Test
-require 'sinatra/test'
-
-Test::Unit::TestCase.send :include, Sinatra::Test
+Sinatra::Application.set :environment, :development
 
 World do
-  Sinatra::TestHarness.new(Sinatra::Application)
+  def app
+      Sinatra::Application
+  end
+  include Rack::Test::Methods
+  # include Webrat::Methods
+  # include Webrat::Matchers
 end

@@ -62,8 +62,7 @@ class FormatBase
       rescue FormatError => ex
         DescribeLogger.instance.error ex.message
       end
-    else
-      
+      tmp.close!
     end
     @status
   end

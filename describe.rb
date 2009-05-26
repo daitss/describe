@@ -25,7 +25,6 @@ get '/describe' do
   end
 
   url = URI.parse(params['location'].to_s)
-
   case url.scheme
   when "file"
     @input = url.path
@@ -81,6 +80,7 @@ put '/describe' do
 end
 
 def description
+ 
   jhove = RJhove.instance
   droid = RDroid.instance
   validator = nil
@@ -88,7 +88,6 @@ def description
   DescribeLogger.instance.info "describe #{@input}"
   # identify the file format
   @formats = droid.identify(@input)
-
   if (@formats.empty?)
     @result = jhove.retrieveFileProperties(@input, @formats)
   else

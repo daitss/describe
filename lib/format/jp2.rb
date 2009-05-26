@@ -1,8 +1,4 @@
-require 'rexml/document'
-require 'RJhove.rb'
-require 'image.rb'
-
-include REXML
+require 'format/image.rb'
 
 class JP2 < Image
   def parse(xml)

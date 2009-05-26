@@ -1,4 +1,4 @@
-require 'formatBase'
+require 'format/formatBase'
 require 'DescribeLogger.rb'
 
 class PDF < FormatBase
@@ -40,7 +40,7 @@ class PDF < FormatBase
       DescribeLogger.instance.info "transforming JHOVE output to DocMD"
       xslt = XML::XSLT.new()
       xslt.xml = pdfMD.to_s
-      xslt.xsl = REXML::Document.new File.read("xsl/pdf2DocMD.xsl")
+      xslt.xsl = "xsl/pdf2DocMD.xsl"
       docMDString = xslt.serve()
 
       # convert the xml string into xml element

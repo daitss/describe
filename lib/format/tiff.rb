@@ -1,8 +1,4 @@
-require 'rexml/document'
-require 'RJhove.rb'
-require 'image'
-
-include REXML
+require 'format/image'
 
 class Tiff < Image
 
