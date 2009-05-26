@@ -11,16 +11,23 @@ class Tiff < Image
     
     unless (@mix.nil?)
       # retrieve the createDate metadata
-      createDate =  @mix.elements['mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated']
+      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', MIX_NS)
       unless (createDate.nil?)
-        @fileObject.createDate = createDate.get_text.to_s
+        @fileObject.createDate = createDate.content
       end
 
-      createAppName = @mix.elements['mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName']
+      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', MIX_NS)
       unless (createAppName.nil?)
-        @fileObject.createAppName = createAppName.get_text.to_s
+        @fileObject.createAppName = createAppName.content
       end
-    end
+      
+      #create a bitstream object for the image bitstream inside tiff
+      bitstream = BitstreamObject.new
+      bitstream.objectExtension = @mix
+      @bitstreams << bitstream
+      
+      #TODO multiple images bitstream inside TIFF 
+     end
   end
 
 end

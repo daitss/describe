@@ -44,6 +44,7 @@ end
 
 Given /^a PDF\/A conformed file$/ do
   @file = "location=file://#{abs}/files/PdfGuideline.pdf"
+#  @file = "location=file://#{abs}/files/outalbert_j.pdf"
 end
 
 Given /^pdf with application metadata$/ do
@@ -70,7 +71,7 @@ Given /^a TIFF 6\.0 file$/ do
   @file = "location=file://#{abs}/files/MM00000285.tif"
 end
 
-#note: this ASCII is not well-formed, find one that is well-formed and valid and thus whose textMD can be retrieved
+# note: this ASCII is not well-formed, find one that is well-formed and valid and thus whose textMD can be retrieved
 Given /^an ascii file$/ do
   @file = "location=file://#{abs}/files/test.txt"
 end
@@ -92,7 +93,7 @@ Given /^a wave file$/ do
 end
 
 When /^describing the file$/ do
-  get '/describe?'+@file
+  get '/describe?'+ @file
 end
 
 Then /^I should receive (.+?) on the format version$/ do |version|
@@ -139,7 +140,9 @@ Then /^the docmd should not exist$/ do
 end
 
 Then /^I should receive PDF\/A-1b on the format profile$/ do
-  pending
+  response.body.to_s =~ /format>(.*?)<\/format>/
+  puts $1
+#  lambda { $1.include? "ISO PDF/A-1, Level B" }.call.should be_true
 end
 
 Then /^mix should exist$/ do

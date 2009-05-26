@@ -2,13 +2,20 @@
 require 'rubygems'
 require 'rjb'
 require 'singleton'
-require 'premis'
+require 'structures'
 require 'registry'
 require 'DescribeLogger'
 
+class Result
+  attr_accessor :fileObject
+  attr_accessor :bitstreams
+  attr_accessor :status
+  attr_accessor :anomaly
+end
 
 class RJhove
   attr_reader :jhoveEngine
+  attr_reader :result
   include Singleton
 
   def initialize
@@ -19,7 +26,7 @@ class RJhove
     Dir.glob("lib/*.rb").each do |file|
       load(file) unless file ==$0
     end
-    
+
     @validators = XML::Document.file('config/validators.xml')
   end
 
@@ -47,7 +54,7 @@ class RJhove
         fmt = Format.instance.find_puid(format)
         DescribeLogger.instance.info "registry: #{fmt.registry} puid: #{fmt.puid}" 
         parser.setFormat(fmt.registry, fmt.puid)
-         
+
         # validate and extract the metadata
         result = parser.send validator.method, input
       else
@@ -60,16 +67,15 @@ class RJhove
 
   # given a list of tentative format id, extract technical metadata of the input file
   def extractAll(input, formats)
-    fileObject = nil
-    anomaly = nil
-    
+    @result = nil
+ 
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
-    
+
     # make sure there is a validator defined for this validator id
     unless (validators.empty?)
-      validators.each do |vdr|
-        premis = nil
+        @result = Result.new
+        validators.each do |vdr|
         DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         parser = eval(vdr.class).new vdr.parameter
@@ -81,46 +87,42 @@ class RJhove
           parser.setFormat(format.registry, format.puid)
         end
         # validate and extract the metadata
-        @status = parser.send vdr.method, input
-        anomaly = parser.anomaly
-        fileObject = parser.fileObject
+        @result.status = parser.send vdr.method, input
+        @result.anomaly = parser.anomaly
+        @result.fileObject = parser.fileObject
+        @result.bitstreams = parser.bitstreams
         
         #if result shows an invalid file, try the next validator in the list if there is one
-        if (premis != nil && isValid(@status))
-            DescribeLogger.instance.info "valid #{vdr.name}"
+        if (@result.fileObject != nil && isValid(@result.status))
+          DescribeLogger.instance.info "valid #{vdr.name}"
           break
         end
       end
     else
       DescribeLogger.instance.info "no validator is defined for these formats #{formats}"
       # no validator, create the base validator to record the basic file properties
-      fileObject = retrieveFileProperties(input, formats)
+      @result = retrieveFileProperties(input, formats)
     end
-    
-    premis = Premis.new
-    premis.createFileObject(fileObject)
-    
-    unless (anomaly.nil?)
-      eventOutcomeInfo = premis.createEventOutcomeInfo(@status, 'anomaly', anomaly)
-    else
-      eventOutcomeInfo = premis.createEventOutcomeInfo(@status, nil, nil)
-    end
-    premis.createEvent('1', eventOutcomeInfo)
-    premis
+
+    @result
   end
-  
+
   def retrieveFileProperties(input, formats)
-    fileObject = FileObject.new
-    fileObject.url = input
-    fileObject.size = File.size(input).to_s
+    @result = nil
+    @result = Result.new
+     
+    @result.fileObject = FileObject.new
+    @result.fileObject.url = input
+    @result.fileObject.size = File.size(input).to_s
+
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which one
         format = Format.instance.find_puid(formats.first)
-        fileObject.formatName = format.name
-        fileObject.registryName = format.registry
-        fileObject.registryKey = format.puid
-        @status = "format identified"
+        @result.fileObject.formatName = format.name
+        @result.fileObject.registryName = format.registry
+        @result.fileObject.registryKey = format.puid
+        @result.status = "format identified"
       else
         # ambiguous formats, need to find a temporary format identifier for future resolution
         formatName = String.new
@@ -129,23 +131,23 @@ class RJhove
           formatName << format.name + format.version
           formatName << ', '
         end
-        fileObject.formatName = formatName
-        @status = "multiple formats identified"
+        @fileObject.formatName = formatName
+        @result.status = "multiple formats identified"
       end
     else
       # for empty file, the format Name should be 'N/A'
       if (File.zero?(input))
-        fileObject.formatName = 'N/A'
+        @result.fileObject.formatName = 'N/A'
       else
         # for unempty file that can't be identified, the format name is 'unknown'
-        fileObject.formatName = 'unknown'
+        @result.fileObject.formatName = 'unknown'
       end
-      @status = "cannot identify this file: #{input}"
+      @result.status = "cannot identify this file: #{input}"
     end
-    
-    fileObject
+
+    @result
   end
-  
+
   def getValidator(formats)
     validators_list = nil
     validator = nil
@@ -172,16 +174,16 @@ class RJhove
     end
     validators.sort
   end
-   
+
   def isValid(status)
     valid = false
     unless status.nil?
-      DescribeLogger.instance.info "status : #{result.text}"
-      if status.text.casecmp("well-formed and valid") >=0
+      DescribeLogger.instance.info "status : #{status}"
+      if status.casecmp("well-formed and valid") >=0
         valid = true
       end
     end
     valid
   end
-  
+
 end

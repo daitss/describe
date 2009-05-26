@@ -1,21 +1,24 @@
-require 'rexml/document'
+require 'xml'
 require 'RJhove'
-require 'premis'
+require 'structures'
 require 'DescribeLogger'
-
-include REXML
 
 class FormatError < StandardError; end
   
 class FormatBase
+  
+  JHOVE_NS = "jhove:http://hul.harvard.edu/ois/xml/ns/jhove"
+
   attr_reader :fileObject
-  attr_reader :bsObjects
+  attr_reader :bitstreams
   attr_reader :anomaly
   attr_reader :status
   
   def initialize(jhoveModule)
     @module = jhoveModule
     @anomaly = Set.new
+    @bitstreams = Array.new
+
   end
 
   public
@@ -28,41 +31,34 @@ class FormatBase
     jhove = RJhove.instance
 
     # A temporary file to hold the jhove extraction result
-    tmp = Tempfile.new("extract-format.xml")
+    tmp = File.new("extract.xml", "w+")
     output = tmp.path()
     DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
     jhove.jhoveEngine.validateFile @module, input, output
-
-    io = open output
-    doc = Document.new io
-    premis = Premis.new
-    @jhove = doc.root.elements['/jhove/repInfo']
-    premis.root.add_element @jhove
-    premis
+    nil
   end
 
   def extract(input)
     jhove = RJhove.instance
+    @fileOjbect = nil
 
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      tmp = Tempfile.new("extract-format.xml")
+      tmp = Tempfile.new("extract.xml")
       output = tmp.path()
-      jhove.jhoveEngine.validateFile @module, input, output
+      jhove.jhoveEngine.validateFile @module, input, output 
 
-      io = open output
-      doc = Document.new io
-
+      doc = XML::Document.file(output)
       # parse the jhove output, extracting only the information we need
       begin
         parse(doc) 
-
         # parse the validation result, record anomaly
-        @jhove.elements.each('messages//message') do |msg|
-          @anomaly.add msg.text
+        messages = @jhove.find('jhove:messages/jhove:message', JHOVE_NS) 
+        messages.each do |msg|
+          @anomaly.add msg.content
         end
         
-        @status = @jhove.elements['status'].get_text
+        @status = @jhove.find_first('jhove:status', JHOVE_NS).content
       rescue FormatError => ex
         DescribeLogger.instance.error ex.message
       end
@@ -73,17 +69,17 @@ class FormatBase
   end
 
   protected
-  def parse(xml)
-    @jhove = xml.root.elements['/jhove/repInfo']    
+  def parse(doc)
+    @jhove = doc.find_first("//jhove:repInfo", JHOVE_NS)
     unless (@jhove.nil?)
       @fileObject = FileObject.new
-      @fileObject.url = @jhove.attributes['uri'].to_s
-      @fileObject.size = @jhove.elements['size'].get_text.to_s
+      @fileObject.url = @jhove.attributes['uri']
+      @fileObject.size = @jhove.find_first('//jhove:size/text()', JHOVE_NS)
       @fileObject.compositionLevel = '0'
       recordFormat
 
       # create the object characteristic extension element to hold the format metadata
-      @fileObject.objectExtension = Element.new('objectCharacteristicsExtension')
+      @fileObject.objectExtension = XML::Node.new('objectCharacteristicsExtension')
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
       raise FormatError.new("No JHOVE output")
@@ -92,24 +88,11 @@ class FormatBase
 
   def recordFormat
     #retreive the format name
-    unless (@jhove.elements['format'].nil?)
-      formatName = @jhove.elements['format'].get_text.to_s
-      
-      # retrieve format profiles
-      # TODO recording format profiles in multiple format designation, waiting for premis schema fixes
-      # unless (@jhove.elements['profiles'].nil?)
-      #   # traverse through all profiles and append them to create multipart format name
-      #   @jhove.elements.each('profiles//profile') do |p|
-      #     formatName = formatName + '_' + p.get_text.to_s
-      #     end
-      #   puts @jhove.elements['profiles']
-      # end
-      
-      @fileObject.formatName = formatName
+    unless (@jhove.find_first('//jhove:format', JHOVE_NS).nil?)
+      @fileObject.formatName = @jhove.find_first('//jhove:format', JHOVE_NS).content
       # retrieve the format version
-      unless (@jhove.elements['version'].nil?)
-        # puts @jhove.elements['version']
-        @fileObject.formatVersion = @jhove.elements['version'].get_text
+      unless (@jhove.find_first('//jhove:version', JHOVE_NS).nil?)
+        @fileObject.formatVersion = @jhove.find_first('//jhove:version', JHOVE_NS).content
 
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
         
@@ -122,6 +105,16 @@ class FormatBase
           @registryKey = fmt.puid
           DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
         end
+      end
+
+      # record format profiles in multiple format designation
+      profiles = @jhove.find('//jhove:profiles/jhove:profile', JHOVE_NS)
+      unless (profiles.nil?)
+        @fileObject.profiles = Array.new
+        # traverse through all profiles and append them to create multipart format name
+        profiles.each do |p|
+          @fileObject.profiles << p.content
+          end
       end
     end
 

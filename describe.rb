@@ -6,6 +6,9 @@ require 'RDroid'
 require 'DescribeLogger'
 require 'uri'
 require 'rjb'
+require 'structures'
+require 'erb'
+require 'digest/md5'
 
 #load all required JAVA library.
 Rjb::load('jars/jhove.jar:jars/jhove-module.jar:jars/jhove-handler.jar:jars/shades.jar:jars/droid.jar')
@@ -87,28 +90,20 @@ def description
   @formats = droid.identify(@input)
 
   if (@formats.empty?)
-    premis = Premis.new
-    fileObject = jhove.retrieveFileProperties(@input, @formats)
-    premis.createFileObject(fileObject)
-    eventOutcomeInfo = premis.createEventOutcomeInfo(@status, nil, nil)
+    @result = jhove.retrieveFileProperties(@input, @formats)
   else
     # extract the technical metadata
-    premis = jhove.extractAll(@input, @formats)
+    @result = jhove.extractAll(@input, @formats)
   end
 
-  unless (premis.nil?)
-    premis.createAgent('http://localhost:3002/describe')
-    result = premis.toDocument
-
-    status 200
     # build a response
     headers 'Content-Type' => 'application/xml'
     # dump the xml output to the response, pretty the xml output (ruby bug)
-    body result.to_s
+    body erb(:fileObject)
     
     DescribeLogger.instance.info "HTTP 200"
-  else
-    throw :halt, [500, "unexpected empty response"]
-  end
+  # else
+  #   throw :halt, [500, "unexpected empty response"]
+  # end
 end
 

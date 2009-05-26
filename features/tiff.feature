@@ -20,3 +20,9 @@ Scenario: TIFF 6.0
 	And the status should be ok
 	And mix should exist
 	
+Scenario: GeoTiff
+	Given a GeoTiff file
+	When describing the file
+	Then I should receive GeoTiff on the format name
+	And the status should be ok
+	And mix should exist

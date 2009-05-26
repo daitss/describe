@@ -40,3 +40,4 @@ Feature: retrieve the description on a PDF resource
 		Then I should receive PDF/A-1b on the format profile
 		And the status should be ok
 		And the docmd should exist		
+	

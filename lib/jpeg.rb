@@ -8,11 +8,13 @@ class Jpeg < Image
   def parse(xml)
     super
     # retrieve and dump the JPEG compression metadata
-    compType = @jhove.elements['//property[name/text()="CompressionType"]']
+    compType = @jhove.find_first('//jhove:property[jhove:name/text()="CompressionType"]', JHOVE_NS)
     unless compType.nil?
-       @fileObject.objectExtension.add_element compType
+       @fileObject.objectExtension = compType
     end
 
+    # put MIX inside the file object (Jpeg does not have bitsteam object)
+    @fileObject.objectExtension = @mix
   end
 
 end

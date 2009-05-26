@@ -6,7 +6,7 @@ class RXML < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    xmlMD = @jhove.elements['//property[name/text()="XMLMetadata"]']
+    xmlMD = @jhove.find_first('//jhove:property[jhove:name/text()="XMLMetadata"]', JHOVE_NS)
     unless (xmlMD.nil?)
       DescribeLogger.instance.info "transforming JHOVE output to XML"
       xslt = XML::XSLT.new()
@@ -14,9 +14,8 @@ class RXML < FormatBase
       xslt.xsl = REXML::Document.new File.read("xsl/xml2TextMD.xsl")
       textMDString = xslt.serve()
       #convert the xml string into xml element
-      tmpDoc = REXML::Document.new textMDString
-      textMD = tmpDoc.root
-      @fileObject.objectExtension.add_element textMD
+      tmpDoc = XML::Document.string(textMDString)
+      @fileObject.objectExtension = tmpDoc.root
     else 
       DescribeLogger.instance.warm "no XMLMetadata found"
     end

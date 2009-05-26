@@ -3,55 +3,25 @@ The format server provide format identification and validation for DAITSS 2.  It
 INSTALLATION FOR DEVELOPMENT ENVIRONMENT
 - install required gems
   gem install rjb
-  gem install mongrel
+  gem install sinatra
   gem install log4r
-
+ 
 
 note that to install rjb, you'll have to have JAVA_HOME set - on our Macs (OS X 10.5), thats
 
    setenv JAVA_HOME /Library/Java/Home
 
-- check out codes from svn, the svn URL is svn://tupelo.fcla.edu/shades/describe/trunk
-
-- create mysql database named as shades_dev
+- check out codes from svn, the svn URL is svn://tupelo.fcla.edu/daitss2/describe/trunk
 
 - add "lib" to the RUBYLIB environment variable
 
-- setup shades_dev database
-  run the database migrations "ruby migrate.rb"
-
 - start up format server
-  ruby formatserver.rb
+  ruby describe.rb
 
-FORMAT SERVER COMPONENTS
-The format server is composed of three individually addressable handers.
-
-1.  The "ident" handler implements the format identification, i.e., given a file url, it returns a list of formats 
-    (in PUID) which match the format signatures in the file.  For example,
-
-# format identification on a tiff
-
-curl http://localhost:3002/ident?'url=/Users/Carol/Desktop/work/testdata/image/tiff/florida.tif
-
-2.  The extract handler takes two parameters, url and format.  The url tells the extract service the location of 
-    the file to be analyzed.  The format parameter is the PUID returns from the format identification.    After 
-    analyzing the file, the extract service will display the technical metadata exhibited in the file in xml.
-
-The extract service can be accessed by using curl or on the browser directly.  Here are some curl examples.  
-
-# format extraction on a tiff
-
-curl http://localhost:3002/extract?'url=/Users/Carol/Desktop/work/testdata/image/tiff/florida.tif&format=fmt/8'
-
-#format extraction on a pdf
-curl http://localhost:3002/extract?'url=/Users/Carol/Desktop/work/testdata/pdf/etd.pdf&format=fmt/17'
-
-3.  The describe handler is a composite service, it extracts the format identifier and metadata on a given url.  Ex.
+Description Service will be used by Ingest to extract format identifiers and metadata on a given url.  Ex.
 
 #describe a pdf
-curl http://localhost:3002/describe/Users/Carol/Desktop/work/testdata/pdf/etd.pdf
-
-The describe handler is the one that will be used by Ingest.
+curl http://localhost:3002/describe?location=file///Users/Carol/Desktop/work/testdata/pdf/etd.pdf
 
 HOW THE DESCRIBE HANDLER PERFORMS FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION PROCESS
 

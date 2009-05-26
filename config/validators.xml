@@ -50,7 +50,7 @@
 	</validator>
 	<validator>
 		<name>jp2</name>
-		<class>Image</class>
+		<class>JP2</class>
 		<method>extract</method>
 		<parameter>jpeg2000-hul</parameter>
 		<priority>1</priority>

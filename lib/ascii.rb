@@ -6,16 +6,15 @@ class ASCII < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    asciiMD = @jhove.elements['//property[name/text()="ASCIIMetadata"]']
+    asciiMD = @jhove.find_first('//jhove:property[jhove:name/text()="ASCIIMetadata"]', JHOVE_NS)
     unless (asciiMD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
       xslt.xsl = REXML::Document.new File.read("xsl/ascii2TextMD.xsl")
       textMDString = xslt.serve()
       #convert the xml string into xml element
-      tmpDoc = REXML::Document.new textMDString
-      textMD = tmpDoc.root
-      @fileObject.objectExtension.add_element textMD
+      tmpDoc =  XML::Document.string(textMDString)
+      @fileObject.objectExtension = tmpDoc.root
     else 
        DescribeLogger.instance.warn "No ASCIIMetadata found"
     end
