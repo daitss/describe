@@ -1,5 +1,4 @@
 require 'format/formatBase.rb'
-require 'DescribeLogger.rb'
 
 class Audio < FormatBase
   protected

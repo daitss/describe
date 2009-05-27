@@ -22,7 +22,7 @@ class Tiff < Image
       bitstream.objectExtension = @mix
       @bitstreams << bitstream
       
-      #TODO multiple images bitstream inside TIFF 
+      # TODO multiple images bitstream inside TIFF 
      end
   end
 

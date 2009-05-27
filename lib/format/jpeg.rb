@@ -1,7 +1,5 @@
 require 'format/image.rb'
 
-include REXML
-
 class Jpeg < Image
   def parse(xml)
     super

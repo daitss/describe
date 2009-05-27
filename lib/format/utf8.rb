@@ -1,6 +1,5 @@
 require 'format/formatBase'
 require 'xml/xslt'
-require 'DescribeLogger.rb'
 
 class UTF8 < FormatBase
   def parse(xml)

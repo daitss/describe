@@ -94,7 +94,7 @@ class FormatBase
         @fileObject.formatVersion = @jhove.find_first('//jhove:version', JHOVE_NS).content
 
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
-        
+
         record = Format2Validator.instance.find_by_lookup(lookup)
         # make sure there is a format record, 
         # if the format identifier has been decided (by format identification), skip this

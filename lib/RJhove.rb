@@ -26,7 +26,8 @@ class RJhove
     
     Dir.glob("lib/format/*.rb").each do |file|
       begin
-        require(file) 
+        puts "load #{file}"
+        load file
       rescue => e
         puts e
       end
@@ -73,14 +74,14 @@ class RJhove
   # given a list of tentative format id, extract technical metadata of the input file
   def extractAll(input, formats)
     @result = nil
- 
+
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
 
     # make sure there is a validator defined for this validator id
     unless (validators.empty?)
-        @result = Result.new
-        validators.each do |vdr|
+      @result = Result.new
+      validators.each do |vdr|
         DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         parser = eval(vdr.class).new vdr.parameter
@@ -96,7 +97,7 @@ class RJhove
         @result.anomaly = parser.anomaly
         @result.fileObject = parser.fileObject
         @result.bitstreams = parser.bitstreams
-        
+
         #if result shows an invalid file, try the next validator in the list if there is one
         if (@result.fileObject != nil && isValid(@result.status))
           DescribeLogger.instance.info "valid #{vdr.name}"
@@ -115,7 +116,7 @@ class RJhove
   def retrieveFileProperties(input, formats)
     @result = nil
     @result = Result.new
-     
+
     @result.fileObject = FileObject.new
     @result.fileObject.url = input
     @result.fileObject.size = File.size(input).to_s

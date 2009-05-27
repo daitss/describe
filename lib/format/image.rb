@@ -1,6 +1,4 @@
-require 'xml'
 require 'format/formatBase.rb'
-require "DescribeLogger.rb"
 
 class Image < FormatBase
   MIX_NS = "mix:http://www.loc.gov/mix/v20"

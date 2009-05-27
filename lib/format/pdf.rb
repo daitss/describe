@@ -1,5 +1,4 @@
 require 'format/formatBase'
-require 'DescribeLogger.rb'
 
 class PDF < FormatBase
   def parse(xml)
