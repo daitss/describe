@@ -1,4 +1,5 @@
 require 'xml'
+require 'singleton'
 
 class Format
   attr_reader :registry

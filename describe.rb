@@ -80,20 +80,24 @@ put '/describe' do
 end
 
 def description
- 
-  jhove = RJhove.instance
+  jhove = RJhove.new
   droid = RDroid.instance
   validator = nil
 
   DescribeLogger.instance.info "describe #{@input}"
   # identify the file format
   @formats = droid.identify(@input)
-  if (@formats.empty?)
-    @result = jhove.retrieveFileProperties(@input, @formats)
-  else
-    # extract the technical metadata
-    @result = jhove.extractAll(@input, @formats)
+  begin
+    if (@formats.empty?)
+      @result = jhove.retrieveFileProperties(@input, @formats)
+    else
+      # extract the technical metadata
+      @result = jhove.extractAll(@input, @formats)
+    end
+  rescue => e
+    puts "running into exception #{e}"
   end
+  
 
     # build a response
     headers 'Content-Type' => 'application/xml'

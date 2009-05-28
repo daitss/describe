@@ -5,7 +5,7 @@ describe RJhove do
   before do
     #load all required JAVA library.
     Rjb::load('jars/jhove.jar:jars/jhove-module.jar:jars/jhove-handler.jar:jars/shades.jar:jars/droid.jar')
-    @jhove = RJhove.instance
+    @jhove = RJhove.new
   end
 
   it "return nil if no validator is defined for the format" do

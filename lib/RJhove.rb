@@ -1,7 +1,5 @@
 #!/usr/local/env ruby
-require 'rubygems'
-require 'rjb'
-require 'singleton'
+require 'rubygems' 
 require 'structures'
 require 'registry'
 require 'DescribeLogger'
@@ -14,25 +12,9 @@ class Result
 end
 
 class RJhove
-  attr_reader :jhoveEngine
   attr_reader :result
-  include Singleton
 
   def initialize
-    # create the one and only JHOVE engine (the singleton)
-    jhoveEngine =Rjb::import('shades.JhoveEngine')
-    @jhoveEngine = jhoveEngine.new('config/jhove.conf')
-    #find and load all the plugin
-    
-    Dir.glob("lib/format/*.rb").each do |file|
-      begin
-        puts "load #{file}"
-        load file
-      rescue => e
-        puts e
-      end
-    end
-
     @validators = XML::Document.file('config/validators.xml')
   end
 
@@ -52,8 +34,10 @@ class RJhove
       # make sure there is a validator defined for this format
       unless (xml.nil?)    
         validator = Validator.new(@validators, "//validator[name/text()='#{vdr.validator}']")    
+        
         # create the parser
         DescribeLogger.instance.info "validator: #{validator.class} method: #{validator.method}" 
+        require "format/"+ validator.class.downcase
         parser = eval(validator.class).new validator.parameter
 
         # retrive the format record
@@ -84,6 +68,7 @@ class RJhove
       validators.each do |vdr|
         DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
+        require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
 
         #set the format identifier if known

@@ -1,4 +1,5 @@
 require 'format/formatBase'
+require 'xml/xslt'
 
 class PDF < FormatBase
   def parse(xml)

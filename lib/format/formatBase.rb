@@ -1,7 +1,8 @@
 require 'xml'
-require 'RJhove'
 require 'structures'
 require 'DescribeLogger'
+require 'fileutils'
+require 'rjb'
 
 class FormatError < StandardError; end
   
@@ -18,7 +19,8 @@ class FormatBase
     @module = jhoveModule
     @anomaly = Set.new
     @bitstreams = Array.new
-
+    jhoveEngine =Rjb::import('shades.JhoveEngine')
+    @jhoveEngine = jhoveEngine.new('config/jhove.conf')
   end
 
   public
@@ -28,41 +30,45 @@ class FormatBase
   end
   
   def extractWOparse(input)
-    jhove = RJhove.instance
-
     # A temporary file to hold the jhove extraction result
     tmp = File.new("extract.xml", "w+")
     output = tmp.path()
     DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
-    jhove.jhoveEngine.validateFile @module, input, output
+    @jhoveEngine.validateFile @module, input, output
     nil
   end
 
   def extract(input)
-    jhove = RJhove.instance
     @fileOjbect = nil
 
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      tmp = Tempfile.new("extract.xml")
-      output = tmp.path()
-      jhove.jhoveEngine.validateFile @module, input, output 
+      # tmp = File.new("extract.xml", "w+")
+      #    output = tmp.path()
+      #    tmp.close
+      #   FileUtils.touch output
+      output = "extract.xml"
+      DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
+      @jhoveEngine.validateFile @module, input, output 
+      # `/Users/Carol/tools/jhove/jhove -c config/jhove.conf -h xml -m #{@module} -o extract.xml #{input}`
 
-      doc = XML::Document.file(output)
-      # parse the jhove output, extracting only the information we need
       begin
+        io = open output
+        XML.default_keep_blanks = false
+        doc = XML::Document.io io
+        # parse the jhove output, extracting only the information we need
         parse(doc) 
         # parse the validation result, record anomaly
         messages = @jhove.find('jhove:messages/jhove:message', JHOVE_NS) 
         messages.each do |msg|
           @anomaly.add msg.content
         end
-        
+        io.close
+        File.delete output
         @status = @jhove.find_first('jhove:status', JHOVE_NS).content
-      rescue FormatError => ex
-        DescribeLogger.instance.error ex.message
+      rescue  => ex
+        DescribeLogger.instance.error ex
       end
-      tmp.close!
     end
     @status
   end
