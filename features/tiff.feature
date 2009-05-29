@@ -23,6 +23,6 @@ Scenario: TIFF 6.0
 Scenario: GeoTiff
 	Given a GeoTiff file
 	When describing the file
-	Then I should receive GeoTiff on the format name
+	Then I should receive GeoTIFF on the format profile
 	And the status should be ok
 	And mix should exist

@@ -71,6 +71,10 @@ Given /^a TIFF 6\.0 file$/ do
   @file = "file://#{abs}/files/MM00000285.tif"
 end
 
+Given /^a GeoTiff file$/ do
+  @file = "file://#{abs}/files/tjpeg.tif"
+end
+
 # note: this ASCII is not well-formed, find one that is well-formed and valid and thus whose textMD can be retrieved
 Given /^an ascii file$/ do
   @file = "file://#{abs}/files/test.txt"
@@ -108,6 +112,7 @@ end
 
 Then /^I should receive (.+?) on the format name$/ do |name|
   last_response.body.to_s =~ /formatName>(.*?)<\/formatName>/
+
   $1.should == name
 end
 
@@ -131,7 +136,7 @@ Then /^I should receive inhibitor whose type is 'password protected'$/ do
 end
 
 Then /^the docmd should exist$/ do
-   lambda {last_response.body.to_s =~ /document>/ }.call.should_not be_nil
+  lambda {last_response.body.to_s =~ /document>/ }.call.should_not be_nil
 end
 
 Then /^the docmd should not exist$/ do
@@ -139,10 +144,10 @@ Then /^the docmd should not exist$/ do
   lambda {last_response.body.to_s =~ /document>/ }.call.should be_nil
 end
 
-Then /^I should receive PDF\/A-1b on the format profile$/ do
-  last_response.body.to_s =~ /format>(.*?)<\/format>/
+Then /^I should receive (.+?) on the format profile$/ do |profile|
+  last_response.body =~ /<format>(.*?)<\/format>/m
   puts $1
-#  lambda { $1.include? "ISO PDF/A-1, Level B" }.call.should be_true
+  lambda { $1.include? profile}.call.should be_true
 end
 
 Then /^mix should exist$/ do

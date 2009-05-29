@@ -37,7 +37,7 @@ Feature: retrieve the description on a PDF resource
 	Scenario: PDF/A-1b
 		Given a PDF/A conformed file
 		When describing the file
-		Then I should receive PDF/A-1b on the format profile
+		Then I should receive ISO PDF/A-1 on the format profile
 		And the status should be ok
 		And the docmd should exist		
 	
