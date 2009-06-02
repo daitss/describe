@@ -41,3 +41,9 @@ Feature: retrieve the description on a PDF resource
 		And the status should be ok
 		And the docmd should exist		
 	
+	Scenario: PDF with multiple images
+		Given a PDF embedded with multiple images
+		When describing the file
+		Then I should receive 19 bitstreams
+		And the status should be ok
+		And the docmd should exist

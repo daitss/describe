@@ -1,3 +1,4 @@
+require 'xml'
 abs = FileUtils.pwd
 
 # TODO make sure all test cases include formatDesignation (formatName) test
@@ -44,19 +45,24 @@ end
 
 Given /^a PDF\/A conformed file$/ do
   @file = "file://#{abs}/files/PdfGuideline.pdf"
-#  @file = "location=file://#{abs}/files/outalbert_j.pdf"
+  #  @file = "location=file://#{abs}/files/outalbert_j.pdf"
+end
+
+Given /^a PDF embedded with multiple images$/ do
+  @file = "file://#{abs}/files/etd.pdf"
 end
 
 Given /^pdf with application metadata$/ do
-   @file = "file://#{abs}/files/etd.pdf"
+  @file = "file://#{abs}/files/etd.pdf"
 end
 
 Given /^an password\-protected PDF file$/ do
   @file = "file://#{abs}/files/pwprotected.pdf"
 end
 
+
 Given /^tiff with application metadata$/ do
-   @file = "file://#{abs}/files/MM00000285.tif"
+  @file = "file://#{abs}/files/MM00000285.tif"
 end
 
 Given /^a TIFF 4\.0 file$/ do
@@ -64,7 +70,7 @@ Given /^a TIFF 4\.0 file$/ do
 end
 
 Given /^a TIFF 5\.0 file$/ do
-   @file = "file://#{abs}/files/00170.tif"
+  @file = "file://#{abs}/files/00170.tif"
 end
 
 Given /^a TIFF 6\.0 file$/ do
@@ -131,8 +137,8 @@ Then /^I should receive creating application in premis$/ do
 end
 
 Then /^I should receive inhibitor whose type is 'password protected'$/ do
-   last_response.body.to_s =~ /inhibitorType>(.*?)<\/inhibitorType>/
-   $1.should == 'Password protection'
+  last_response.body.to_s =~ /inhibitorType>(.*?)<\/inhibitorType>/
+  $1.should == 'Password protection'
 end
 
 Then /^the docmd should exist$/ do
@@ -146,23 +152,28 @@ end
 
 Then /^I should receive (.+?) on the format profile$/ do |profile|
   last_response.body =~ /<format>(.*?)<\/format>/m
-  puts $1
   lambda { $1.include? profile}.call.should be_true
 end
 
 Then /^mix should exist$/ do
-   lambda {last_response.body.to_s =~ /mix>/ }.call.should_not be_nil
+  lambda {last_response.body.to_s =~ /mix>/ }.call.should_not be_nil
 end
 
 Then /^textmd should exist$/ do
-  # puts last_response.body
-  lambda {last_response.body.to_s =~ /textMD>/ }.call.should_not be_nil
+  last_response.body.should match(/textMD/)
 end
 
 Then /^the general metadata should exist$/ do
   # make sure file size is retrieved
-  lambda {last_response.body.to_s =~ /size>/ }.call.should_not be_nil
+  last_response.body.should match(/size/)
 
   # make sure checksum is retrieved
-  lambda {last_response.body.to_s =~ /messageDigest>/ }.call.should_not be_nil
+  last_response.body.should match(/messageDigest/)
+end
+
+Then /^I should receive (.+?) bitstreams$/ do |num|
+  doc = XML::Document.string(last_response.body)
+  # make sure there are expected number of bitstream objects
+  list = doc.find("//premis:object[@xsi:type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
+  list.size.should == num.to_i
 end

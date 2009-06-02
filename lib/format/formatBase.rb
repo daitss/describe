@@ -43,11 +43,11 @@ class FormatBase
 
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      # tmp = File.new("extract.xml", "w+")
-      #    output = tmp.path()
-      #    tmp.close
+      tmp = File.new("extract.xml", "w+")
+      output = tmp.path()
+      tmp.close
       #   FileUtils.touch output
-      output = "extract.xml"
+      # output = "extract.xml"
       DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
       @jhoveEngine.validateFile @module, input, output 
       # `/Users/Carol/tools/jhove/jhove -c config/jhove.conf -h xml -m #{@module} -o extract.xml #{input}`
