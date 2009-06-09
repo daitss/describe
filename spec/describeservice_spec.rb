@@ -17,21 +17,7 @@ describe 'Describe Service' do
 
       @url = '/describe'
     end
-     
-    # def send(method, querystring = nil, data=nil, head=nil)
-    #   url = URI.parse(@url)   
-    #   #puts querystring
-    #   response = Net::HTTP.start(url.host, url.port) {|http|
-    #     unless (querystring.nil?)
-    #       http.send_request(method, url.path + querystring, data, head)
-    #     else
-    #       http.send_request(method, url.path, data, head)
-    #     end
-    #   }
-    #   response
-    # end
   
-
     it "it should return 200 for PUT with text data" do  
       put "describe/?extension=txt", "testing data"
       response.should be_ok

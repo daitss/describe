@@ -26,11 +26,11 @@ get '/describe' do
 
   url = URI.parse(params['location'].to_s)
   case url.scheme
-  when "file"
-    @input = url.path
-  when "http"
-    resource = Net::HTTP.get_response url
-    Tempfile.open("file2describe") do |io|
+    when "file"
+      @input = url.path
+    when "http"
+      resource = Net::HTTP.get_response url
+      Tempfile.open("file2describe") do |io|
       io.write resource.body
       io.flush
       @input = io.path
@@ -49,6 +49,7 @@ get '/describe' do
   else
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
+
   response.finish
 end
 
