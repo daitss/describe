@@ -46,9 +46,9 @@
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
 				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
 			</fixity>
-			<objectCharacteristicExtension>
+			<objectCharacteristicsExtension>
 				<%= @result.fileObject.objectExtension %>
-			</objectCharacteristicExtension>
+			</objectCharacteristicsExtension>
 			<inhibitors>
 				<% @result.fileObject.inhibitors.each do |inh| %>
 				<inhibitorType><%= inh.type %></inhibitorType>
@@ -76,9 +76,9 @@
 				</formatDesignation>
 				<% end %>
 			</format>
-			<objectCharacteristicExtension>
+			<objectCharacteristicsExtension>
 				<%= bs.objectExtension %>
-			</objectCharacteristicExtension>
+			</objectCharacteristicsExtension>
 		</objectCharacteristics>
 	</object>
 	<% end %>
