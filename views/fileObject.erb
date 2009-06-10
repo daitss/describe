@@ -46,7 +46,9 @@
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
 				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
 			</fixity>
-			<%= @result.fileObject.objectExtension %>
+			<objectCharacteristicExtension>
+				<%= @result.fileObject.objectExtension %>
+			</objectCharacteristicExtension>
 			<inhibitors>
 				<% @result.fileObject.inhibitors.each do |inh| %>
 				<inhibitorType><%= inh.type %></inhibitorType>
@@ -85,7 +87,7 @@
 	<!-- generate premis event -->
 	<event>
 		<eventIdentifier>
-			<eventIdentifierType>Temporary</eventIdentifierType>
+			<eventIdentifierType>Temporary Local</eventIdentifierType>
 			<eventIdentifierValue>1</eventIdentifierValue>
 		</eventIdentifier>
 		<eventType>Format Description</eventType>
