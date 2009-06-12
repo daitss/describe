@@ -9,16 +9,6 @@ class PDF < FormatBase
 
     # puts pdfMD
     unless (pdfMD.nil?)
-      # retrieve CreateAppName
-      unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]', JHOVE_NS).nil?)
-        @fileObject.createAppName = pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]/jhove:values/jhove:value', JHOVE_NS).content
-      end
-
-      # retrieve CreateDate
-      unless (pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]', JHOVE_NS).nil?)
-        @fileObject.createDate =  pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]/jhove:values/jhove:value', JHOVE_NS).content
-      end
-
       # check if the pdf is encrypted
       encrypt = pdfMD.find_first('//jhove:property[jhove:name/text()="Encryption"]', JHOVE_NS)
       unless (encrypt.nil?)
@@ -28,12 +18,22 @@ class PDF < FormatBase
         if (handler.content == "Standard") 
           inhibitor.type = "Password protection"
           inhbtrs = encrypt.find_first('//jhove:property[jhove:name/text()="StandardSecurityHandler"]/jhove:values/jhove:property[jhove:name/text()="UserAccess"]/jhove:values',
-            JHOVE_NS)
-            inhbtrs.each do |ele| 
-              inhibitor.target = 'UserAccess: ' + ele.content
+          JHOVE_NS)
+          inhbtrs.each do |ele| 
+            inhibitor.target = 'UserAccess: ' + ele.content
           end
           @fileObject.inhibitors << inhibitor
         end
+      else
+        # only retrieve CreateAppName when not encrypted, JHOVE dump out bad creator info for encrypted file
+        unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]', JHOVE_NS).nil?)
+          @fileObject.createAppName = pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]/jhove:values/jhove:value', JHOVE_NS).content
+        end
+      end
+
+      # retrieve CreateDate
+      unless (pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]', JHOVE_NS).nil?)
+        @fileObject.createDate =  pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]/jhove:values/jhove:value', JHOVE_NS).content
       end
 
       # convert to doc schema        
