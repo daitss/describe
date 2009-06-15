@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-	<!-- generate premis file object -->
 	<% unless @result.fileObject.nil? %>
+	<!-- generate premis file object -->
 	<object xsi:type="file">
 		<objectIdentifier>
 			<objectIdentifierType>DAITSS</objectIdentifierType>
@@ -20,13 +20,6 @@
 					<% end %>
 				</formatDesignation>
 				<% end %>
-				<% unless @result.fileObject.profiles.nil? %>
-				<formatDesignation>
-					<% @result.fileObject.profiles.each do |profile| %>
-					<formatName><%= profile %></formatName>
-					<% end %>
-				</formatDesignation>
-				<% end %>
 				<% unless @result.fileObject.registryKey.nil? %>
 				<formatRegistry>
 					<formatRegistryName><%= @result.fileObject.registryName %></formatRegistryName>
@@ -34,7 +27,15 @@
 				</formatRegistry>	
 				<% end %>
 			</format>
-
+			<% unless @result.fileObject.profiles.nil? %>
+			<format>
+				<formatDesignation>
+					<% @result.fileObject.profiles.each do |profile| %>
+					<formatName><%= profile %></formatName>
+					<% end %>
+				</formatDesignation>
+			</format>
+			<% end %>
 			<% unless @result.fileObject.createAppName.nil? %> 
 			<creatingApplication>
 				<creatingApplicationName><%=  @result.fileObject.createAppName %></creatingApplicationName>
@@ -60,8 +61,8 @@
 	</object>
 	<% end %>
 	
-	<!-- generate premis bitstream object -->
 	<% unless @result.bitstreams.nil? %>
+	<!-- generate premis bitstream object -->
 	<% @result.bitstreams.each do |bs| %>
 	<object xsi:type="bitstream">
 		<objectIdentifier>
