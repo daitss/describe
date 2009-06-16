@@ -1,3 +1,5 @@
+$:.unshift File.join(File.dirname(__FILE__), 'lib')
+
 # describe.rb
 require 'rubygems'
 require 'sinatra'
@@ -12,7 +14,8 @@ require 'digest/md5'
 
 #load all required JAVA library.
 Rjb::load('jars/jhove.jar:jars/jhove-module.jar:jars/jhove-handler.jar:jars/shades.jar:jars/droid.jar')
- 
+
+class Describe < Sinatra::Base
 enable :logging
 
 error do
@@ -111,3 +114,6 @@ def description
   # end
 end
 
+end
+
+Describe.run! if __FILE__ == $0
