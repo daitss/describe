@@ -13,10 +13,14 @@ require 'erb'
 require 'digest/md5'
 
 #load all required JAVA library.
-Rjb::load('jars/jhove.jar:jars/jhove-module.jar:jars/jhove-handler.jar:jars/shades.jar:jars/droid.jar')
+jar_pattern = File.join File.dirname(__FILE__), 'jars', '*.jar'
+jars = Dir[jar_pattern].join ':'
+Rjb::load jars
 
 class Describe < Sinatra::Base
 enable :logging
+
+set :root, File.dirname(__FILE__)
 
 error do
   'Encounter Error ' + env['sinatra.error'].name

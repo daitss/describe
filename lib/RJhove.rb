@@ -15,7 +15,8 @@ class RJhove
   attr_reader :result
 
   def initialize
-    @validators = XML::Document.file('config/validators.xml')
+    validators_file = File.join File.dirname(__FILE__), '..', 'config', 'validators.xml'
+    @validators = XML::Document.file validators_file
   end
 
   # given a tentative format id, extract technical metadata of the input file
