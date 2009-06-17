@@ -9,7 +9,7 @@ class ASCII < FormatBase
     unless (asciiMD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
-      xslt.xsl = "xsl/ascii2TextMD.xsl"
+      xslt.xsl = xsl_file "ascii2TextMD.xsl"
       textMDString = xslt.serve()
       #convert the xml string into xml element
       tmpDoc =  XML::Document.string(textMDString)

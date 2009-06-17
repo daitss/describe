@@ -1,5 +1,6 @@
 require 'xml'
 require 'singleton'
+require 'config'
 
 class Format
   attr_reader :registry
@@ -12,7 +13,7 @@ class Format
   
   def initialize
     @registry = "http://www.nationalarchives.gov.uk/pronom"
-    @doc = XML::Document.file('config/DROID_SignatureFile_V13.xml')
+    @doc = XML::Document.file config_file('DROID_SignatureFile_V13.xml')
   end
   
   def find_puid(puid)
@@ -40,7 +41,7 @@ class Format2Validator
   include Singleton
     
   def initialize
-    @doc = XML::Document.file('config/format2validator.xml')
+    @doc = XML::Document.file config_file('format2validator.xml')
   end
   
   def find_by_lookup(lookup)

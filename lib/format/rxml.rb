@@ -10,7 +10,7 @@ class RXML < FormatBase
       DescribeLogger.instance.info "transforming JHOVE output to XML"
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
-      xslt.xsl = "xsl/xml2TextMD.xsl"
+      xslt.xsl = xsl_file "xml2TextMD.xsl"
       textMDString = xslt.serve()
       #convert the xml string into xml element
       tmpDoc = XML::Document.string(textMDString)

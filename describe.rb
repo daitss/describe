@@ -13,7 +13,7 @@ require 'erb'
 require 'digest/md5'
 
 #load all required JAVA library.
-jar_pattern = File.join File.dirname(__FILE__), 'jars', '*.jar'
+jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar')
 jars = Dir[jar_pattern].join ':'
 Rjb::load jars
 
@@ -95,6 +95,7 @@ def description
   DescribeLogger.instance.info "describe #{@input}"
   # identify the file format
   @formats = droid.identify(@input)
+  
   begin
     if (@formats.empty?)
       @result = jhove.retrieveFileProperties(@input, @formats)

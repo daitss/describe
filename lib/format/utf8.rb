@@ -9,7 +9,7 @@ class UTF8 < FormatBase
     unless (utf8MD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
-      xslt.xsl = "xsl/utf2TextMD.xsl"
+      xslt.xsl = xsl_file "utf2TextMD.xsl"
       textMDString = xslt.serve()
       #convert the xml string into xml element
       tmpDoc =  XML::Document.string(textMDString)

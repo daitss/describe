@@ -3,6 +3,7 @@ require 'structures'
 require 'DescribeLogger'
 require 'fileutils'
 require 'rjb'
+require 'config'
 
 class FormatError < StandardError; end
   
@@ -19,8 +20,8 @@ class FormatBase
     @module = jhoveModule
     @anomaly = Set.new
     @bitstreams = Array.new
-    jhoveEngine =Rjb::import('shades.JhoveEngine')
-    @jhoveEngine = jhoveEngine.new('config/jhove.conf')
+    jhoveEngine = Rjb::import('shades.JhoveEngine')
+    @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 
   public

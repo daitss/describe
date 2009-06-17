@@ -3,6 +3,7 @@ require 'rubygems'
 require 'rjb'
 require 'singleton'
 require 'DescribeLogger'
+require 'config'
 
 class RDroid
   include Singleton
@@ -10,7 +11,7 @@ class RDroid
   def initialize
     #create the JAVA Minimal object
     mindroid = Rjb::import('shades.MinimalDroid')
-    @droid = mindroid.new('config/DROID_SignatureFile_V13.xml')
+    @droid = mindroid.new config_file('DROID_SignatureFile_V13.xml')
   end
 
   def identify(input)

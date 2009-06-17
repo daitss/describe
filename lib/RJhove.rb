@@ -3,6 +3,7 @@ require 'rubygems'
 require 'structures'
 require 'registry'
 require 'DescribeLogger'
+require 'config'
 
 class Result
   attr_accessor :fileObject
@@ -15,8 +16,7 @@ class RJhove
   attr_reader :result
 
   def initialize
-    validators_file = File.join File.dirname(__FILE__), '..', 'config', 'validators.xml'
-    @validators = XML::Document.file validators_file
+    @validators = XML::Document.file config_file('validators.xml')
   end
 
   # given a tentative format id, extract technical metadata of the input file
