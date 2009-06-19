@@ -12,6 +12,7 @@ class PDF < FormatBase
       # check if the pdf is encrypted
       encrypt = pdfMD.find_first('//jhove:property[jhove:name/text()="Encryption"]', JHOVE_NS)
       unless (encrypt.nil?)
+        @fileObject.inhibitors = Array.new
         inhibitor = Inhibitor.new 
         handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', JHOVE_NS)
         # based on PDF spec., "Standard" implies passwork-protected

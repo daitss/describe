@@ -36,7 +36,7 @@
 				</formatDesignation>
 			</format>
 			<% end %>
-			<% unless @result.fileObject.createAppName.nil? %> 
+			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
 			<creatingApplication>
 				<creatingApplicationName><%=  @result.fileObject.createAppName %></creatingApplicationName>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
@@ -47,9 +47,12 @@
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
 				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
 			</fixity>
+			<%unless @result.fileObject.objectExtension %>
 			<objectCharacteristicsExtension>
 				<%= @result.fileObject.objectExtension %>
 			</objectCharacteristicsExtension>
+			<%end%>
+			<% unless @result.fileObject.inhibitors.nil? %>
 			<inhibitors>
 				<% @result.fileObject.inhibitors.each do |inh| %>
 				<inhibitorType><%= inh.type %></inhibitorType>
@@ -57,6 +60,7 @@
 				<inhibitorKey><%= inh.key %></inhibitorKey>
 				<% end %>
 			</inhibitors>
+			<% end %>
 		</objectCharacteristics>
 	</object>
 	<% end %>

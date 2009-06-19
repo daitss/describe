@@ -107,16 +107,16 @@ def description
     puts "running into exception #{e}"
   end
   
-
+  unless (@result.nil?)
     # build a response
     headers 'Content-Type' => 'application/xml'
     # dump the xml output to the response, pretty the xml output (ruby bug)
     body erb(:fileObject)
     
     DescribeLogger.instance.info "HTTP 200"
-  # else
-  #   throw :halt, [500, "unexpected empty response"]
-  # end
+  else
+    throw :halt, [500, "unexpected empty response"]
+  end
 end
 
 end

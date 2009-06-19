@@ -73,6 +73,7 @@ class FormatBase
   protected
   def parse(doc)
     @jhove = doc.find_first("//jhove:repInfo", JHOVE_NS)
+    # puts @jhove
     unless (@jhove.nil?)
       @fileObject = FileObject.new
       @fileObject.url = @jhove.attributes['uri']
@@ -95,10 +96,9 @@ class FormatBase
       # retrieve the format version
       unless (@jhove.find_first('//jhove:version', JHOVE_NS).nil?)
         @fileObject.formatVersion = @jhove.find_first('//jhove:version', JHOVE_NS).content
-
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
-
         record = Format2Validator.instance.find_by_lookup(lookup)
+        
         # make sure there is a format record, 
         # if the format identifier has been decided (by format identification), skip this
         unless (record.nil?)
@@ -113,7 +113,7 @@ class FormatBase
       profiles = @jhove.find('//jhove:profiles/jhove:profile', JHOVE_NS)
       unless (profiles.nil?)
         @fileObject.profiles = Array.new
-        # traverse through all profiles and append them to create multipart format name
+        # retrieve through all profiles
         profiles.each do |p|
           @fileObject.profiles << p.content
           end

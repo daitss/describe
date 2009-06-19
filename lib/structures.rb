@@ -20,10 +20,6 @@ class FileObject
   attr_accessor :createAppName
   attr_accessor :createAppVersion
   attr_accessor :createDate
-
-  def initialize
-    @inhibitors = Array.new
-  end
 end
 
 class BitstreamObject

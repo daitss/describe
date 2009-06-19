@@ -4,7 +4,7 @@ class Tiff < Image
 
   def parse(xml)
     super
-    
+
     unless (@mix.nil?)
       # retrieve the createDate metadata
       createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', MIX_NS)
@@ -16,14 +16,16 @@ class Tiff < Image
       unless (createAppName.nil?)
         @fileObject.createAppName = createAppName.content
       end
-      
-      #create a bitstream object for the image bitstream inside tiff
+
+    end
+    # traverse through multiple image bitstreams inside TIFF 
+    nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", JHOVE_NS)
+    nodes.each do |node|
+      mix = node.find_first("//mix:mix", "mix:http://www.loc.gov/mix/v20")
       bitstream = BitstreamObject.new
-      bitstream.objectExtension = @mix
+      bitstream.objectExtension = mix
       @bitstreams << bitstream
-      
-      # TODO multiple images bitstream inside TIFF 
-     end
+    end
   end
 
 end
