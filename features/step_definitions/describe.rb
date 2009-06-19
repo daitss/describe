@@ -146,12 +146,12 @@ Then /^the docmd should exist$/ do
 end
 
 Then /^the docmd should not exist$/ do
-  puts last_response.body
   lambda {last_response.body.to_s =~ /document>/ }.call.should be_nil
 end
 
 Then /^I should receive (.+?) on the format profile$/ do |profile|
   last_response.body =~ /<format>(.*?)<\/format>/m
+  puts $1
   lambda { $1.include? profile}.call.should be_true
 end
 
