@@ -160,6 +160,7 @@ Then /^mix should exist$/ do
 end
 
 Then /^textmd should exist$/ do
+  puts last_response.body
   last_response.body.should match(/textMD/)
 end
 

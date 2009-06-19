@@ -47,7 +47,7 @@
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
 				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
 			</fixity>
-			<%unless @result.fileObject.objectExtension %>
+			<%unless @result.fileObject.objectExtension.nil? %>
 			<objectCharacteristicsExtension>
 				<%= @result.fileObject.objectExtension %>
 			</objectCharacteristicsExtension>
