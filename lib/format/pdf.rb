@@ -6,7 +6,7 @@ class PDF < FormatBase
     super
     # retrieve and dump the PDF metadata
     pdfMD = @jhove.find_first('//jhove:property[jhove:name/text()="PDFMetadata"]', JHOVE_NS)
-
+    puts @jhove
     # puts pdfMD
     unless (pdfMD.nil?)
       # check if the pdf is encrypted
@@ -27,7 +27,7 @@ class PDF < FormatBase
         end
       else
         # only retrieve CreateAppName when not encrypted, JHOVE dump out bad creator info for encrypted file
-        unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]', JHOVE_NS).nil?)
+        unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Producer"]', JHOVE_NS).nil?)
           @fileObject.createAppName = pdfMD.find_first('//jhove:property[jhove:name/text()="Creator"]/jhove:values/jhove:value', JHOVE_NS).content
         end
       end
