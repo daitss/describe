@@ -51,8 +51,7 @@ class PDF < FormatBase
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
       sequence = 1
       nodes.each do |node|
-        mix = node.find_first("mix:mix", 'mix:http://www.loc.gov/mix/v20')
-        # mix = node.find_first("mix:mix", NAMESPACES)
+        mix = node.find_first("mix:mix", NAMESPACES)
         bitstream = BitstreamObject.new
         bitstream.url = @fileObject.url + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)

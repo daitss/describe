@@ -10,7 +10,7 @@ class Image < FormatBase
     niso = @jhove.find_first('//jhove:property[jhove:name/text()="NisoImageMetadata"]/jhove:values/jhove:value', NAMESPACES)
     unless (niso.nil?)
       #retrieve the mix namespace
-      @mix = niso.find_first("//mix:mix", MIX_NS)
+      @mix = niso.find_first("//mix:mix", NAMESPACES)
     else 
       DescribeLogger.instance.warn "No NisoImageMetadata found"
     end

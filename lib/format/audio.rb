@@ -9,7 +9,7 @@ class Audio < FormatBase
     aes = @jhove.find_first('//jhove:property[jhove:name/text()="AESAudioMetadata"]/jhove:values/jhove:value', NAMESPACES)
     unless (aes.nil?)
       #retrieve the aes namespace
-      audio = aes.find_first("//aes:audioObject", "aes:http://www.aes.org/audioObject")
+      audio = aes.find_first("//aes:audioObject", NAMESPACES)
       @fileObject.objectExtension = audio
     else 
       DescribeLogger.instance.warn "No AESAudioMetadata found"

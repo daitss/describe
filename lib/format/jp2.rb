@@ -6,7 +6,7 @@ class JP2 < Image
     #create a bitstream object for the image bitstream inside tiff
     bitstream = BitstreamObject.new
     bitstream.url = @fileObject.url + "/1"
-    compression = @mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', MIX_NS)
+    compression = @mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
     if (compression)
       bitstream.formatName = compression.content
     end

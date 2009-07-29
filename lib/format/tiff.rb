@@ -7,12 +7,12 @@ class Tiff < Image
 
     unless (@mix.nil?)
       # retrieve the createDate metadata
-      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', MIX_NS)
+      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
       unless (createDate.nil?)
         @fileObject.createDate = createDate.content
       end
 
-      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', MIX_NS)
+      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
       unless (createAppName.nil?)
         @fileObject.createAppName = createAppName.content
       end
@@ -22,10 +22,10 @@ class Tiff < Image
     nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
     sequence = 1
     nodes.each do |node|
-      mix = node.find_first("mix:mix", MIX_NS)
+      mix = node.find_first("mix:mix", NAMESPACES)
       bitstream = BitstreamObject.new
       bitstream.url = @fileObject.url + "/" + sequence.to_s
-      compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', MIX_NS)
+      compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
       if (compression)
         bitstream.formatName = compression.content
       end
