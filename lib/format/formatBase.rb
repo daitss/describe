@@ -8,8 +8,11 @@ require 'config'
 class FormatError < StandardError; end
   
 class FormatBase
-  
-  JHOVE_NS = "jhove:http://hul.harvard.edu/ois/xml/ns/jhove"
+  NAMESPACES = {
+     'jhove' => 'http://hul.harvard.edu/ois/xml/ns/jhove',
+     'mix' => 'mix:http://www.loc.gov/mix/v20',
+     'aes' => 'http://www.aes.org/audioObject'
+   }
 
   attr_reader :fileObject
   attr_reader :bitstreams
@@ -56,13 +59,13 @@ class FormatBase
         # parse the jhove output, extracting only the information we need
         parse(doc) 
         # parse the validation result, record anomaly
-        messages = @jhove.find('jhove:messages/jhove:message', JHOVE_NS) 
+        messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES) 
         messages.each do |msg|
           @anomaly.add msg.content
         end
         io.close
         File.delete output
-        @status = @jhove.find_first('jhove:status', JHOVE_NS).content
+        @status = @jhove.find_first('jhove:status', NAMESPACES).content
       rescue  => ex
         DescribeLogger.instance.error ex
       end
@@ -72,12 +75,12 @@ class FormatBase
 
   protected
   def parse(doc)
-    @jhove = doc.find_first("//jhove:repInfo", JHOVE_NS)
+    @jhove = doc.find_first("//jhove:repInfo", NAMESPACES)
     # puts @jhove
     unless (@jhove.nil?)
       @fileObject = FileObject.new
       @fileObject.url = @jhove.attributes['uri']
-      @fileObject.size = @jhove.find_first('//jhove:size/text()', JHOVE_NS)
+      @fileObject.size = @jhove.find_first('//jhove:size/text()', NAMESPACES)
       @fileObject.compositionLevel = '0'
       recordFormat
 
@@ -91,11 +94,11 @@ class FormatBase
 
   def recordFormat
     #retreive the format name
-    unless (@jhove.find_first('//jhove:format', JHOVE_NS).nil?)
-      @fileObject.formatName = @jhove.find_first('//jhove:format', JHOVE_NS).content
+    unless (@jhove.find_first('//jhove:format', NAMESPACES).nil?)
+      @fileObject.formatName = @jhove.find_first('//jhove:format', NAMESPACES).content
       # retrieve the format version
-      unless (@jhove.find_first('//jhove:version', JHOVE_NS).nil?)
-        @fileObject.formatVersion = @jhove.find_first('//jhove:version', JHOVE_NS).content
+      unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
+        @fileObject.formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
         record = Format2Validator.instance.find_by_lookup(lookup)
         
@@ -110,7 +113,7 @@ class FormatBase
       end
 
       # record format profiles in multiple format designation
-      profiles = @jhove.find('//jhove:profiles/jhove:profile', JHOVE_NS)
+      profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
       unless (profiles.nil?)
         @fileObject.profiles = Array.new
         # retrieve through all profiles

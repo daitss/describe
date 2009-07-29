@@ -7,7 +7,7 @@ class Image < FormatBase
   def parse(xml)
     super
     # retrieve and dump the mix image metadata
-    niso = @jhove.find_first('//jhove:property[jhove:name/text()="NisoImageMetadata"]/jhove:values/jhove:value', JHOVE_NS)
+    niso = @jhove.find_first('//jhove:property[jhove:name/text()="NisoImageMetadata"]/jhove:values/jhove:value', NAMESPACES)
     unless (niso.nil?)
       #retrieve the mix namespace
       @mix = niso.find_first("//mix:mix", MIX_NS)
