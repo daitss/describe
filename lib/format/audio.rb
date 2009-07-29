@@ -6,7 +6,7 @@ class Audio < FormatBase
     super
     
     # retrieve and dump the AES audio metadata
-    aes = @jhove.find_first('//jhove:property[jhove:name/text()="AESAudioMetadata"]/jhove:values/jhove:value', JHOVE_NS)
+    aes = @jhove.find_first('//jhove:property[jhove:name/text()="AESAudioMetadata"]/jhove:values/jhove:value', NAMESPACES)
     unless (aes.nil?)
       #retrieve the aes namespace
       audio = aes.find_first("//aes:audioObject", "aes:http://www.aes.org/audioObject")

@@ -5,7 +5,7 @@ class RXML < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    xmlMD = @jhove.find_first('//jhove:property[jhove:name/text()="XMLMetadata"]', JHOVE_NS)
+    xmlMD = @jhove.find_first('//jhove:property[jhove:name/text()="XMLMetadata"]', NAMESPACES)
     unless (xmlMD.nil?)
       DescribeLogger.instance.info "transforming JHOVE output to XML"
       xslt = XML::XSLT.new()

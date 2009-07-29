@@ -7,12 +7,12 @@ class Tiff < Image
 
     unless (@mix.nil?)
       # retrieve the createDate metadata
-      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
+      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', MIX_NS)
       unless (createDate.nil?)
         @fileObject.createDate = createDate.content
       end
 
-      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
+      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', MIX_NS)
       unless (createAppName.nil?)
         @fileObject.createAppName = createAppName.content
       end
@@ -25,7 +25,6 @@ class Tiff < Image
       mix = node.find_first("mix:mix", MIX_NS)
       bitstream = BitstreamObject.new
       bitstream.url = @fileObject.url + "/" + sequence.to_s
-      puts mix
       compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', MIX_NS)
       if (compression)
         bitstream.formatName = compression.content

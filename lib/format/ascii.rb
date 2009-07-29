@@ -5,7 +5,7 @@ class ASCII < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    asciiMD = @jhove.find_first('//jhove:property[jhove:name/text()="ASCIIMetadata"]', JHOVE_NS)
+    asciiMD = @jhove.find_first('//jhove:property[jhove:name/text()="ASCIIMetadata"]', NAMESPACES)
     unless (asciiMD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s

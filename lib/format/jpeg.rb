@@ -4,7 +4,7 @@ class Jpeg < Image
   def parse(xml)
     super
     # retrieve and dump the JPEG compression metadata
-    compType = @jhove.find_first('//jhove:property[jhove:name/text()="CompressionType"]', JHOVE_NS)
+    compType = @jhove.find_first('//jhove:property[jhove:name/text()="CompressionType"]', NAMESPACES)
     unless compType.nil?
        @fileObject.objectExtension = compType
     end

@@ -5,7 +5,7 @@ class UTF8 < FormatBase
   def parse(xml)
     super
     # retrieve and dump the XML metadata
-    utf8MD = @jhove.find_first('//jhove:property[jhove:name/text()="UTF8Metadata"]', JHOVE_NS)
+    utf8MD = @jhove.find_first('//jhove:property[jhove:name/text()="UTF8Metadata"]', NAMESPACES)
     unless (utf8MD.nil?)
       xslt = XML::XSLT.new()
       xslt.xml = @jhove.to_s
