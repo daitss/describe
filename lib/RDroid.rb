@@ -11,7 +11,7 @@ class RDroid
   def initialize
     #create the JAVA Minimal object
     mindroid = Rjb::import('shades.MinimalDroid')
-    @droid = mindroid.new config_file('DROID_SignatureFile_V16.xml')
+    @droid = mindroid.new config_file('DROID_SignatureFile_V18.xml')
   end
 
   def identify(input)
