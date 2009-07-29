@@ -1,8 +1,6 @@
 require 'format/formatBase.rb'
 
-class Image < FormatBase
- # MIX_NS = "mix:http://www.loc.gov/mix/v20"
-  
+class Image < FormatBase  
   protected
   def parse(xml)
     super
