@@ -20,11 +20,18 @@ class Tiff < Image
     end
     # traverse through multiple image bitstreams inside TIFF 
     nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", JHOVE_NS)
+    sequence = 1
     nodes.each do |node|
       mix = node.find_first("//mix:mix", "mix:http://www.loc.gov/mix/v20")
       bitstream = BitstreamObject.new
+      bitstream.url = @fileObject.url + "/" + sequence.to_s
+      compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', MIX_NS)
+      if (compression)
+        bitstream.formatName = compression.content
+      end
       bitstream.objectExtension = mix
       @bitstreams << bitstream
+      sequence += 1
     end
   end
 
