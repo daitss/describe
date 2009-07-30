@@ -57,6 +57,8 @@ class PDF < FormatBase
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
         if (compression)
           bitstream.formatName = compression.content
+        else 
+          bitstream.formatName = 'unknown'
         end
         bitstream.objectExtension = mix
         @bitstreams << bitstream
