@@ -3,7 +3,7 @@
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
 	<% unless @result.fileObject.nil? %>
 	<!-- generate premis file object -->
-	<object xsi:type="file">
+	<object type="file">
 		<objectIdentifier>
 			<objectIdentifierType>DAITSS</objectIdentifierType>
 			<objectIdentifierValue><%= @result.fileObject.url %></objectIdentifierValue>
@@ -68,7 +68,7 @@
 	<% unless @result.bitstreams.nil? %>
 	<!-- generate premis bitstream object -->
 	<% @result.bitstreams.each do |bs| %>
-	<object xsi:type="bitstream">
+	<object type="bitstream">
 		<objectIdentifier>
 			<objectIdentifierType>DAITSS</objectIdentifierType>
 			<objectIdentifierValue><%= bs.url %></objectIdentifierValue>
