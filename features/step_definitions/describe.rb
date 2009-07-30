@@ -150,9 +150,18 @@ Then /^the docmd should not exist$/ do
 end
 
 Then /^I should receive (.+?) on the format profile$/ do |profile|
-  last_response.body =~ /<format>(.*?)<\/format>/m
-  puts $1
-  lambda { $1.include? profile}.call.should be_true
+  doc = XML::Document.string(last_response.body)
+  # make sure the intended profile exist in the file format
+  list = doc.find("//premis:object[@type='file']/premis:objectCharacteristics/premis:format", 'premis' => 'info:lc/xmlns/premis-v2')
+  
+  found = false
+  list.each do |node|
+    if node.content.include? profile
+      found = true
+    end
+  end
+
+  found == true
 end
 
 Then /^mix should exist$/ do
@@ -175,6 +184,6 @@ end
 Then /^I should receive (.+?) bitstreams$/ do |num|
   doc = XML::Document.string(last_response.body)
   # make sure there are expected number of bitstream objects
-  list = doc.find("//premis:object[@xsi:type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
+  list = doc.find("//premis:object[@type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
   list.size.should == num.to_i
 end
