@@ -111,7 +111,7 @@ def description
     # build a response
     headers 'Content-Type' => 'application/xml'
     # dump the xml output to the response, pretty the xml output (ruby bug)
-    body erb(:fileObject)
+    body erb(:premis)
     
     DescribeLogger.instance.info "HTTP 200"
   else

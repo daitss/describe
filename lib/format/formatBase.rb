@@ -9,10 +9,10 @@ class FormatError < StandardError; end
   
 class FormatBase
   NAMESPACES = {
-     'jhove' => 'http://hul.harvard.edu/ois/xml/ns/jhove',
-     'mix' => 'http://www.loc.gov/mix/v20',
-     'aes' => 'http://www.aes.org/audioObject'
-   }
+   'jhove' => 'http://hul.harvard.edu/ois/xml/ns/jhove',
+    'mix' => 'http://www.loc.gov/mix/v20',
+    'aes' => 'http://www.aes.org/audioObject'
+  }
 
   attr_reader :fileObject
   attr_reader :bitstreams

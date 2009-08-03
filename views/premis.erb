@@ -52,6 +52,17 @@
 				<%= @result.fileObject.objectExtension %>
 			</objectCharacteristicsExtension>
 			<%end%>
+			<% unless @result.bitstreams.nil? %>
+			<% @result.bitstreams.each do |bs| %>
+			<relationship>
+				<relationshipType>structural</relationshipType>
+				<relationshipSubtype>includes</relationshipSubtype>
+				<relatedObjectIdentification>
+					<%= bs.url %>
+				</relatedObjectIdentification>
+			</relationship>
+			<% end %>
+			<% end %>
 			<% unless @result.fileObject.inhibitors.nil? %>
 			<inhibitors>
 				<% @result.fileObject.inhibitors.each do |inh| %>
@@ -64,7 +75,7 @@
 		</objectCharacteristics>
 	</object>
 	<% end %>
-	
+
 	<% unless @result.bitstreams.nil? %>
 	<!-- generate premis bitstream object -->
 	<% @result.bitstreams.each do |bs| %>
@@ -88,7 +99,7 @@
 	</object>
 	<% end %>
 	<% end %>
-	
+
 	<!-- generate premis event -->
 	<event>
 		<eventIdentifier>
@@ -110,14 +121,14 @@
 			</eventOutcomeDetailExtension>
 		</eventOutcomeDetail>
 		<linkingAgentIdentifier>
-			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-			<linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
-		</linkingAgentIdentifier>
-		<linkingObjectIdentifier>
-			<linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
-			<linkingObjectIdentifierValue><%= @result.fileObject.url %></linkingObjectIdentifierValue>
-		</linkingObjectIdentifier>
-	</event>
+		<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+		<linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
+	</linkingAgentIdentifier>
+	<linkingObjectIdentifier>
+	<linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
+	<linkingObjectIdentifierValue><%= @result.fileObject.url %></linkingObjectIdentifierValue>
+</linkingObjectIdentifier>
+</event>
 
 <!-- generate premis agent -->
 <agent>
