@@ -13,7 +13,7 @@ class Format
   
   def initialize
     @registry = "http://www.nationalarchives.gov.uk/pronom"
-    @doc = XML::Document.file config_file('DROID_SignatureFile_V13.xml')
+    @doc = XML::Document.file config_file('DROID_SignatureFile.xml')
   end
   
   def find_puid(puid)
