@@ -73,24 +73,22 @@ class Describe < Sinatra::Base
       throw :halt, [400,  "extension parameter is required"]
     end
     extension = params["extension"].to_s
-    size = request.env["CONTENT_LENGTH"]
+    #  size = request.env["CONTENT_LENGTH"]
 
-    unless (size.nil?)
-      tmp = File.new("/var/tmp/object." + extension, "w+")
-      @input = tmp.path()
-      # read 1 MB at a time
-      while (buff = request.body.read(1048510))
-        tmp.write buff
-      end
+    @input = "/tmp/object." + extension;
+    case params['document']
+    when Hash
+      File.link(params['document'][:tempfile].path, @input)
+    when String
+      tmp = File.new(@input, "w+")
+      tmp.write params['document']
       tmp.close
-
-      # describe the transmitted file with format identifier and metadata 
-      description
-
-      File.delete(@input)
-    else
-      throw :halt, [411, "CONTENT_LENGTH not defined"]
     end
+
+    puts @input
+    # describe the transmitted file with format identifier and metadata 
+    description
+    File.delete(@input)
     response.finish
 
   end

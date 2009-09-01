@@ -1,15 +1,17 @@
 <html>
 <head>
 	<title>Format Description Service</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="public/js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script type="text/javascript">
 
 	$(document).ready(function(){
 		
 		$("uploadfile").change(function(event){
 			fileElement = $("uploadfile").value.split(".");
 			index = fileElement.length-1;
-			$("extension").value = fileElement[index];
+			alert(fileElement[index]);
+			$("extension").text(fileElement[index]);
 		});
 		
 	});
@@ -21,13 +23,13 @@
 	<p>Format Description Service performs format identification, validation and characterization
 	on a given file. The result is expressed in PREMIS schema containing a premis object for the 
 	identification and characterization result, a premis event describing the status of the 
-	validation and applicable anomaly, and a premis agent containing the url of the format 
-	description service.
+	validation and applicable anomaly, and a premis agent containing the format description service
+	url.
 	</p>
 	<p>Instruction: Select a file on your local system </p>
 	<form method="post" action="/describe" enctype="multipart/form-data">
-		<label for="document">File:</label>
-		<input name="document" id="uploadfile" size="30" type="file"/>
+		<label for="uploadfile">File:</label>
+		<input name="uploadfile" id="uploadfile" size="30" type="file"/>
 		<br><br>
 		<label for="extension">Extension:</label>
 		<input name="extension" id="extension" size="24" type="text"/>	    
