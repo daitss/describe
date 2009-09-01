@@ -18,7 +18,7 @@ jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar'
 jars = Dir[jar_pattern].join ':'
 Rjb::load jars
 
-class Describe < Sinatra::Base
+class Describe < Sinatra::Default
   enable :logging
 
   set :root, File.dirname(__FILE__)
@@ -63,6 +63,7 @@ class Describe < Sinatra::Base
 
   get '/' do
     # render erb index template
+    puts options.inspect
     erb :index
   end
 

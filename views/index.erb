@@ -2,20 +2,19 @@
 <head>
 	<title>Format Description Service</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script type="text/javascript" src="public/js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-		
-		$("uploadfile").change(function(event){
-			fileElement = $("uploadfile").value.split(".");
-			index = fileElement.length-1;
-			alert(fileElement[index]);
-			$("extension").text(fileElement[index]);
-		});
-		
+		$("#uploadfile").change(update_ext);
 	});
 
+  function update_ext() {
+		fileElement = $("#uploadfile").val().split(".");
+		index = fileElement.length-1;
+		$("#extension").val(fileElement[index]);
+  }
+  
 	</script>
 	</head>
 <body>
