@@ -68,25 +68,22 @@ class Describe < Sinatra::Default
   end
 
   post '/describe' do 
-    params['extension']
-
-    if (params["extension"].nil?)
-      throw :halt, [400,  "extension parameter is required"]
-    end
-    extension = params["extension"].to_s
-    #  size = request.env["CONTENT_LENGTH"]
-
+    halt 400, "query parameter document is required" unless params['document']
+    halt 400, "query parameter extension is required" unless params['extension']  
+   
+    extension = params["extension"].to_s 
     @input = "/tmp/object." + extension;
     case params['document']
     when Hash
+      puts params['document'][:tempfile].path
       File.link(params['document'][:tempfile].path, @input)
     when String
       tmp = File.new(@input, "w+")
       tmp.write params['document']
       tmp.close
     end
-
-    puts @input
+    # puts params['document'].inspect
+    # puts @input
     # describe the transmitted file with format identifier and metadata 
     description
     File.delete(@input)
@@ -104,7 +101,7 @@ class Describe < Sinatra::Default
     size = request.env["CONTENT_LENGTH"]
 
     unless (size.nil?)
-      tmp = File.new("/var/tmp/object." + extension, "w+")
+      tmp = File.new("/tmp/object." + extension, "w+")
       @input = tmp.path()
       # read 1 MB at a time
       while (buff = request.body.read(1048510))

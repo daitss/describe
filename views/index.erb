@@ -9,30 +9,53 @@
 		$("#uploadfile").change(update_ext);
 	});
 
-  function update_ext() {
+	function update_ext() {
 		fileElement = $("#uploadfile").val().split(".");
 		index = fileElement.length-1;
 		$("#extension").val(fileElement[index]);
-  }
-  
+	}
+
 	</script>
-	</head>
+</head>
 <body>
-	<h1>Daits2 Format Description Service</h1>
+	<h1>A Preview of DAITSS 2 Format Description Service</h1>
 	<p>Format Description Service performs format identification, validation and characterization
-	on a given file. The result is expressed in PREMIS schema containing a premis object for the 
-	identification and characterization result, a premis event describing the status of the 
-	validation and applicable anomaly, and a premis agent containing the format description service
-	url.
+		on a given file. The result is expressed in PREMIS schema containing a PREMIS object for the 
+		identification and characterization result, a PREMIS event describing the validation status 
+		with applicable anomaly, and a PREMIS agent containing the format description service
+		url.
 	</p>
-	<p>Instruction: Select a file on your local system </p>
-	<form method="post" action="/describe" enctype="multipart/form-data">
-		<label for="uploadfile">File:</label>
-		<input name="uploadfile" id="uploadfile" size="30" type="file"/>
-		<br><br>
-		<label for="extension">Extension:</label>
-		<input name="extension" id="extension" size="24" type="text"/>	    
-		<input type="submit" value="Submit" />
-	</form>
+	<h3>Tools and schema</h3>
+	<p>Internally, the Format Description Service uses <a href="http://droid.sourceforge.net/wiki/index.php/Introduction">DROID</a>
+		for format identification and <a href="http://hul.harvard.edu/jhove/">JHOVE</a>
+		for format characterization.  Based on the identification result, the
+		Format Description Service launches applicable JHOVE validators to perform format validation and
+		characterization.  The JHOVE characterization and validation result is then 
+		transformed into PREMIS with applicable standard metadata schema.  The Format Description 
+		Service currently exports the following standard format-specific metadata schema,
+		<ul>
+			<li> <a href="http://www.loc.gov/standards/mix/">MIX 2.0 </a>for image metadata in JPEG, JP2 and TIFF</li>
+			<li> proposed AES-X098B for audio metadata in WAVE and AIFF.  Please see JHOVE website for more details.</li>
+			<li> <a href="http://www.loc.gov/standards/textMD/">TextMD </a> for describing the metadata in ASCII, UTF8 and XML.</li>
+			<li> <a href=http://www.fcla.edu/dls/md/docmd.xsd>DocMD </a>  for document metadata in PDF.</li>
+		</ul>
+		General file metadata such as format information, file size, checksum, creator, create date, 
+		inhibitors will also be extracted and expressed in PREMIS schema.
+	</p>
+	<h3>Try it out</h3>
+	<p>Select and submit a file on your local system to the format description service. The 
+		result of format description may be saved locally using the browser "Save Page As" function.
+	</p>
+		<form method="post" action="/describe" enctype="multipart/form-data">
+			<label for="document">File:</label>
+			<input name="document" id="uploadfile" size="60" type="file"/>
+			<input type="submit" value="Submit" />
+			<br><br>
+			<input name="extension" id="extension" size="24" type="hidden"/>	    
+		</form>
+	<p>We cordially invite you to try out this service and provide feedback to us.  Any problem or
+		comment may be sent to cchou at ufl.edu
+	</p>
+	<h5>September 2009, Florida Digital Archive</h5>
 </body>
 </html>
