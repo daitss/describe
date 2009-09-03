@@ -98,6 +98,10 @@ Given /^a file whose format is power point$/ do
   @file = "file://#{abs}/files/test.ppt"
 end
 
+Given /^a xml file$/ do
+  @file = "file://#{abs}/files/UF00003061.xml"
+end
+
 Given /^a wave file$/ do
   @file = "file://#{abs}/files/GLASS.WAV"
 end
