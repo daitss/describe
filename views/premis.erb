@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
 	<% unless @result.fileObject.nil? %>
@@ -112,15 +112,17 @@
 		<eventOutcomeInformation>
 			<eventOutcome><%=  @result.status %></eventOutcome>
 		</eventOutcomeInformation>
+	
 		<eventOutcomeDetail>
+			<% unless @result.anomaly.nil? %>
 			<eventOutcomeDetailExtension>
-				<% unless @result.anomaly.nil? %>
 				<% @result.anomaly.each do |anomaly| %>
 				<anomaly><%= anomaly %></anomaly>
 				<% end %>
-				<% end %>
 			</eventOutcomeDetailExtension>
+			<% end %>
 		</eventOutcomeDetail>
+		
 		<linkingAgentIdentifier>
 			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
 			<linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>

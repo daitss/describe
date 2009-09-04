@@ -98,8 +98,12 @@ Given /^a file whose format is power point$/ do
   @file = "file://#{abs}/files/test.ppt"
 end
 
-Given /^a xml file$/ do
+Given /^a double-quoted xml file$/ do
   @file = "file://#{abs}/files/UF00003061.xml"
+end
+
+Given /^a single-quoted xml file$/ do
+  @file = "file://#{abs}/files/ateam.xml"
 end
 
 Given /^a wave file$/ do
@@ -122,7 +126,6 @@ end
 
 Then /^I should receive (.+?) on the format name$/ do |name|
   last_response.body.to_s =~ /formatName>(.*?)<\/formatName>/
-
   $1.should == name
 end
 
@@ -173,7 +176,7 @@ Then /^mix should exist$/ do
 end
 
 Then /^textmd should exist$/ do
-  puts last_response.body
+ # puts last_response.body
   last_response.body.should match(/textMD/)
 end
 

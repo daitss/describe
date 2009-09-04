@@ -63,7 +63,7 @@ class Describe < Sinatra::Default
 
   get '/' do
     # render erb index template
-    puts options.inspect
+    # puts options.inspect
     erb :index
   end
 
