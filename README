@@ -54,7 +54,7 @@ E.  Return GDFR ID, and optionally technical metadata and anomaly.
 
 
 *Evaluator:  Given a list of validators, return a prioritized list of validators.  Each validator will be 
- assigned a priority value.  A higher value indicates higher priority.  For example, ASCII validator will 
- have priority value 1 whereas UTF8 validator will have priority 2.  If a file matches the signatures for 
- both ASCII and UTF8, the evaluator will return the both UTF8 and ASCII validators but with UTF8 having 
+ assigned a priority value.  A higher value indicates higher priority.  For example, UTF8 validator will 
+ have priority value 1 whereas ASCII validator will have priority 2.  If a file matches the signatures for 
+ both ASCII and UTF8, the evaluator will return the both UTF8 and ASCII validators but with ASCII having 
  higher priority in the list.

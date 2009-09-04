@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template match="/">
-		<textMD xmlns='http://www.loc.gov/standards/textMD/textMD.xsd'>
+		<textMD xmlns='http://www.loc.gov/standards/textMD'>
 			<xsl:variable name= "lineEnding" select = "normalize-space(repInfo/properties/property[normalize-space(name)='UTF8Metadata']/values/property[normalize-space(name)='LineEndings']/values/value)"/> 
 			<xsl:variable name= "unicodeBlocks" select = "normalize-space(repInfo/properties/property[normalize-space(name)='UTF8Metadata']/values/property[normalize-space(name)='UnicodeBlocks']/values/value)"/> 
 			<encoding>

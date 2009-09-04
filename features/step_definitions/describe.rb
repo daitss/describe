@@ -83,7 +83,7 @@ end
 
 # note: this ASCII is not well-formed, find one that is well-formed and valid and thus whose textMD can be retrieved
 Given /^an ascii file$/ do
-  @file = "file://#{abs}/files/test.txt"
+  @file = "file://#{abs}/files/00004.txt"
 end
 
 Given /^an utf\-8 file$/ do

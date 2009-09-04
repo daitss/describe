@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template match="/">
-		<textMD xmlns='http://www.loc.gov/standards/textMD/textMD.xsd'>
+		<textMD xmlns='http://www.loc.gov/standards/textMD'>
 			<xsl:variable name= "encoding" select = "normalize-space(repInfo/properties/property[normalize-space(name)='XMLMetadata']/values/property[normalize-space(name)='Encoding']/values/value)"/> 
 			<xsl:variable name= "markupURI" select = "normalize-space(repInfo/properties/property[normalize-space(name)='XMLMetadata']/values/property[normalize-space(name)='Schemas']/values/property[normalize-space(name)='Schema']/values/property[normalize-space(name)='NamespaceURI']/values/value)"/>
 			<xsl:variable name= "processingInstr" select = "normalize-space(repInfo/properties/property[normalize-space(name)='XMLMetadata']/values/property[normalize-space(name)='ProcessingInstructions']/values/property[normalize-space(name)='ProcessingInstruction']/values/property[normalize-space(name)='Target']/values/value)"/>

@@ -2,7 +2,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template match="/">
-		<doc xmlns='http://www.fcla.edu/dls/md/docmd.xsd'>
+		<doc xmlns='http://www.fcla.edu/dls/md/docmd'>
 			<document>      
 				<xsl:element name = "PageCount">
 					<xsl:value-of select = "count(//property[name='Page'])"/>

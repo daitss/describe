@@ -25,14 +25,14 @@
 		<class>ASCII</class>
 		<method>extract</method>
 		<parameter>ascii-hul</parameter>
-		<priority>1</priority>
+		<priority>2</priority>
 	</validator>
 	<validator>
 		<name>utf8</name>
 		<class>UTF8</class>
 		<method>extract</method>
 		<parameter>utf8-hul</parameter>
-		<priority>2</priority>
+		<priority>1</priority>
 	</validator>
 	<validator>
 		<name>tif</name>
