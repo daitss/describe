@@ -23,6 +23,7 @@
 									<xsl:attribute name = "isEmbedded">true</xsl:attribute>
 								</xsl:element>
 							</xsl:when>
+								<!-- record un-embedded fonts -->
 							<xsl:when test="normalize-space(values/property[starts-with(name/text(), 'FontFile')]/values) = 'false'">
 								<xsl:element name = "Font">
 									<xsl:attribute name = "FontName"><xsl:value-of select="substring-after($fontName,'+')"/></xsl:attribute>
@@ -40,7 +41,9 @@
 				</xsl:for-each>
 				<!-- <xsl:if test = "boolean(profiles[profile='Tagged PDF'])" >
 								<Feature>isTagged</Feature>
-							</xsl:if> -->
+							</xsl:if>
+				TODO: don't know how to extract Transparency, Attachments, Layers and Form feature yet.			
+				 -->
 				<xsl:if test = "boolean(//property[name='Outlines'])" >
 					<Feature>hasOutline</Feature>
 				</xsl:if>
