@@ -5,7 +5,11 @@ INSTALLATION FOR DEVELOPMENT ENVIRONMENT
   gem install rjb
   gem install sinatra
   gem install log4r
- 
+  gem install ruby-xslt
+  gem install libxml-ruby
+  gem install cucumber
+  gem install rspec
+  gem install rack
 
 note that to install rjb, you'll have to have JAVA_HOME set - on our Macs (OS X 10.5), thats
 

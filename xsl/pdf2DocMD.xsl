@@ -7,12 +7,21 @@
 				<xsl:element name = "PageCount">
 					<xsl:value-of select = "count(//property[name='Page'])"/>
 				</xsl:element >
+				<xsl:if test = "boolean(//property[name='Language'])" >
+					<xsl:element name = "Language">
+						<xsl:value-of select = "(//property[name='Language']/values/value)"/>
+					</xsl:element>
+				</xsl:if>
 				<xsl:for-each select = "//property[name='Fonts']/values/property/values/property[name='Font']">
 					<xsl:for-each select = "values/property[name='FontDescriptor']">
 						<xsl:variable name= "fontName" select = "normalize-space(values/property[name='FontName']/values)"/>
 						<xsl:choose>
 							<xsl:when test="normalize-space(values/property[starts-with(name/text(), 'FontFile')]/values) = 'true'">
-								<!-- font is embedded, do nothing -->
+								<!-- font is embedded, records -->
+								<xsl:element name = "Font">
+									<xsl:attribute name = "FontName"><xsl:value-of select="substring-after($fontName,'+')"/></xsl:attribute>
+									<xsl:attribute name = "isEmbedded">true</xsl:attribute>
+								</xsl:element>
 							</xsl:when>
 							<xsl:when test="normalize-space(values/property[starts-with(name/text(), 'FontFile')]/values) = 'false'">
 								<xsl:element name = "Font">
@@ -29,11 +38,17 @@
 						</xsl:choose>
 					</xsl:for-each>
 				</xsl:for-each>
-				<xsl:if test = "boolean(//property[name='hasOutline'])" >
+				<!-- <xsl:if test = "boolean(profiles[profile='Tagged PDF'])" >
+								<Feature>isTagged</Feature>
+							</xsl:if> -->
+				<xsl:if test = "boolean(//property[name='Outlines'])" >
 					<Feature>hasOutline</Feature>
 				</xsl:if>
 				<xsl:if test = "normalize-space(//property[name/text()='Thumb']/values) = 'true' " >
 					<Feature>hasThumbnails</Feature>
+				</xsl:if>
+				<xsl:if test = "boolean(//property[name='Annotation'])" >
+					<Feature>hasAnnotations</Feature>
 				</xsl:if>
 			</document>
 		</doc>
