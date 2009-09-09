@@ -91,7 +91,7 @@ class RJhove
         end
       end
     else
-      DescribeLogger.instance.info "no validator is defined for these formats #{formats}"
+      DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
       # no validator, create the base validator to record the basic file properties
       @result = retrieveFileProperties(input, formats)
     end
@@ -117,13 +117,16 @@ class RJhove
         @result.status = "format identified"
       else
         # ambiguous formats, need to find a temporary format identifier for future resolution
-        formatName = String.new
-        formats.each do |f|
+        formatName = formats.map {|f| 
           format = Format.instance.find_puid(f)
-          formatName << format.name + format.version
-          formatName << ', '
-        end
-        @fileObject.formatName = formatName
+          s = String.new
+          s += format.name
+          s += ' ' + format.version if format.version
+          puts s
+          s
+          }.join ', '
+
+        @result.fileObject.formatName = formatName
         @result.status = "multiple formats identified"
       end
     else

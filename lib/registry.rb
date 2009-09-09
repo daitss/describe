@@ -25,6 +25,8 @@ class Format
       @name = @doc.find_first("#{baseuri}//@Name", ns).value.to_s
       unless (@doc.find_first("#{baseuri}//@Version", ns).nil?)
         @version = @doc.find_first("#{baseuri}//@Version", ns).value.to_s
+      else
+        @version = nil
       end
       self
     else

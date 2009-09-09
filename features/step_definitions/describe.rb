@@ -98,6 +98,14 @@ Given /^a file whose format is power point$/ do
   @file = "file://#{abs}/files/test.ppt"
 end
 
+Given /^a file whose format is mpeg$/ do
+    @file = "file://#{abs}/files/jitter.mpg"
+end
+	
+Given /^a file whose format is mdb$/ do
+    @file = "file://#{abs}/files/surveydata.mdb"
+end
+
 Given /^a double-quoted xml file$/ do
   @file = "file://#{abs}/files/UF00003061.xml"
 end
