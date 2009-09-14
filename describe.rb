@@ -12,7 +12,7 @@ require 'structures'
 require 'erb'
 require 'digest/md5'
 require 'ftools'
-
+require 'pp'
 #load all required JAVA library.
 jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar')
 jars = Dir[jar_pattern].join ':'
@@ -86,8 +86,7 @@ class Describe < Sinatra::Default
       tmp.write params['document']
       tmp.close
     end
-    # puts params['document'].inspect
-    # puts @input
+    
     # describe the transmitted file with format identifier and metadata 
     description
     File.delete(@input)
@@ -129,8 +128,13 @@ class Describe < Sinatra::Default
     droid = RDroid.instance
     validator = nil
 
-    @agent_url = env["rack.url_scheme"] + ":" + request.env["HTTP_HOST"] + request.env["PATH_INFO"]
-    puts @agent_url
+    if request.env["HTTP_ORIGIN"]
+      @agent_url = request.env["HTTP_ORIGIN"]  + request.env["PATH_INFO"]
+    else
+      @agent_url =  request.env["PATH_INFO"]
+    end
+    # pp request.env
+    
     DescribeLogger.instance.info "describe #{@input}"
     # identify the file format
     @formats = droid.identify(@input)

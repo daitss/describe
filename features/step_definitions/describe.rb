@@ -114,6 +114,10 @@ Given /^a single-quoted xml file$/ do
   @file = "file://#{abs}/files/ateam.xml"
 end
 
+Given /^a html file$/ do
+  @file = "file://#{abs}/files/ccsurvey.html"
+end
+
 Given /^a wave file$/ do
   @file = "file://#{abs}/files/GLASS.WAV"
 end
