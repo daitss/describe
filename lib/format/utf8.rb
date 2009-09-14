@@ -1,4 +1,4 @@
-require 'format/formatBase'
+require 'format/formatbase'
 require 'xml/xslt'
 
 class UTF8 < FormatBase

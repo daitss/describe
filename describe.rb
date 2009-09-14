@@ -67,12 +67,16 @@ class Describe < Sinatra::Default
     erb :index
   end
 
-  post '/describe' do 
+  # note: use /description to keep in sync with oss thin setup
+  post '/description' do 
     halt 400, "query parameter document is required" unless params['document']
-    halt 400, "query parameter extension is required" unless params['extension']  
+    halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']  
    
     extension = params["extension"].to_s 
-    @input = "/tmp/object." + extension;
+    io = Tempfile.open("object") 
+    @input = io.path + '.' + extension;
+    io.close!
+    # @input = "tmp/object." + extension;
     case params['document']
     when Hash
       puts params['document'][:tempfile].path
@@ -101,7 +105,7 @@ class Describe < Sinatra::Default
     size = request.env["CONTENT_LENGTH"]
 
     unless (size.nil?)
-      tmp = File.new("/tmp/object." + extension, "w+")
+      tmp = File.new("tmp/object." + extension, "w+")
       @input = tmp.path()
       # read 1 MB at a time
       while (buff = request.body.read(1048510))
@@ -125,6 +129,8 @@ class Describe < Sinatra::Default
     droid = RDroid.instance
     validator = nil
 
+    @agent_url = env["rack.url_scheme"] + ":" + request.env["HTTP_HOST"] + request.env["PATH_INFO"]
+    puts @agent_url
     DescribeLogger.instance.info "describe #{@input}"
     # identify the file format
     @formats = droid.identify(@input)

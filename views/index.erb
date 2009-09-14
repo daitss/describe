@@ -24,10 +24,10 @@
 <body>
 	<h1>A Preview of DAITSS 2 Format Description Service</h1>
 	<p>Format Description Service performs format identification, validation and characterization
-		on a given file. The result is expressed in PREMIS schema containing a PREMIS object for the 
-		identification and characterization result, a PREMIS event describing the validation status 
-		with applicable anomaly, and a PREMIS agent containing the format description service
-		url.
+		on a given file. The result is expressed in  <a href="http://www.loc.gov/standards/premis"/>PREMIS</a> 
+		schema containing a PREMIS object for the identification and characterization result, a PREMIS event 
+		describing the validation status with applicable anomaly, and a PREMIS agent containing the format 
+		description service url.
 	</p>
 	<h3>Tools and schema</h3>
 	<p>Internally, the Format Description Service uses <a href="http://droid.sourceforge.net/wiki/index.php/Introduction">DROID</a>
@@ -52,7 +52,7 @@
 	<p>Select and submit a file on your local system to the format description service. The 
 		result of format description may be saved locally using the browser "Save Page As" function.
 	</p>
-		<form method="post" action="/describe" enctype="multipart/form-data">
+		<form method="post" action="/description" enctype="multipart/form-data">
 			<label for="document">File:</label>
 			<input name="document" id="uploadfile" size="60" type="file"/>
 			<input type="submit" value="Submit" />

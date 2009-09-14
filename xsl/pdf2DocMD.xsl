@@ -41,7 +41,7 @@
 				</xsl:for-each>
 				<!-- <xsl:if test = "boolean(profiles[profile='Tagged PDF'])" >
 								<Feature>isTagged</Feature>
-							</xsl:if>
+					</xsl:if>
 				TODO: don't know how to extract Transparency, Attachments, Layers and Form feature yet.			
 				 -->
 				<xsl:if test = "boolean(//property[name='Outlines'])" >

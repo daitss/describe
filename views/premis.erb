@@ -5,7 +5,7 @@
 	<!-- generate premis file object -->
 	<object type="file">
 		<objectIdentifier>
-			<objectIdentifierType>Temporal Local</objectIdentifierType>
+			<objectIdentifierType>Temporary Local</objectIdentifierType>
 			<objectIdentifierValue><%= @result.fileObject.url %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
@@ -58,7 +58,7 @@
 				<relationshipType>structural</relationshipType>
 				<relationshipSubtype>includes</relationshipSubtype>
 				<relatedObjectIdentification>
-					<relatedObjectIdentificationType>Temporal Local</relatedObjectIdentificationType>
+					<relatedObjectIdentificationType>Temporary Local</relatedObjectIdentificationType>
 					<relatedObjectIdentificationValue> <%= bs.url %> </relatedObjectIdentificationValue>
 				</relatedObjectIdentification>
 			</relationship>
@@ -82,7 +82,7 @@
 	<% @result.bitstreams.each do |bs| %>
 	<object type="bitstream">
 		<objectIdentifier>
-			<objectIdentifierType>Temporal Local</objectIdentifierType>
+			<objectIdentifierType>Temporary Local</objectIdentifierType>
 			<objectIdentifierValue><%= bs.url %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
@@ -125,7 +125,7 @@
 		
 		<linkingAgentIdentifier>
 			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-			<linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
+			<linkingAgentIdentifierValue><%=@agent_url %></linkingAgentIdentifierValue>
 		</linkingAgentIdentifier>
 		<linkingObjectIdentifier>
 			<linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
@@ -139,7 +139,7 @@
 <agent>
 	<agentIdentifier>
 		<agentIdentifierType>URI</agentIdentifierType>
-		<agentIdentifierValue>http://description.fcla.edu/</agentIdentifierValue>
+		<agentIdentifierValue><%=@agent_url %></agentIdentifierValue>
 	</agentIdentifier>
 	<agentName>Format Description Service</agentName>
 	<agentType>Web Service</agentType>

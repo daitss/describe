@@ -1,4 +1,4 @@
-require 'format/formatBase.rb'
+require 'format/formatbase.rb'
 
 class Image < FormatBase  
   protected
