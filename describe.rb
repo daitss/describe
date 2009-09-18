@@ -47,6 +47,7 @@ class Describe < Sinatra::Default
       throw :halt, [400,  "invalid url location type"]
     end
 
+    @originalName = url.path
     if (@input.nil?)
       throw :halt, [400,  "invalid url location"]
     end
@@ -76,7 +77,9 @@ class Describe < Sinatra::Default
     io = Tempfile.open("object") 
     @input = io.path + '.' + extension;
     io.close!
-    # @input = "tmp/object." + extension;
+ 
+    pp request.env
+    
     case params['document']
     when Hash
       puts params['document'][:tempfile].path
@@ -87,6 +90,10 @@ class Describe < Sinatra::Default
       tmp.close
     end
     
+    pp params['document'][:filename]
+    
+    @originalName = params['document'][:filename]
+
     # describe the transmitted file with format identifier and metadata 
     description
     File.delete(@input)
@@ -102,7 +109,8 @@ class Describe < Sinatra::Default
     end
     extension = params["extension"].to_s
     size = request.env["CONTENT_LENGTH"]
-
+    @originalName = nil
+    
     unless (size.nil?)
       tmp = File.new("tmp/object." + extension, "w+")
       @input = tmp.path()
@@ -133,7 +141,7 @@ class Describe < Sinatra::Default
     else
       @agent_url =  request.env["PATH_INFO"]
     end
-    # pp request.env
+ 
     
     DescribeLogger.instance.info "describe #{@input}"
     # identify the file format
@@ -153,9 +161,12 @@ class Describe < Sinatra::Default
     unless (@result.nil?)
       # build a response
       headers 'Content-Type' => 'application/xml'
+      
+      @result.fileObject.originalName = @originalName
+      
       # dump the xml output to the response, pretty the xml output (ruby bug)
       body erb(:premis)
-
+  
       DescribeLogger.instance.info "HTTP 200"
     else
       throw :halt, [500, "unexpected empty response"]

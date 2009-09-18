@@ -3,13 +3,17 @@
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
 	<% unless @result.fileObject.nil? %>
 	<!-- generate premis file object -->
-	<object type="file">
+	<object xsi:type="file">
 		<objectIdentifier>
 			<objectIdentifierType>Temporary Local</objectIdentifierType>
 			<objectIdentifierValue><%= @result.fileObject.url %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
 			<compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
+			<fixity>
+				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+				<messageDigest>1c8717d6f72f3d280a6757fa0f3f6b97</messageDigest>
+			</fixity>
 			<size><%= @result.fileObject.size %></size>
 			<format>
 				<% if @result.fileObject.formatName %>
@@ -27,7 +31,7 @@
 				</formatRegistry>	
 				<% end %>
 			</format>
-			<% unless @result.fileObject.profiles.nil? %>
+			<% unless @result.fileObject.profiles.nil? or @result.fileObject.profiles.size < 1 %>
 			<format>
 				<formatDesignation>
 					<% @result.fileObject.profiles.each do |profile| %>
@@ -40,30 +44,14 @@
 			<creatingApplication>
 				<creatingApplicationName><%=  @result.fileObject.createAppName %></creatingApplicationName>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
-				<dateCreatedByApplication><%= @result.fileObject.createDate %></dateCreatedByApplication>
+				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).strftime("%Y%m%dT%H%M%S") %></dateCreatedByApplication>
 			</creatingApplication>
 			<% end %>
-			<fixity>
-				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
-			</fixity>
 			<%unless @result.fileObject.objectExtension.nil? %>
 			<objectCharacteristicsExtension>
 				<%= @result.fileObject.objectExtension %>
 			</objectCharacteristicsExtension>
 			<%end%>
-			<% unless @result.bitstreams.nil? %>
-			<% @result.bitstreams.each do |bs| %>
-			<relationship>
-				<relationshipType>structural</relationshipType>
-				<relationshipSubtype>includes</relationshipSubtype>
-				<relatedObjectIdentification>
-					<relatedObjectIdentificationType>Temporary Local</relatedObjectIdentificationType>
-					<relatedObjectIdentificationValue> <%= bs.url %> </relatedObjectIdentificationValue>
-				</relatedObjectIdentification>
-			</relationship>
-			<% end %>
-			<% end %>
 			<% unless @result.fileObject.inhibitors.nil? %>
 			<inhibitors>
 				<% @result.fileObject.inhibitors.each do |inh| %>
@@ -74,18 +62,36 @@
 			</inhibitors>
 			<% end %>
 		</objectCharacteristics>
+		<% if @result.fileObject.originalName %>
+		<originalName>
+			<%= @result.fileObject.originalName %>
+		</originalName>
+		<% end %>
+		<% unless @result.bitstreams.nil? %>
+		<% @result.bitstreams.each do |bs| %>
+		<relationship>
+			<relationshipType>structural</relationshipType>
+			<relationshipSubType>includes</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>Temporary Local</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue> <%= bs.url %> </relatedObjectIdentifierValue>
+			</relatedObjectIdentification>
+		</relationship>
+		<% end %>
+		<% end %>
 	</object>
 	<% end %>
 
 	<% unless @result.bitstreams.nil? %>
 	<!-- generate premis bitstream object -->
 	<% @result.bitstreams.each do |bs| %>
-	<object type="bitstream">
+	<object xsi:type="bitstream">
 		<objectIdentifier>
 			<objectIdentifierType>Temporary Local</objectIdentifierType>
 			<objectIdentifierValue><%= bs.url %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
+			<compositionLevel>0</compositionLevel>
 			<format>
 				<% unless bs.formatName.nil? %>
 				<formatDesignation>
@@ -108,21 +114,21 @@
 			<eventIdentifierValue>1</eventIdentifierValue>
 		</eventIdentifier>
 		<eventType>Format Description</eventType>
-		<eventDateTime><%= Time.now %></eventDateTime>
+		<eventDateTime><%= Time.now.strftime("%Y%m%dT%H%M%S") %></eventDateTime>
 		<eventOutcomeInformation>
 			<eventOutcome><%=  @result.status %></eventOutcome>
+			<eventOutcomeDetail>
+				<% unless @result.anomaly.nil? %>
+				<eventOutcomeDetailNote>noted anomalies</eventOutcomeDetailNote>
+				<eventOutcomeDetailExtension>
+					<% @result.anomaly.each do |anomaly| %>
+					<anomaly><%= anomaly %></anomaly>
+					<% end %>
+				</eventOutcomeDetailExtension>
+				<% end %>
+			</eventOutcomeDetail>
 		</eventOutcomeInformation>
 	
-		<eventOutcomeDetail>
-			<% unless @result.anomaly.nil? %>
-			<eventOutcomeDetailExtension>
-				<% @result.anomaly.each do |anomaly| %>
-				<anomaly><%= anomaly %></anomaly>
-				<% end %>
-			</eventOutcomeDetailExtension>
-			<% end %>
-		</eventOutcomeDetail>
-		
 		<linkingAgentIdentifier>
 			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
 			<linkingAgentIdentifierValue><%=@agent_url %></linkingAgentIdentifierValue>

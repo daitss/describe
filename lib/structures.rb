@@ -9,6 +9,7 @@ end
 class FileObject
   attr_accessor :url
   attr_accessor :size
+  attr_accessor :originalName
   attr_accessor :compositionLevel
   attr_accessor :registryName
   attr_accessor :registryKey
