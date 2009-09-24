@@ -93,7 +93,7 @@ class Describe < Sinatra::Default
     pp params['document'][:filename]
     
     @originalName = params['document'][:filename]
-
+    puts "originalName:#{@originalName}"
     # describe the transmitted file with format identifier and metadata 
     description
     File.delete(@input)
@@ -136,13 +136,12 @@ class Describe < Sinatra::Default
     droid = RDroid.instance
     validator = nil
 
-    if request.env["HTTP_ORIGIN"]
-      @agent_url = request.env["HTTP_ORIGIN"]  + request.env["PATH_INFO"]
+    if request.env["HTTP_HOST"]
+      @agent_url = "http://" + request.env["HTTP_HOST"]  + request.env["PATH_INFO"]
     else
       @agent_url =  request.env["PATH_INFO"]
     end
  
-    
     DescribeLogger.instance.info "describe #{@input}"
     # identify the file format
     @formats = droid.identify(@input)

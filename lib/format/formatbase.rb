@@ -83,9 +83,6 @@ class FormatBase
       @fileObject.size = @jhove.find_first('//jhove:size/text()', NAMESPACES)
       @fileObject.compositionLevel = '0'
       recordFormat
-
-      # create the object characteristic extension element to hold the format metadata
-      @fileObject.objectExtension = XML::Node.new('objectCharacteristicsExtension')
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
       raise FormatError.new("No JHOVE output")

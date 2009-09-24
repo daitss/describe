@@ -203,6 +203,6 @@ end
 Then /^I should receive (.+?) bitstreams$/ do |num|
   doc = XML::Document.string(last_response.body)
   # make sure there are expected number of bitstream objects
-  list = doc.find("//premis:object[@type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
+  list = doc.find("//premis:object[@xsi:type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
   list.size.should == num.to_i
 end

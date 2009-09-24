@@ -42,8 +42,10 @@
 			<% end %>
 			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
 			<creatingApplication>
-				<creatingApplicationName><%=  @result.fileObject.createAppName %></creatingApplicationName>
+				<creatingApplicationName><%= @result.fileObject.createAppName %></creatingApplicationName>
+				<% if @result.fileObject.createAppVersion %>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
+				<% end %>
 				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).strftime("%Y%m%dT%H%M%S") %></dateCreatedByApplication>
 			</creatingApplication>
 			<% end %>
@@ -63,9 +65,7 @@
 			<% end %>
 		</objectCharacteristics>
 		<% if @result.fileObject.originalName %>
-		<originalName>
-			<%= @result.fileObject.originalName %>
-		</originalName>
+		<originalName><%= @result.fileObject.originalName%></originalName>
 		<% end %>
 		<% unless @result.bitstreams.nil? %>
 		<% @result.bitstreams.each do |bs| %>
@@ -74,7 +74,7 @@
 			<relationshipSubType>includes</relationshipSubType>
 			<relatedObjectIdentification>
 				<relatedObjectIdentifierType>Temporary Local</relatedObjectIdentifierType>
-				<relatedObjectIdentifierValue> <%= bs.url %> </relatedObjectIdentifierValue>
+				<relatedObjectIdentifierValue><%= bs.url %></relatedObjectIdentifierValue>
 			</relatedObjectIdentification>
 		</relationship>
 		<% end %>
@@ -117,27 +117,24 @@
 		<eventDateTime><%= Time.now.strftime("%Y%m%dT%H%M%S") %></eventDateTime>
 		<eventOutcomeInformation>
 			<eventOutcome><%=  @result.status %></eventOutcome>
+			<% unless @result.anomaly.nil? or @result.anomaly.size < 1 %>
 			<eventOutcomeDetail>
-				<% unless @result.anomaly.nil? %>
-				<eventOutcomeDetailNote>noted anomalies</eventOutcomeDetailNote>
 				<eventOutcomeDetailExtension>
 					<% @result.anomaly.each do |anomaly| %>
 					<anomaly><%= anomaly %></anomaly>
 					<% end %>
 				</eventOutcomeDetailExtension>
-				<% end %>
 			</eventOutcomeDetail>
+			<% end %>
 		</eventOutcomeInformation>
 	
 		<linkingAgentIdentifier>
 			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-			<linkingAgentIdentifierValue><%=@agent_url %></linkingAgentIdentifierValue>
+			<linkingAgentIdentifierValue><%= @agent_url %></linkingAgentIdentifierValue>
 		</linkingAgentIdentifier>
 		<linkingObjectIdentifier>
-			<linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
-			<linkingObjectIdentifierValue>
-				<%= @result.fileObject.url %>
-			</linkingObjectIdentifierValue>
+			<linkingObjectIdentifierType>Temporary Local</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue><%= @result.fileObject.url %></linkingObjectIdentifierValue>
 		</linkingObjectIdentifier>
 	</event>
 
@@ -145,7 +142,7 @@
 <agent>
 	<agentIdentifier>
 		<agentIdentifierType>URI</agentIdentifierType>
-		<agentIdentifierValue><%=@agent_url %></agentIdentifierValue>
+		<agentIdentifierValue><%= @agent_url %></agentIdentifierValue>
 	</agentIdentifier>
 	<agentName>Format Description Service</agentName>
 	<agentType>Web Service</agentType>
