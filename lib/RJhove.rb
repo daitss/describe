@@ -106,7 +106,8 @@ class RJhove
     @result.fileObject = FileObject.new
     @result.fileObject.url = input
     @result.fileObject.size = File.size(input).to_s
-
+    @result.fileObject.compositionLevel = '0'
+    
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which one
