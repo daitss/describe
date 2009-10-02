@@ -139,7 +139,7 @@ class Describe < Sinatra::Default
     if request.env["HTTP_HOST"]
       @agent_url = "http://" + request.env["HTTP_HOST"]  + request.env["PATH_INFO"]
     else
-      @agent_url =  request.env["PATH_INFO"]
+      @agent_url =  "http://description.fcla.edu" + request.env["PATH_INFO"]
     end
  
     DescribeLogger.instance.info "describe #{@input}"

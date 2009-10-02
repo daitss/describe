@@ -1,4 +1,4 @@
-equire 'rubygems'
+require 'rubygems'
 require 'sinatra'
 $:.unshift '/var/www/html/description/lib'
 
