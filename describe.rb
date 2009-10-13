@@ -13,6 +13,8 @@ require 'erb'
 require 'digest/md5'
 require 'ftools'
 require 'pp'
+require 'net/http'
+
 #load all required JAVA library.
 jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar')
 jars = Dir[jar_pattern].join ':'
@@ -97,36 +99,6 @@ class Describe < Sinatra::Default
     # describe the transmitted file with format identifier and metadata 
     description
     File.delete(@input)
-    response.finish
-
-  end
-
-  put '/describe' do 
-    params['extension']
-
-    if (params["extension"].nil?)
-      throw :halt, [400,  "extension parameter is required"]
-    end
-    extension = params["extension"].to_s
-    size = request.env["CONTENT_LENGTH"]
-    @originalName = nil
-    
-    unless (size.nil?)
-      tmp = File.new("tmp/object." + extension, "w+")
-      @input = tmp.path()
-      # read 1 MB at a time
-      while (buff = request.body.read(1048510))
-        tmp.write buff
-      end
-      tmp.close
- 
-      # describe the transmitted file with format identifier and metadata 
-      description
-
-      File.delete(@input)
-    else
-      throw :halt, [411, "CONTENT_LENGTH not defined"]
-    end
     response.finish
 
   end

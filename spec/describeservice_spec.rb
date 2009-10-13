@@ -17,11 +17,6 @@ describe 'Describe Service' do
 
       @url = '/describe'
     end
-  
-    it "it should return 200 for PUT with text data" do  
-      put "describe/?extension=txt", "testing data"
-      response.should be_ok
-    end
 
     it "should return 400 if missing url" do
       get ''
@@ -36,11 +31,6 @@ describe 'Describe Service' do
     it "should return 404 for invalid file" do
       get "/describe?location=file://#{abs}/files/wood12"
       response.code.to_i.should == 404
-    end
-
-    it "it should return 400 for PUT missing extension parameter" do  
-      put 
-      response.code.to_i.should == 400
     end
 
     it "should return 405 for unsupported HEAD method" do
