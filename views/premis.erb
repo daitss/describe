@@ -46,7 +46,7 @@
 				<% if @result.fileObject.createAppVersion %>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
 				<% end %>
-				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).strftime("%Y%m%dT%H%M%S") %></dateCreatedByApplication>
+				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).xmlschema %></dateCreatedByApplication>
 			</creatingApplication>
 			<% end %>
 			<%unless @result.fileObject.objectExtension.nil? %>
@@ -119,7 +119,7 @@
 			<eventIdentifierValue>1</eventIdentifierValue>
 		</eventIdentifier>
 		<eventType>Format Description</eventType>
-		<eventDateTime><%= Time.now.strftime("%Y%m%dT%H%M%S") %></eventDateTime>
+		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
 		<eventOutcomeInformation>
 			<eventOutcome><%=  @result.status %></eventOutcome>
 			<% unless @result.anomaly.nil? or @result.anomaly.size < 1 %>
