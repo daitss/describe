@@ -1,36 +1,7 @@
-The format server provide format identification and validation for DAITSS 2.  It requires rjb, mongrel and log4r gems installed.  Prior to installation, please make sure that ruby, java and mysql are set up on the system.   http://rjb.rubyforge.org/ has more information about rjb. 
+INTERNAL LOGIC ON FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION
 
-INSTALLATION FOR DEVELOPMENT ENVIRONMENT
-- install required gems
-  gem install rjb
-  gem install sinatra
-  gem install log4r
-  gem install ruby-xslt
-  gem install libxml-ruby
-  gem install cucumber
-  gem install rspec
-  gem install rack
-
-note that to install rjb, you'll have to have JAVA_HOME set - on our Macs (OS X 10.5), thats
-
-   setenv JAVA_HOME /Library/Java/Home
-
-- check out codes from svn, the svn URL is svn://tupelo.fcla.edu/daitss2/describe/trunk
-
-- add "lib" to the RUBYLIB environment variable
-
-- start up format server
-  ruby describe.rb
-
-Description Service will be used by Ingest to extract format identifiers and metadata on a given url.  Ex.
-
-#describe a pdf
-curl http://localhost:3002/describe?location=file///Users/Carol/Desktop/work/testdata/pdf/etd.pdf
-
-HOW THE DESCRIBE HANDLER PERFORMS FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION PROCESS
-
-A. Internally, the format identification is performed via Droid.  Based on the format signatures 
-   exhibited in the file(URL), Droid will return the PUIDs matching the format signatures in the file(URL).
+A. The format identification is performed via Droid.  Based on the format signatures 
+   exhibited in the specified url (file or http), Droid will return the PUIDs matching the format signatures in the file(URL).
 	1.  If there is no PUID returned from Droid => something that means "no id found"
 	2.  If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
 		2.1  If there is no defined validator for any PUID, retrieve the GDFR ID using PUID and then
