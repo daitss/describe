@@ -48,6 +48,10 @@ Given /^a PDF\/A conformed file$/ do
   #  @file = "location=file://#{abs}/files/outalbert_j.pdf"
 end
 
+Given /^a PDF with embedded language metadata$/ do
+ @file = "file://#{abs}/files/useLang.pdf"
+end
+
 Given /^a PDF embedded with multiple images$/ do
   @file = "file://#{abs}/files/etd.pdf"
 end
@@ -119,7 +123,7 @@ Given /^a html file$/ do
 end
 
 Given /^a wave file$/ do
-  @file = "file://#{abs}/files/GLASS.WAV"
+  @file = "file://#{abs}/files/obj1.wav"
 end
 
 When /^describing the file$/ do
@@ -166,6 +170,11 @@ end
 
 Then /^the docmd should not exist$/ do
   lambda {last_response.body.to_s =~ /document>/ }.call.should be_nil
+end
+
+Then /^I should have (.+?) on the language element$/ do |lang|
+  last_response.body.to_s =~ /Language>(.*?)<\/Language>/
+  $1.should == lang
 end
 
 Then /^I should receive (.+?) on the format profile$/ do |profile|

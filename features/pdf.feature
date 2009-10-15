@@ -47,3 +47,10 @@ Feature: retrieve the description on a PDF resource
 		Then I should receive 19 bitstreams
 		And the status should be ok
 		And the docmd should exist
+		
+	Scenario: PDF with embedded language metadata
+		Given a PDF with embedded language metadata
+		When describing the file
+		Then I should have EN on the language element
+		And the status should be ok
+		And the docmd should exist
