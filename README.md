@@ -43,12 +43,13 @@ Directory Structure
 Usage
 -----
 * Use  http GET method with a location parameter, pointing to the FILE url of a pdf file.  
-  For example, if using curl
-  curl http://localhost:3002/describe?location=file///Users/Desktop/describe/files/etd.pdf
+  For example, use
+  "curl http://localhost:3002/describe?location=file///Users/Desktop/describe/files/etd.pdf"
+   if using curl.
 
 * Use  http GET method with a location parameter, pointing to the http url of a text file.  
-  For example, if using curl
-  curl http://localhost:3002/describe?location=http://localhost:4567/test.txt
+  For example, use
+  "curl http://localhost:3002/describe?location=http://localhost:4567/test.txt" if using curl
 
 * Use the associated form to use http POST method to upload a file to the description service 
   using the HTTP POST method.
@@ -58,12 +59,11 @@ INTERNAL LOGIC ON FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION
 * The format identification is performed via Droid.  Based on the format signatures 
   exhibited in the specified url (file or http), Droid will return the PUIDs matching the 
   format signatures in the file(URL).
-  ** If there is no PUID returned from Droid => return the general metadata including file size 
-     and checksum, with the format name set to 'unknown" 
-  ** If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
-	 *** If there is no defined validator for any PUID, return the PUID with general metadata
-     *** If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
-	 *** If there are multiple validators, retrieve a prioritized list of validators (using an evaluator, see note 1) 
+  > If there is no PUID returned from Droid => return the general metadata including file size and checksum, with the format name set to 'unknown" 
+  > If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
+	 > > If there is no defined validator for any PUID, return the PUID with general metadata
+     > > If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
+	 > > If there are multiple validators, retrieve a prioritized list of validators (using an evaluator, see note 1) 
 		 and validate the file with each validator (in B) until it is determined to be valid and well-formed 
 		 by a validator or the service exhausts all applicable validators.
 
