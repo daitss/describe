@@ -55,3 +55,6 @@ Usage
 
 * Use the associated form to upload a file to the description service via HTTP POST method.
 
+Documentation
+-------------
+[development wiki](http://wiki.github.com/cchou/describe)
