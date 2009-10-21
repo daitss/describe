@@ -47,42 +47,11 @@ Usage
 -----
 * Use http GET method with a location parameter pointing to the FILE url of the intended file.  
   For example, if using curl
-  curl http://localhost:3002/describe?location=file///Users/Desktop/describe/files/etd.pdf
+  curl http://localhost:4567/describe?location=file///Users/Desktop/describe/files/etd.pdf
 
 * Use http GET method with a location parameter pointing to the http url of the intended resource.
   For example, if using curl
-  curl http://localhost:3002/describe?location=http://localhost:4567/test.txt
+  curl http://localhost:4567/describe?location=http://localhost:4567/test.txt
 
 * Use the associated form to upload a file to the description service via HTTP POST method.
-
-Format Identification, Validation and Characterization
-------------------------------------------------------------------------
-* The format identification is performed via Droid.  Based on the format signatures 
-  exhibited in the specified url (file or http), Droid will return the PUIDs matching the 
-  format signatures in the file(URL).
-  > If there is no PUID returned from Droid => return the general metadata including file size and 
-  > checksum, with the format name set to 'unknown" 
-  >
-  > If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
-  >
-  > If there is no defined validator for any PUID, return the PUID with general metadata
-  >
-  > If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
-  >
-  > If there are multiple validators, retrieve a prioritized list of validators using an evaluator.
-  > and validate the file with each validator until it is determined to be valid and well-formed 
-  > by a validator or the service exhausts all applicable validators.
-
-* The description service implements to the format validation and characterization process via JHOVE validators.  
-  The validator should return the validation result, anomalies and all technical metadata extracted from the file (URL). 
-  > If the required metadata is missing (for example, missing MIX or AES.  This indicates the possibility of  bugs 
-  > in the validator), log an internal service message for developers. 
-
-* Transform extracted technical metadata, anomaly and associated format information into a PREMIS document.
-
-* How the evaluator works:  Given a list of validators, return a prioritized list of validators.  Each validator will be 
- assigned a priority value.  A higher value indicates higher priority.  For example, UTF8 validator will 
- have priority value 1 whereas ASCII validator will have priority 2.  If a file matches the signatures for 
- both ASCII and UTF8, the evaluator will return the both UTF8 and ASCII validators but with ASCII having 
- higher priority in the list.
 
