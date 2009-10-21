@@ -2,7 +2,6 @@ require 'xml'
 abs = FileUtils.pwd
 
 # TODO make sure all test cases include formatDesignation (formatName) test
-
 Given /^an empty file$/ do
   @file = "file://#{abs}/files/empty"
 end
@@ -197,7 +196,6 @@ Then /^mix should exist$/ do
 end
 
 Then /^textmd should exist$/ do
- # puts last_response.body
   last_response.body.should match(/textMD/)
 end
 
