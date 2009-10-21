@@ -42,17 +42,15 @@ Directory Structure
 
 Usage
 -----
-* Use  http GET method with a location parameter, pointing to the FILE url of a pdf file.  
-  For example, use
-  "curl http://localhost:3002/describe?location=file///Users/Desktop/describe/files/etd.pdf"
-   if using curl.
+* Use http GET method with a location parameter pointing to the FILE url of the intended file.  
+  For example, if using curl
+  curl http://localhost:3002/describe?location=file///Users/Desktop/describe/files/etd.pdf
 
-* Use  http GET method with a location parameter, pointing to the http url of a text file.  
-  For example, use
-  "curl http://localhost:3002/describe?location=http://localhost:4567/test.txt" if using curl
+* Use http GET method with a location parameter pointing to the http url of the intended resource.
+  For example, if using curl
+  curl http://localhost:3002/describe?location=http://localhost:4567/test.txt
 
-* Use the associated form to use http POST method to upload a file to the description service 
-  using the HTTP POST method.
+* Use the associated form to upload a file to the description service via HTTP POST method.
 
 Format Identification, Validation and Characterization
 ------------------------------------------------------------------------
