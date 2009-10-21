@@ -69,13 +69,12 @@ Format Identification, Validation and Characterization
   > If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
   >
   > If there are multiple validators, retrieve a prioritized list of validators using an evaluator.
-  > and validate the file with each validator (in B) until it is determined to be valid and well-formed 
+  > and validate the file with each validator until it is determined to be valid and well-formed 
   > by a validator or the service exhausts all applicable validators.
 
 * The description service implements to the format validation and characterization process via JHOVE validators.  
   The validator should return the validation result, anomalies and all technical metadata extracted from the file (URL). 
   > If the required metadata is missing (for example, missing MIX or AES.  This indicates the possibility of  bugs 
-  >
   > in the validator), log an internal service message for developers. 
 
 * Transform extracted technical metadata, anomaly and associated format information into a PREMIS document.
