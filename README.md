@@ -8,8 +8,11 @@ Format Description Service
 
 Quickstart
 ----------
-ruby describe.rb
-To test the installation, run "rake spec" and "cucumber feature/*".
+	%ruby describe.rb
+	
+	To test the installation, 
+	%rake spec
+	%cucumber feature/*
 
 Requirements
 ------------
