@@ -1,5 +1,5 @@
-The format server provide format identification, validation and characterization for DAITSS 2. 
-==============================================================================================
+Format Description Service
+==========================
 * Format identification via TNA DROID software.
 * Using the identification result, find appropriate JHOVE validator.  
 * Format validation and characterization using JHOVE
@@ -54,7 +54,7 @@ Usage
 * Use the associated form to use http POST method to upload a file to the description service 
   using the HTTP POST method.
 
-INTERNAL LOGIC ON FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION
+Format Identification, Validation and Characterization
 ------------------------------------------------------------------------
 * The format identification is performed via Droid.  Based on the format signatures 
   exhibited in the specified url (file or http), Droid will return the PUIDs matching the 
@@ -63,15 +63,19 @@ INTERNAL LOGIC ON FORMAT IDENTIFICATION, VALIDATION AND CHARACTERIZATION
   > checksum, with the format name set to 'unknown" 
   >
   > If droid returns one or more PUIDs, find the validator(s) associated with each PUID.
-	 > > If there is no defined validator for any PUID, return the PUID with general metadata
-     > > If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
-	 > > If there are multiple validators, retrieve a prioritized list of validators using an evaluator.
-		 and validate the file with each validator (in B) until it is determined to be valid and well-formed 
-		 by a validator or the service exhausts all applicable validators.
+  >
+  > If there is no defined validator for any PUID, return the PUID with general metadata
+  >
+  > If there is only one validator for all of the PUIDs, => proceed to format validation and characterization.
+  >
+  > If there are multiple validators, retrieve a prioritized list of validators using an evaluator.
+  > and validate the file with each validator (in B) until it is determined to be valid and well-formed 
+  > by a validator or the service exhausts all applicable validators.
 
 * The description service implements to the format validation and characterization process via JHOVE validators.  
   The validator should return the validation result, anomalies and all technical metadata extracted from the file (URL). 
   > If the required metadata is missing (for example, missing MIX or AES.  This indicates the possibility of  bugs 
+  >
   > in the validator), log an internal service message for developers. 
 
 * Transform extracted technical metadata, anomaly and associated format information into a PREMIS document.
