@@ -22,7 +22,7 @@
   <format>
 	<rid>x-fmt/16</rid>
 	<validator>utf8</validator>
-	<lookup xsi:nil="true" />
+	<lookup>UTF-8</lookup>
   </format>
 
   <format>
@@ -34,7 +34,8 @@
   <format>
 	<rid>x-fmt/111</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
+	<lookup>ASCII</lookup>
+
   </format>
 
   <format>

@@ -97,17 +97,20 @@ class FormatBase
       unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
         @fileObject.formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
         lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
-        record = Format2Validator.instance.find_by_lookup(lookup)
-        
-        # make sure there is a format record, 
-        # if the format identifier has been decided (by format identification), skip this
-        unless (record.nil?)
-          fmt = Format.instance.find_puid(record.rid)
-          @registry = fmt.registry
-          @registryKey = fmt.puid
-          DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
-        end
+      else
+        lookup = @fileObject.formatName.to_s
       end
+      record = Format2Validator.instance.find_by_lookup(lookup)
+
+      # make sure there is a format record, 
+      # if the format identifier has been decided (by format identification), skip this
+      unless (record.nil?)
+        fmt = Format.instance.find_puid(record.rid)
+        @registry = fmt.registry
+        @registryKey = fmt.puid
+        DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
+      end
+    
 
       # record format profiles in multiple format designation
       profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)

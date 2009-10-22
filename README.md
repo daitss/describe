@@ -21,7 +21,7 @@ Requirements
 * cucumber (gem)
 * libxml-ruby (gem)
 * ruby-xslt (gem)
-* rjb (gem. Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail)
+* rjb (gem. Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail.  On OSX, the JAVA_HOME should be set to "/Library/Java/Home")
 * rspec (gem)
 * log4r (gem)
 * sinatra (gem) - a minimal web application framework.  It will work with any web server such as mongrel, thin, etc.
