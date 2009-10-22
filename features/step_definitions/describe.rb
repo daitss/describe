@@ -44,7 +44,6 @@ end
 
 Given /^a PDF\/A conformed file$/ do
   @file = "file://#{abs}/files/PdfGuideline.pdf"
-  #  @file = "location=file://#{abs}/files/outalbert_j.pdf"
 end
 
 Given /^a PDF with embedded language metadata$/ do
@@ -65,6 +64,10 @@ end
 
 Given /^a tagged PDF file$/ do
   @file = "file://#{abs}/files/tagged.pdf"
+end
+
+Given /^a PDF with annotations$/ do
+ @file = "file://#{abs}/files/outalbert_j.pdf"
 end
 
 Given /^tiff with application metadata$/ do
@@ -179,7 +182,7 @@ Then /^I should have (.+?) on the language element$/ do |lang|
   $1.should == lang
 end
 
-Then /^I should have (.+?) on the Feature element$/ do |feature|
+Then /^I should have (.+?) on the feature element$/ do |feature|
   last_response.body.to_s =~ /Feature>(.*?)<\/Feature>/
   $1.should == feature
 end

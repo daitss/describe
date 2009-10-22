@@ -58,7 +58,13 @@ Feature: retrieve the description on a PDF resource
 	Scenario: Tagged PDF
 		Given a tagged PDF file
 		When describing the file
-		Then I should have isTagged on the Feature element
+		Then I should have isTagged on the feature element
 		And the status should be ok
 		And the docmd should exist
-			
+
+	Scenario: Annotated PDF
+		Given a PDF with annotations
+		When describing the file
+		Then I should have hasAnnotations on the feature element
+		And the status should be ok
+		And the docmd should exist			
