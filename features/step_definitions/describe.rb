@@ -63,6 +63,9 @@ Given /^an password\-protected PDF file$/ do
   @file = "file://#{abs}/files/pwprotected.pdf"
 end
 
+Given /^a tagged PDF file$/ do
+  @file = "file://#{abs}/files/tagged.pdf"
+end
 
 Given /^tiff with application metadata$/ do
   @file = "file://#{abs}/files/MM00000285.tif"
@@ -174,6 +177,11 @@ end
 Then /^I should have (.+?) on the language element$/ do |lang|
   last_response.body.to_s =~ /Language>(.*?)<\/Language>/
   $1.should == lang
+end
+
+Then /^I should have (.+?) on the Feature element$/ do |feature|
+  last_response.body.to_s =~ /Feature>(.*?)<\/Feature>/
+  $1.should == feature
 end
 
 Then /^I should receive (.+?) on the format profile$/ do |profile|

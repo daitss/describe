@@ -54,3 +54,11 @@ Feature: retrieve the description on a PDF resource
 		Then I should have EN on the language element
 		And the status should be ok
 		And the docmd should exist
+		
+	Scenario: Tagged PDF
+		Given a tagged PDF file
+		When describing the file
+		Then I should have isTagged on the Feature element
+		And the status should be ok
+		And the docmd should exist
+			

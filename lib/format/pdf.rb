@@ -39,7 +39,7 @@ class PDF < FormatBase
       # convert to doc schema        
       DescribeLogger.instance.info "transforming JHOVE output to DocMD"
       xslt = XML::XSLT.new()
-      xslt.xml = pdfMD.to_s
+      xslt.xml =  @jhove.to_s
       xslt.xsl = xsl_file "pdf2DocMD.xsl"
       docMDString = xslt.serve()
 
