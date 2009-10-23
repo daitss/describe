@@ -126,7 +126,7 @@
 			<eventOutcomeDetail>
 				<eventOutcomeDetailExtension>
 					<% @result.anomaly.each do |anomaly| %>
-					<anomaly><%= anomaly %></anomaly>
+					<anomaly><%= ERB::Util::h(anomaly) %></anomaly>
 					<% end %>
 				</eventOutcomeDetailExtension>
 			</eventOutcomeDetail>
