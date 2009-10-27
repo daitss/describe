@@ -8,12 +8,17 @@ Format Description Service
 
 Quickstart
 ----------
-	%ruby describe.rb
+	1. Retrieve a copy of the description service.  You can either create a local git clone of the description service, ex.
+	%git clone git://github.com/cchou/describe.git
+	or download a copy from the download page.
 	
-	To test the installation, 
+	2. Test the installation via the test harness. 
 	%rake spec
 	%cucumber feature/*
-
+	
+	3. Run the description srvice,
+	%ruby describe.rb
+	
 Requirements
 ------------
 * ruby (tested on 1.8.6 and 1.8.7)
