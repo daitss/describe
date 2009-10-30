@@ -16,7 +16,7 @@ Quickstart
 	%rake spec
 	%cucumber feature/*
 	
-	3. Run the description srvice,
+	3. Run the description srvice
 	%ruby describe.rb
 	
 Requirements
