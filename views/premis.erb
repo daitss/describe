@@ -12,7 +12,7 @@
 			<compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
 			<fixity>
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-				<messageDigest>1c8717d6f72f3d280a6757fa0f3f6b97</messageDigest>
+				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
 			</fixity>
 			<size><%= @result.fileObject.size %></size>
 			<format>
