@@ -43,7 +43,7 @@ Given /^a PDF 1\.7 file$/ do
 end
 
 Given /^a PDF\/A conformed file$/ do
-  @file = "file://#{abs}/files/PdfGuideline.pdf"
+  @file = "file://#{abs}/files/TestingPDFA.pdf"
 end
 
 Given /^a PDF with embedded language metadata$/ do
@@ -190,16 +190,16 @@ end
 Then /^I should receive (.+?) on the format profile$/ do |profile|
   doc = XML::Document.string(last_response.body)
   # make sure the intended profile exist in the file format
-  list = doc.find("//premis:object[@type='file']/premis:objectCharacteristics/premis:format", 'premis' => 'info:lc/xmlns/premis-v2')
+  list = doc.find("//premis:object[@xsi:type='file']/premis:objectCharacteristics/premis:format", 'premis' => 'info:lc/xmlns/premis-v2')
   
   found = false
   list.each do |node|
+    puts node
     if node.content.include? profile
       found = true
     end
   end
-
-  found == true
+  found.should == true
 end
 
 Then /^mix should exist$/ do

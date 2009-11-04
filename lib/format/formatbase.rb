@@ -111,7 +111,6 @@ class FormatBase
         DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
       end
     
-
       # record format profiles in multiple format designation
       profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
       unless (profiles.nil?)
