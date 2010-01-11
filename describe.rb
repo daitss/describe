@@ -34,7 +34,14 @@ require 'net/http'
 #load all required JAVA libraries.
 jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar')
 jars = Dir[jar_pattern].join ':'
-Rjb::load jars
+#Rjb::load jars
+
+ENV['CLASSPATH'] = if ENV['CLASSPATH']                                                                                                                        
+                     [jars, ENV['CLASSPATH']].join ':'
+                   else
+                     jars
+                   end
+
 
 class Describe < Sinatra::Default
   enable :logging
@@ -142,6 +149,7 @@ class Describe < Sinatra::Default
       end
     rescue => e
       puts "running into exception #{e}"
+      puts e.backtrace
     end
 
     unless (@result.nil?)

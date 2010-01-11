@@ -4,6 +4,7 @@ require 'DescribeLogger'
 require 'fileutils'
 require 'rjb'
 require 'config'
+require 'set'
 
 class FormatError < StandardError; end
   

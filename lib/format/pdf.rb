@@ -1,7 +1,10 @@
 require 'format/formatbase'
-require 'xml/xslt'
+require 'format/formatstylesheet'
 
 class PDF < FormatBase
+
+  include FormatStylesheet
+
   def parse(xml)
     super
     # retrieve and dump the PDF metadata
@@ -38,14 +41,7 @@ class PDF < FormatBase
 
       # convert to doc schema        
       DescribeLogger.instance.info "transforming JHOVE output to DocMD"
-      xslt = XML::XSLT.new()
-      xslt.xml =  @jhove.to_s
-      xslt.xsl = xsl_file "pdf2DocMD.xsl"
-      docMDString = xslt.serve()
-
-      # convert the xml string into xml element
-      tmpDoc = XML::Document.string(docMDString)
-      @fileObject.objectExtension = tmpDoc.root
+      @fileObject.objectExtension = apply_xsl("pdf2DocMD.xsl").root
 
       # retrieve all image bitstreams
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)

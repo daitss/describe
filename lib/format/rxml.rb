@@ -1,20 +1,16 @@
 require 'format/formatbase'
-require 'xml/xslt'
+require 'format/formatstylesheet'
 
 class RXML < FormatBase
+  include FormatStylesheet
+
   def parse(xml)
     super
     # retrieve and dump the XML metadata
     xmlMD = @jhove.find_first('//jhove:property[jhove:name/text()="XMLMetadata"]', NAMESPACES)
     unless (xmlMD.nil?)
       DescribeLogger.instance.info "transforming JHOVE output to XML"
-      xslt = XML::XSLT.new()
-      xslt.xml = @jhove.to_s
-      xslt.xsl = xsl_file "xml2TextMD.xsl"
-      textMDString = xslt.serve()
-      #convert the xml string into xml element
-      tmpDoc = XML::Document.string(textMDString)
-      @fileObject.objectExtension = tmpDoc.root
+      @fileObject.objectExtension = apply_xsl("xml2TextMD.xsl")
     else 
       DescribeLogger.instance.warm "no XMLMetadata found"
     end
