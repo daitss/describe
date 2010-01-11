@@ -72,9 +72,23 @@ class Describe < Sinatra::Default
       throw :halt, [400,  "invalid url location type"]
     end
 
-    @originalName = url.path
     if (@input.nil?)
       throw :halt, [400,  "invalid url location"]
+    end
+
+    # set originalName, "originalName" param is optional
+    unless params['originalName'].nil?
+       @originalName = params['originalName']
+    else
+       @originalName = url.path
+    end
+    
+    #uri parameter is optional, set the file url is uri param is not specified
+    unless params['uri'].nil?
+      @uri = params['uri']
+      puts @uri
+    else
+      @uri = @input
     end
 
     # make sure the file exist and it's a valid file
@@ -142,10 +156,10 @@ class Describe < Sinatra::Default
 
     begin
       if (@formats.empty?)
-        @result = jhove.retrieveFileProperties(@input, @formats)
+        @result = jhove.retrieveFileProperties(@input, @formats, @uri)
       else
         # extract the technical metadata
-        @result = jhove.extractAll(@input, @formats)
+        @result = jhove.extractAll(@input, @formats,  @uri)
       end
     rescue => e
       puts "running into exception #{e}"

@@ -46,7 +46,7 @@ class PDF < FormatBase
       nodes.each do |node|
         mix = node.find_first("mix:mix", NAMESPACES)
         bitstream = BitstreamObject.new
-        bitstream.url = @fileObject.url + "/" + sequence.to_s
+        bitstream.uri = @fileObject.uri + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
         if (compression)
           bitstream.formatName = compression.content

@@ -6,13 +6,13 @@
 	<object xsi:type="file">
 		<objectIdentifier>
 			<objectIdentifierType>Temporary Local</objectIdentifierType>
-			<objectIdentifierValue><%= @result.fileObject.url %></objectIdentifierValue>
+			<objectIdentifierValue><%= @result.fileObject.uri %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
 			<compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
 			<fixity>
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.url)) %></messageDigest>
+				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.location)) %></messageDigest>
 			</fixity>
 			<size><%= @result.fileObject.size %></size>
 			<format>
@@ -74,7 +74,7 @@
 			<relationshipSubType>includes</relationshipSubType>
 			<relatedObjectIdentification>
 				<relatedObjectIdentifierType>Temporary Local</relatedObjectIdentifierType>
-				<relatedObjectIdentifierValue><%= bs.url %></relatedObjectIdentifierValue>
+				<relatedObjectIdentifierValue><%= bs.uri %></relatedObjectIdentifierValue>
 			</relatedObjectIdentification>
 		</relationship>
 		<% end %>
@@ -93,7 +93,7 @@
 	<object xsi:type="bitstream">
 		<objectIdentifier>
 			<objectIdentifierType>Temporary Local</objectIdentifierType>
-			<objectIdentifierValue><%= bs.url %></objectIdentifierValue>
+			<objectIdentifierValue><%= bs.uri %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
 			<compositionLevel>0</compositionLevel>
@@ -139,7 +139,7 @@
 		</linkingAgentIdentifier>
 		<linkingObjectIdentifier>
 			<linkingObjectIdentifierType>Temporary Local</linkingObjectIdentifierType>
-			<linkingObjectIdentifierValue><%= @result.fileObject.url %></linkingObjectIdentifierValue>
+			<linkingObjectIdentifierValue><%= @result.fileObject.uri %></linkingObjectIdentifierValue>
 		</linkingObjectIdentifier>
 	</event>
 

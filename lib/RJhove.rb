@@ -57,7 +57,7 @@ class RJhove
   end
 
   # given a list of tentative format id, extract technical metadata of the input file
-  def extractAll(input, formats)
+  def extractAll(input, formats, uri)
     @result = nil
 
     # get the list of validators for validating the matching formats
@@ -79,7 +79,7 @@ class RJhove
           parser.setFormat(format.registry, format.puid)
         end
         # validate and extract the metadata
-        @result.status = parser.send vdr.method, input
+        @result.status = parser.send vdr.method, input, uri
         @result.anomaly = parser.anomaly
         @result.fileObject = parser.fileObject
         @result.bitstreams = parser.bitstreams
@@ -93,18 +93,19 @@ class RJhove
     else
       DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
       # no validator, create the base validator to record the basic file properties
-      @result = retrieveFileProperties(input, formats)
+      @result = retrieveFileProperties(input, formats, uri)
     end
 
     @result
   end
 
-  def retrieveFileProperties(input, formats)
+  def retrieveFileProperties(input, formats, uri)
     @result = nil
     @result = Result.new
 
     @result.fileObject = FileObject.new
-    @result.fileObject.url = input
+    @result.fileObject.location = input
+    @result.fileObject.uri = uri
     @result.fileObject.size = File.size(input).to_s
     @result.fileObject.compositionLevel = '0'
     

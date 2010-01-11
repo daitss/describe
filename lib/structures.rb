@@ -7,7 +7,8 @@ class Inhibitor
 end
 
 class FileObject
-  attr_accessor :url
+  attr_accessor :location
+  attr_accessor :uri
   attr_accessor :size
   attr_accessor :originalName
   attr_accessor :compositionLevel
@@ -24,7 +25,7 @@ class FileObject
 end
 
 class BitstreamObject
-  attr_accessor :url
+  attr_accessor :uri
   attr_accessor :formatName
   attr_accessor :objectExtension
 end

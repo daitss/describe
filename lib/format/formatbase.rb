@@ -43,9 +43,11 @@ class FormatBase
     nil
   end
 
-  def extract(input)
+  def extract(input, uri)
     @fileOjbect = nil
-
+    @uri = uri
+    @location = input
+    
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       tmp = File.new("extract.xml", "w+")
@@ -80,7 +82,8 @@ class FormatBase
     # puts @jhove
     unless (@jhove.nil?)
       @fileObject = FileObject.new
-      @fileObject.url = @jhove.attributes['uri']
+      @fileObject.location = @location
+      @fileObject.uri = @uri
       @fileObject.size = @jhove.find_first('//jhove:size/text()', NAMESPACES)
       @fileObject.compositionLevel = '0'
       recordFormat
