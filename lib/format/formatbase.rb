@@ -126,4 +126,20 @@ class FormatBase
     @fileObject.registryName = @registry
     @fileObject.registryKey = @registryKey
   end
+
+  require 'libxml'
+  require 'libxslt'
+
+  def apply_xsl xsl_file_name
+    stylesheet_file = xsl_file xsl_file_name
+    stylesheet_doc = open(stylesheet_file) { |io| LibXML::XML::Document::io io }
+    stylesheet = LibXSLT::XSLT::Stylesheet.new stylesheet_doc
+
+    # apply the xslt
+    jdoc = LibXML::XML::Document.string @jhove.to_s
+    #jdoc.root = jdoc.import @jhove
+    stylesheet.apply jdoc
+  end
+  
+
 end

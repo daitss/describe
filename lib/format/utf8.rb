@@ -1,5 +1,4 @@
 require 'format/formatbase'
-require 'format/formatstylesheet'
 
 class UTF8 < FormatBase
 

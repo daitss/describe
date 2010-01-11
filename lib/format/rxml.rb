@@ -1,8 +1,6 @@
 require 'format/formatbase'
-require 'format/formatstylesheet'
 
 class RXML < FormatBase
-  include FormatStylesheet
 
   def parse(xml)
     super

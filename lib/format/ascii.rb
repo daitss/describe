@@ -1,9 +1,6 @@
 require 'format/formatbase'
-require 'format/formatstylesheet'
 
 class ASCII < FormatBase
-
-  include FormatStylesheet
 
   def parse(xml)
     super
