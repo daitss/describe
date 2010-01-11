@@ -116,7 +116,6 @@ class Describe < Sinatra::Default
     description
     File.delete(@input)
     response.finish
-
   end
 
   def description

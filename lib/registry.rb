@@ -7,7 +7,6 @@ class Format
   attr_reader :puid
   attr_reader :name
   attr_reader :version
-  attr_reader :registry
   
   include Singleton
   
