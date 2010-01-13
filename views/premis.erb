@@ -5,7 +5,7 @@
 	<!-- generate premis file object -->
 	<object xsi:type="file">
 		<objectIdentifier>
-			<objectIdentifierType>Temporary Local</objectIdentifierType>
+			<objectIdentifierType>URI</objectIdentifierType>
 			<objectIdentifierValue><%= @result.fileObject.uri %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
@@ -73,7 +73,7 @@
 			<relationshipType>structural</relationshipType>
 			<relationshipSubType>includes</relationshipSubType>
 			<relatedObjectIdentification>
-				<relatedObjectIdentifierType>Temporary Local</relatedObjectIdentifierType>
+				<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
 				<relatedObjectIdentifierValue><%= bs.uri %></relatedObjectIdentifierValue>
 			</relatedObjectIdentification>
 		</relationship>
@@ -81,7 +81,7 @@
 		<% end %>
 		
 		<linkingEventIdentifier>
-			<linkingEventIdentifierType>Temporary Local</linkingEventIdentifierType>
+			<linkingEventIdentifierType>URI</linkingEventIdentifierType>
 			<linkingEventIdentifierValue>1</linkingEventIdentifierValue>
 		</linkingEventIdentifier>
 	</object>
@@ -92,7 +92,7 @@
 	<% @result.bitstreams.each do |bs| %>
 	<object xsi:type="bitstream">
 		<objectIdentifier>
-			<objectIdentifierType>Temporary Local</objectIdentifierType>
+			<objectIdentifierType>URI</objectIdentifierType>
 			<objectIdentifierValue><%= bs.uri %></objectIdentifierValue>
 		</objectIdentifier>
 		<objectCharacteristics>
@@ -115,7 +115,7 @@
 	<!-- generate premis event -->
 	<event>
 		<eventIdentifier>
-			<eventIdentifierType>Temporary Local</eventIdentifierType>
+			<eventIdentifierType>URI</eventIdentifierType>
 			<eventIdentifierValue>1</eventIdentifierValue>
 		</eventIdentifier>
 		<eventType>Format Description</eventType>
@@ -138,7 +138,7 @@
 			<linkingAgentIdentifierValue><%= @agent_url %></linkingAgentIdentifierValue>
 		</linkingAgentIdentifier>
 		<linkingObjectIdentifier>
-			<linkingObjectIdentifierType>Temporary Local</linkingObjectIdentifierType>
+			<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
 			<linkingObjectIdentifierValue><%= @result.fileObject.uri %></linkingObjectIdentifierValue>
 		</linkingObjectIdentifier>
 	</event>
