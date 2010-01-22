@@ -1,7 +1,10 @@
 #!/usr/local/env ruby
 require 'rubygems' 
 require 'structures'
-require 'registry'
+require 'registry/format2validator'
+require 'registry/pronom_format'
+require 'registry/validator'
+require 'registry/registry'
 require 'DescribeLogger'
 require 'config'
 
@@ -26,7 +29,7 @@ class RJhove
 
     # make sure this is a valid format
     if (vdr.nil?)
-      DescribeLogger.instance.warn "no format for this format id #{format}"
+      DescribeLogger.instance.warn "no validator for this format id #{format}"
       result = nil
     else
       DescribeLogger.instance.info "validator id #{vdr.validator}"
@@ -42,7 +45,7 @@ class RJhove
         parser = eval(validator.class).new validator.parameter
 
         # retrive the format record
-        fmt = Format.instance.find_puid(format)
+        fmt = PRONOMFormat.instance.find_puid(format)
         DescribeLogger.instance.info "registry: #{fmt.registry} puid: #{fmt.puid}" 
         parser.setFormat(fmt.registry, fmt.puid)
 
@@ -75,7 +78,7 @@ class RJhove
         #set the format identifier if known
         if (formats.size ==  1)
           # retrive the format record
-          format = Format.instance.find_puid(formats.first)
+          format = PRONOMFormat.instance.find_puid(formats.first)
           parser.setFormat(format.registry, format.puid)
         end
         # validate and extract the metadata
@@ -112,7 +115,7 @@ class RJhove
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which one
-        format = Format.instance.find_puid(formats.first)
+        format = PRONOMFormat.instance.find_puid(formats.first)
         @result.fileObject.formatName = format.name
         @result.fileObject.registryName = format.registry
         @result.fileObject.registryKey = format.puid
@@ -120,7 +123,7 @@ class RJhove
       else
         # ambiguous formats, need to find a temporary format identifier for future resolution
         formatName = formats.map {|f| 
-          format = Format.instance.find_puid(f)
+          format = PRONOMFormat.instance.find_puid(f)
           s = String.new
           s += format.name
           s += ' ' + format.version if format.version

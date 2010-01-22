@@ -1,5 +1,7 @@
 #!/usr/local/env ruby
 
+# a placeholder for holding the extracted value from the format characterization.
+
 class Inhibitor
   attr_accessor :type
   attr_accessor :target

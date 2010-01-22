@@ -4,295 +4,245 @@
   <format>
 	<rid>x-fmt/13</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/14</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/15</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/16</rid>
 	<validator>utf8</validator>
-	<lookup>UTF-8</lookup>
   </format>
 
   <format>
 	<rid>x-fmt/110</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/111</rid>
 	<validator>ascii</validator>
-	<lookup>ASCII</lookup>
-
   </format>
 
   <format>
 	<rid>x-fmt/130</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/135</rid>
 	<validator>aiff</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/136</rid>
 	<validator>aiff</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/288</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/289</rid>
 	<validator>ascii</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/7</rid>
 	<validator>tif</validator>
-	<lookup>TIFF 3.0</lookup>
   </format>
 
   <format>
 	<rid>fmt/8</rid>
 	<validator>tif</validator>
-	<lookup>TIFF 4.0</lookup>
   </format>
 
   <format>
 	<rid>fmt/9</rid>
 	<validator>tif</validator>
-	<lookup>TIFF 5.0</lookup>
   </format>
 
   <format>
 	<rid>fmt/10</rid>
 	<validator>tif</validator>
-	<lookup>TIFF 6.0</lookup>
   </format>
 
   <format>
 	<rid>fmt/14</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.0</lookup>
   </format>
 
   <format>
 	<rid>fmt/15</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.1</lookup>
   </format>
 
   <format>
 	<rid>fmt/16</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.2</lookup>
   </format>
 
   <format>
 	<rid>fmt/17</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.3</lookup>
   </format>
 
   <format>
 	<rid>fmt/18</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.4</lookup>
   </format>
 
   <format>
 	<rid>fmt/19</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.5</lookup>
   </format>
 
   <format>
 	<rid>fmt/3</rid>
 	<validator>gif</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/4</rid>
 	<validator>gif</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/20</rid>
 	<validator>pdf</validator>
-	<lookup>PDF 1.6</lookup>
   </format>
 
   <format>
 	<rid>fmt/101</rid>
 	<validator>xml</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/97</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/98</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/99</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/100</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/102</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/103</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/96</rid>
 	<validator>html</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/6</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/2</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/42</rid>
 	<validator>jpeg</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/43</rid>
 	<validator>jpeg</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/44</rid>
 	<validator>jpeg</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/41</rid>
 	<validator>jpeg</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/387</rid>
 	<validator>tif</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/388</rid>
 	<validator>tif</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/389</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/392</rid>
 	<validator>jp2</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/1</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/396</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/397</rid>
 	<validator>wav</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>x-fmt/399</rid>
 	<validator>tif</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/121</rid>
 	<validator>xml</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/120</rid>
 	<validator>xml</validator>
-	<lookup xsi:nil="true" />
   </format>
 
   <format>
 	<rid>fmt/95</rid>
 	<validator>pdf</validator>
-	<lookup xsi:nil="true" />
   </format>
 </formats>

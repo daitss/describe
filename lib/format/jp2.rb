@@ -10,7 +10,7 @@ class JP2 < Image
     if (compression)
       bitstream.formatName = compression.content
     else 
-      bitstream.formatName = 'unknown'
+      bitstream.formatName = 'Unknown'
     end
     bitstream.objectExtension = @mix
     @bitstreams << bitstream
