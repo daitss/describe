@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<registries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/16</identifier>
+		<lookup>UTF-8</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/111</identifier>
+		<lookup>ASCII</lookup>
+	</registry>
+		
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/7</identifier>
+		<lookup>TIFF 3.0</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/8</identifier>
+		<lookup>TIFF 4.0</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/9</identifier>
+		<lookup>TIFF 5.0</lookup>
+	</registry>
+	
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/10</identifier>
+		<lookup>TIFF 6.0</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/155</identifier>
+		<lookup>Baseline GeoTIFF 1.0</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/95</identifier>
+		<lookup>ISO PDF/A-1, Level B</lookup>
+	</registry>
+
+</registries>
+		
