@@ -62,4 +62,4 @@ Usage
 
 Documentation
 -------------
-[development wiki](http://wiki.github.com/cchou/describe)
+[development wiki](http://wiki.github.com/daitss/describe/)
