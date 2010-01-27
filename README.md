@@ -9,7 +9,7 @@ Format Description Service
 Quickstart
 ----------
 	1. Retrieve a copy of the description service.  You can either create a local git clone of the description service, ex.
-	%git clone git://github.com/cchou/describe.git
+	%git clone git://github.com/daitss/describe.git
 	or download a copy from the download page.
 	
 	2. Test the installation via the test harness. 
