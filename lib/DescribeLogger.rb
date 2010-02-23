@@ -11,8 +11,8 @@ class DescribeLogger
     #add the file and stdout outputer
     fileoutput = Log4r::FileOutputter.new('fileoutput', :filename => @LOGGERNAME+'.log', :trunc =>false)
     logger.add(fileoutput)
-    stdoutput = Log4r::StdoutOutputter.new('stdout')
-    logger.add(stdoutput)
+    # stdoutput = Log4r::StdoutOutputter.new('stdout')
+    #  logger.add(stdoutput)
     
     #add a formatter to file output
     formatter = Log4r::PatternFormatter.new(:pattern => "[%l] %d %c: %m")

@@ -32,13 +32,13 @@
 				<% end %>
 			</format>
 			<% unless @result.fileObject.profiles.nil? or @result.fileObject.profiles.size < 1 %>
+			<% @result.fileObject.profiles.each do |profile| %>			
 			<format>
 				<formatDesignation>
-					<% @result.fileObject.profiles.each do |profile| %>
 					<formatName><%= profile %></formatName>
-					<% end %>
 				</formatDesignation>
 			</format>
+			<% end %>
 			<% end %>
 			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
 			<creatingApplication>
