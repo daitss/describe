@@ -27,6 +27,7 @@ require 'rjb'
 require 'structures'
 require 'erb'
 require 'digest/md5'
+require 'digest/sha1'
 require 'ftools'
 require 'pp'
 require 'net/http'
@@ -145,7 +146,7 @@ class Describe < Sinatra::Default
     validator = nil
 
     if request.env["HTTP_HOST"]
-      @agent_url = "http://" + request.env["HTTP_HOST"]  + request.env["PATH_INFO"]
+      @agent_url = "info:fda/daitss/description"
     else
       @agent_url =  "http://description.fcla.edu" + request.env["PATH_INFO"]
     end

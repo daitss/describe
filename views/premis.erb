@@ -13,6 +13,12 @@
 			<fixity>
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
 				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.location)) %></messageDigest>
+				<messageDigestOriginator>Archive</messageDigestOriginator>
+			</fixity>
+			<fixity>
+				<messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+				<messageDigest><%= Digest::SHA1.hexdigest(File.read(@result.fileObject.location)) %></messageDigest>
+				<messageDigestOriginator>Archive</messageDigestOriginator>
 			</fixity>
 			<size><%= @result.fileObject.size %></size>
 			<format>
