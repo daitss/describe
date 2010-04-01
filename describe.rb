@@ -4,12 +4,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
@@ -31,18 +31,9 @@ require 'digest/sha1'
 require 'ftools'
 require 'pp'
 require 'net/http'
+require 'jar'
 
-#load all required JAVA libraries.
-jar_pattern = File.expand_path File.join(File.dirname(__FILE__), 'jars', '*.jar')
-jars = Dir[jar_pattern].join ':'
-#Rjb::load jars
-
-ENV['CLASSPATH'] = if ENV['CLASSPATH']                                                                                                                        
-                     [jars, ENV['CLASSPATH']].join ':'
-                   else
-                     jars
-                   end
-
+Jar.load_jars
 
 class Describe < Sinatra::Default
   enable :logging
@@ -83,7 +74,7 @@ class Describe < Sinatra::Default
     else
        @originalName = url.path
     end
-    
+
     #uri parameter is optional, set the file url is uri param is not specified
     unless params['uri'].nil?
       @uri = params['uri']
@@ -109,17 +100,17 @@ class Describe < Sinatra::Default
   end
 
   # note: use /description to keep in sync with oss thin setup
-  post '/description' do 
+  post '/description' do
     halt 400, "query parameter document is required" unless params['document']
-    halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']  
-   
-    extension = params["extension"].to_s 
-    io = Tempfile.open("object") 
+    halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']
+
+    extension = params["extension"].to_s
+    io = Tempfile.open("object")
     @input = io.path + '.' + extension;
     io.close!
- 
+
     pp request.env
-    
+
     case params['document']
     when Hash
       puts params['document'][:tempfile].path
@@ -129,12 +120,12 @@ class Describe < Sinatra::Default
       tmp.write params['document']
       tmp.close
     end
-    
+
     pp params['document'][:filename]
-    
+
     @originalName = params['document'][:filename]
     puts "originalName:#{@originalName}"
-    # describe the transmitted file with format identifier and metadata 
+    # describe the transmitted file with format identifier and metadata
     description
     File.delete(@input)
     response.finish
@@ -164,12 +155,12 @@ class Describe < Sinatra::Default
     unless (@result.nil?)
       # build a response
       headers 'Content-Type' => 'application/xml'
-      
+
       @result.fileObject.originalName = @originalName
-      
+
       # dump the xml output to the response, pretty the xml output (ruby bug)
       body erb(:premis)
-  
+
       DescribeLogger.instance.info "HTTP 200"
     else
       throw :halt, [500, "unexpected empty response"]

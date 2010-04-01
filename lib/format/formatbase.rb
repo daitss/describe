@@ -5,9 +5,10 @@ require 'fileutils'
 require 'rjb'
 require 'config'
 require 'set'
+require 'jar'
 
 class FormatError < StandardError; end
-  
+
 class FormatBase
   NAMESPACES = {
    'jhove' => 'http://hul.harvard.edu/ois/xml/ns/jhove',
@@ -19,12 +20,12 @@ class FormatBase
   attr_reader :bitstreams
   attr_reader :anomaly
   attr_reader :status
-  
+
   def initialize(jhoveModule)
     @module = jhoveModule
     @anomaly = Set.new
     @bitstreams = Array.new
-    jhoveEngine = Rjb::import('shades.JhoveEngine')
+    jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
     @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 
@@ -33,7 +34,7 @@ class FormatBase
     @registry = registry
     @registryKey = registryKey
   end
-  
+
   def extractWOparse(input)
     # A temporary file to hold the jhove extraction result
     tmp = File.new("extract.xml", "w+")
@@ -47,22 +48,22 @@ class FormatBase
     @fileOjbect = nil
     @uri = uri
     @location = input
-    
+
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       tmp = File.new("extract.xml", "w+")
       output = tmp.path()
       tmp.close
       DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
-      @jhoveEngine.validateFile @module, input, output 
+      @jhoveEngine.validateFile @module, input, output
       begin
         io = open output
         XML.default_keep_blanks = false
         doc = XML::Document.io io
         # parse the jhove output, extracting only the information we need
-        parse(doc) 
+        parse(doc)
         # parse the validation result, record anomaly
-        messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES) 
+        messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES)
         messages.each do |msg|
           @anomaly.add msg.content
         end
@@ -90,7 +91,7 @@ class FormatBase
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
       raise FormatError.new("No JHOVE output")
-    end 
+    end
   end
 
   def recordFormat
@@ -106,14 +107,14 @@ class FormatBase
       end
       registry = Registry.instance.find_by_lookup(lookup)
 
-      # make sure there is a format registry record, 
+      # make sure there is a format registry record,
       # if the format identifier has been decided (by format identification), skip this
       unless (registry.nil?)
         @registry = registry.name
         @registryKey = registry.identifier
         DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
       end
-    
+
       # record format profiles in multiple format designation
       profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
       unless (profiles.nil?)
@@ -142,5 +143,5 @@ class FormatBase
     #jdoc.root = jdoc.import @jhove
     stylesheet.apply jdoc
   end
-  
+
 end
