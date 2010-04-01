@@ -145,13 +145,7 @@ class Describe < Sinatra::Default
     droid = RDroid.instance
     validator = nil
 
-    if request.env["HTTP_HOST"]
-      @agent_url = "info:fda/daitss/description"
-    else
-      @agent_url =  "http://description.fcla.edu" + request.env["PATH_INFO"]
-    end
- 
-    DescribeLogger.instance.info "describe #{@input}"
+    @agent_url = "info:fda/daitss/description/v0"
     # identify the file format
     @formats = droid.identify(@input)
 
