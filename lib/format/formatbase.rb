@@ -139,7 +139,7 @@ class FormatBase
 
     # apply the xslt
     jdoc = LibXML::XML::Document.string @jhove.to_s
-    #jdoc.root = jdoc.import @jhove
+    # jdoc.root = jdoc.import @jhove
     stylesheet.apply jdoc
   end
   
