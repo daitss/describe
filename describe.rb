@@ -44,7 +44,7 @@ ENV['CLASSPATH'] = if ENV['CLASSPATH']
                    end
 
 
-class Describe < Sinatra::Default
+class Describe < Sinatra::Base
   enable :logging
 
   set :root, File.dirname(__FILE__)
