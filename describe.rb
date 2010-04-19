@@ -35,7 +35,7 @@ require 'jar'
 
 Jar.load_jars
 
-class Describe < Sinatra::Default
+class Describe < Sinatra::Base
   enable :logging
 
   set :root, File.dirname(__FILE__)
@@ -75,7 +75,7 @@ class Describe < Sinatra::Default
        @originalName = url.path
     end
 
-    #uri parameter is optional, set the file url is uri param is not specified
+    # uri parameter is optional, set the file url is uri param is not specified
     unless params['uri'].nil?
       @uri = params['uri']
       puts @uri
@@ -136,7 +136,6 @@ class Describe < Sinatra::Default
     droid = RDroid.instance
     validator = nil
 
-    @agent_url = "info:fda/daitss/description/v0"
     # identify the file format
     @formats = droid.identify(@input)
 
