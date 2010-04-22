@@ -2,12 +2,13 @@ require 'describe'
 require 'fileutils'
 require 'spec'
 require 'spec/interop/test'
-require 'sinatra/test'
+require 'test/unit'
+require 'rack/test'
 
 set :environment, :test
 
 describe 'Describe Service' do
-  include Sinatra::Test
+  include Rack::Test::Methods
 
   abs = FileUtils.pwd
   before(:all) do
