@@ -33,6 +33,8 @@ require 'pp'
 require 'net/http'
 require 'jar'
 
+Rjb::load('.', ['-Dhttp.proxyHost=sake.fcla.edu','-Dhttp.proxyPort=3128'])
+
 Jar.load_jars
 
 class Describe < Sinatra::Base

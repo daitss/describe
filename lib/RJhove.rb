@@ -38,7 +38,7 @@ class RJhove
       # make sure there is a validator defined for this format
       unless (xml.nil?)    
         validator = Validator.new(@validators, "//validator[name/text()='#{vdr.validator}']")    
-        
+    
         # create the parser
         DescribeLogger.instance.info "validator: #{validator.class} method: #{validator.method}" 
         require "format/"+ validator.class.downcase
@@ -48,9 +48,9 @@ class RJhove
         fmt = PRONOMFormat.instance.find_puid(format)
         DescribeLogger.instance.info "registry: #{fmt.registry} puid: #{fmt.puid}" 
         parser.setFormat(fmt.registry, fmt.puid)
-
+   
         # validate and extract the metadata
-        result = parser.send validator.method, input
+        result = parser.send validator.method, input, input
       else
         DescribeLogger.instance.warn "No validator is defined for this format " + format
         result = nil
