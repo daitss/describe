@@ -32,8 +32,16 @@ require 'ftools'
 require 'pp'
 require 'net/http'
 require 'jar'
+require 'yaml'
+  
+# load in description service configuration parameter  
 
-Rjb::load('.', ['-Dhttp.proxyHost=sake.fcla.edu','-Dhttp.proxyPort=3128'])
+CONFIG = YAML.load_file config_file('describe.yml')
+
+# jvm options, for this to work it must be ran before any other rjb code
+if CONFIG["jvm-options"]
+  Rjb.load '.', CONFIG["jvm-options"]
+end
 
 Jar.load_jars
 
