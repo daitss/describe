@@ -245,4 +245,32 @@
 	<rid>fmt/95</rid>
 	<validator>pdf</validator>
   </format>
+  <format>
+	<rid>fmt/144</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/145</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/146</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/147</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/148</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/157</rid>
+	<validator>pdf</validator>
+  </format>
+  <format>
+	<rid>fmt/158</rid>
+	<validator>pdf</validator>
+  </format>
 </formats>
