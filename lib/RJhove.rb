@@ -118,6 +118,7 @@ class RJhove
         # we know which one
         format = PRONOMFormat.instance.find_puid(formats.first)
         @result.fileObject.formatName = format.name
+        @result.fileObject.formatVersion = format.version
         @result.fileObject.registryName = format.registry
         @result.fileObject.registryKey = format.puid
         @result.status = "format identified"
