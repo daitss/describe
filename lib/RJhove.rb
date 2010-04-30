@@ -25,7 +25,8 @@ class RJhove
   # given a tentative format id, extract technical metadata of the input file
   def extract(input, format)
     # retrieve the validator used for this format
-    vdr = Format2Validator.instance.find_by_rid(format)
+    vdr = Format2Validator.new
+    vdr.find_by_rid(format)
 
     # make sure this is a valid format
     if (vdr.nil?)
@@ -150,16 +151,13 @@ class RJhove
 
   def getValidator(formats)
     validators_list = nil
-    validator = nil
+    fmt2val = Format2Validator.new
 
     # Set does not allow duplicate, thus it makes sure only a unique validator is put into the ValidatorSet.
     validatorSet = Set.new
     formats.each do |format|
-      validator = Format2Validator.instance.find_by_rid(format)
-      unless validator.nil?
-        DescribeLogger.instance.info "#{format}"
-        validatorSet.add(validator.validator)
-      end
+      fmt2val.find_by_rid(format)
+      fmt2val.validators.each {|val| validatorSet.add(val)}
     end
 
     DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
