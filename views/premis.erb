@@ -55,20 +55,22 @@
 				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).xmlschema %></dateCreatedByApplication>
 			</creatingApplication>
 			<% end %>
+			<% unless @result.fileObject.inhibitors.nil? %>
+			<inhibitors>
+			<% @result.fileObject.inhibitors.each do |inh| %>
+				<inhibitorType><%= inh.type %></inhibitorType>
+				<inhibitorTarget><%= inh.target %></inhibitorTarget>
+				<% if inh.key %>
+					<inhibitorKey><%= inh.key %></inhibitorKey>
+				<% end %>
+			<% end %>
+			</inhibitors>
+			<% end %>
 			<%unless @result.fileObject.objectExtension.nil? %>
 			<objectCharacteristicsExtension>
 				<%= @result.fileObject.objectExtension %>
 			</objectCharacteristicsExtension>
 			<%end%>
-			<% unless @result.fileObject.inhibitors.nil? %>
-			<inhibitors>
-				<% @result.fileObject.inhibitors.each do |inh| %>
-				<inhibitorType><%= inh.type %></inhibitorType>
-				<inhibitorTarget><%= inh.target %></inhibitorTarget>
-				<inhibitorKey><%= inh.key %></inhibitorKey>
-				<% end %>
-			</inhibitors>
-			<% end %>
 		</objectCharacteristics>
 		<% if @result.fileObject.originalName %>
 		<originalName><%= @result.fileObject.originalName%></originalName>
