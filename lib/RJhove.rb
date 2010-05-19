@@ -103,6 +103,7 @@ class RJhove
     @result
   end
 
+  # retrieve general file format properties such as size and format information
   def retrieveFileProperties(input, formats, uri)
     @result = nil
     @result = Result.new
@@ -150,6 +151,7 @@ class RJhove
     @result
   end
 
+  # get the list of validators that may be used to validate the list of identified formats
   def getValidator(formats)
     validators_list = nil
     fmt2val = Format2Validator.new
@@ -174,6 +176,7 @@ class RJhove
     validators.sort
   end
 
+  # is the return status from the validator indicates that the file is valid?
   def isValid(status)
     valid = false
     unless status.nil?

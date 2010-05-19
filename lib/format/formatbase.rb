@@ -1,4 +1,5 @@
 require 'xml'
+ require 'libxslt'
 require 'structures'
 require 'DescribeLogger'
 require 'fileutils'
@@ -68,7 +69,7 @@ class FormatBase
           @anomaly.add msg.content
         end
         io.close
-        File.delete output
+        # File.delete output
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
       rescue  => ex
         DescribeLogger.instance.error ex
@@ -129,9 +130,6 @@ class FormatBase
     @fileObject.registryName = @registry
     @fileObject.registryKey = @registryKey
   end
-
-  require 'libxml'
-  require 'libxslt'
 
   def apply_xsl xsl_file_name
     stylesheet_file = xsl_file xsl_file_name
