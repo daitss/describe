@@ -31,9 +31,8 @@ class FormatBase
   end
 
   public
-  def setFormat(registry, registryKey)
-    @registry = registry
-    @registryKey = registryKey
+  def setPresumeFormat(format)
+    @presumeFormat = format
   end
 
   def extractWOparse(input)
@@ -95,40 +94,60 @@ class FormatBase
     end
   end
 
-  def recordFormat
-    #retreive the format name
-    unless (@jhove.find_first('//jhove:format', NAMESPACES).nil?)
-      @fileObject.formatName = @jhove.find_first('//jhove:format', NAMESPACES).content
-      # retrieve the format version
-      unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
-        @fileObject.formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
-        lookup = @fileObject.formatName.to_s + ' ' + @fileObject.formatVersion.to_s
-      else
-        lookup = @fileObject.formatName.to_s
-      end
-      registry = Registry.instance.find_by_lookup(lookup)
-
-      # make sure there is a format registry record,
-      # if the format identifier has been decided (by format identification), skip this
-      unless (registry.nil?)
-        @registry = registry.name
-        @registryKey = registry.identifier
-        DescribeLogger.instance.info "#{@registry} : #{@registryKey}"
-      end
-
-      # record format profiles in multiple format designation
-      profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
-      unless (profiles.nil?)
-        @fileObject.profiles = Array.new
-        # retrieve through all profiles
-        profiles.each do |p|
-          @fileObject.profiles << p.content
-          end
-      end
+  def formatLookup(formatName, formatVersion, presumeFormat)
+	fileformat = FileFormat.new
+	
+	# if there is already a determined presume format, use it as a baseline
+	fileformat = presumeFormat if presumeFormat
+	
+	fileformat.formatName = formatName
+	# construct the lookup string using formatName, formatVersion
+	if formatVersion
+	  fileformat.formatVersion = formatVersion
+	  lookup = formatName.to_s + ' ' + formatVersion.to_s
+    else
+      lookup = formatName.to_s
     end
 
-    @fileObject.registryName = @registry
-    @fileObject.registryKey = @registryKey
+	# lookup the registry entry
+    registry = Registry.instance.find_by_lookup(lookup)
+
+    # make sure there is a format registry record,
+    # if the format identifier has been decided (by format identification), skip this
+    unless (registry.nil?)
+      fileformat.registryName = registry.name
+      fileformat.registryKey = registry.identifier
+    end
+
+	# return fileformat
+	fileformat
+  end
+
+  # extract and process identified formats in JHOVE.
+  def recordFormat
+    #retrieve the format name
+    unless (@jhove.find_first('//jhove:format', NAMESPACES).nil?)
+      formatName = @jhove.find_first('//jhove:format', NAMESPACES).content
+	  formatVersion = nil
+      # retrieve format version
+      unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
+        formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
+      end
+
+	  fileformat = formatLookup(formatName, formatVersion, @presumeFormat)
+	  @fileObject.formats << fileformat
+
+      # record and lookup extracted format profiles from jhove
+      profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
+      if profiles
+        # retrieve all recognized profiles
+        profiles.each do |p|
+      	  fileformat = formatLookup(p.content, nil, nil)
+		  fileformat.formatNote = "Alternate Format"
+		  @fileObject.formats << fileformat
+        end
+      end
+    end
   end
 
   def apply_xsl xsl_file_name
