@@ -45,10 +45,8 @@ class RJhove
         require "format/"+ validator.class.downcase
         parser = eval(validator.class).new validator.parameter
 
-        # retrive the format record
-        fmt = PRONOMFormat.instance.find_puid(format)
-        DescribeLogger.instance.info "registry: #{fmt.registry} puid: #{fmt.puid}" 
-        parser.setFormat(fmt.registry, fmt.puid)
+		# set the presume format since we already determine the file foramt prior to validation. 
+        parser.setPresumeFormat(findFormat(format))
    
         # validate and extract the metadata
         result = parser.send validator.method, input, input
@@ -76,19 +74,16 @@ class RJhove
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
 
-        #set the format identifier if known
-        if (formats.size ==  1)
-          # retrive the format record
-          format = PRONOMFormat.instance.find_puid(formats.first)
-          parser.setFormat(format.registry, format.puid)
-        end
-        # validate and extract the metadata
+        # set the presume format if we can already determine the file foramt prior to validation. 
+        parser.setPresumeFormat(findFormat(formats.first)) if (formats.size ==  1)
+        
+        # validate and extract metadata
         @result.status = parser.send vdr.method, input, uri
         @result.anomaly = parser.anomaly
         @result.fileObject = parser.fileObject
         @result.bitstreams = parser.bitstreams
 
-        #if result shows an invalid file, try the next validator in the list if there is one
+        # if result shows an invalid file, try the next validator in the list if there is any
         if (@result.fileObject != nil && isValid(@result.status))
           DescribeLogger.instance.info "valid #{vdr.name}"
           break
@@ -96,12 +91,23 @@ class RJhove
       end
     else
       DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
-      # no validator, create the base validator to record the basic file properties
+      # no validator, retrieve the basic file metadata
       @result = retrieveFileProperties(input, formats, uri)
     end
 
     @result
   end
+
+  # given a puid, find the registry format information 
+  def findFormat(puid)
+	fileformat = FileFormat.new
+	format = PRONOMFormat.instance.find_puid(puid)
+  	fileformat.formatName = format.name
+   	fileformat.formatVersion = format.version
+   	fileformat.registryName = format.registry
+   	fileformat.registryKey = format.puid	
+	fileformat
+  end 
 
   # retrieve general file format properties such as size and format information
   def retrieveFileProperties(input, formats, uri)
@@ -116,36 +122,30 @@ class RJhove
     
     unless (formats.empty?)
       if (formats.size ==  1)
-        # we know which one
-        format = PRONOMFormat.instance.find_puid(formats.first)
-        @result.fileObject.formatName = format.name
-        @result.fileObject.formatVersion = format.version
-        @result.fileObject.registryName = format.registry
-        @result.fileObject.registryKey = format.puid
+        # we know which exactly what format this file is 
+		fileformat = findFormat(formats.first)
+        @result.fileObject.formats << fileformat
         @result.status = "format identified"
       else
-        # ambiguous formats, need to find a temporary format identifier for future resolution
-        formatName = formats.map {|f| 
-          format = PRONOMFormat.instance.find_puid(f)
-          s = String.new
-          s += format.name
-          s += ' ' + format.version if format.version
-          puts s
-          s
-          }.join ', '
-
-        @result.fileObject.formatName = formatName
+        # ambiguous formats, record all (based on premis data dictionary 2.0, page 196)
+        formatName = formats.each do |f| 
+		  fileformat = findFormat(f)
+		  fileformat.formatNote = "Candidate Format"
+          @result.fileObject.formats << fileformat
+          end
         @result.status = "multiple formats identified"
       end
     else
+	  fileformat = FileFormat.new
       # for empty file, the format Name should be 'N/A'
       if (File.zero?(input))
-        @result.fileObject.formatName = 'N/A'
+        fileformat.formatName = 'N/A'
       else
         # for unempty file that can't be identified, the format name is 'unknown'
-        @result.fileObject.formatName = 'unknown'
+        fileformat.formatName = 'unknown'
       end
-      @result.status = "cannot identify this file: #{input}"
+	  @result.fileObject.formats << fileformat
+      @result.status = "cannot identify file format of the file: #{input}"
     end
 
     @result
