@@ -21,30 +21,24 @@
 				<messageDigestOriginator>Archive</messageDigestOriginator>
 			</fixity>
 			<size><%= @result.fileObject.size %></size>
+			<% @result.fileObject.formats.each do |format| %>
 			<format>
-				<% if @result.fileObject.formatName %>
 				<formatDesignation>
-					<formatName><%= @result.fileObject.formatName %></formatName>
-					<% unless @result.fileObject.formatVersion.nil? %>
-					<formatVersion><%= @result.fileObject.formatVersion %></formatVersion>
+					<formatName><%= format.formatName %></formatName>
+					<% unless format.formatVersion.nil? %>
+					<formatVersion><%= format.formatVersion %></formatVersion>
 					<% end %>
 				</formatDesignation>
-				<% end %>
-				<% unless @result.fileObject.registryKey.nil? %>
+				<% unless format.registryKey.nil? %>
 				<formatRegistry>
-					<formatRegistryName><%= @result.fileObject.registryName %></formatRegistryName>
-					<formatRegistryKey><%= @result.fileObject.registryKey %></formatRegistryKey>
+					<formatRegistryName><%= format.registryName %></formatRegistryName>
+					<formatRegistryKey><%= format.registryKey %></formatRegistryKey>
+					<% unless format.formatNote.nil? %>
+					<formatNote><%= format.formatNote %></formatNote>
+					<% end %>
 				</formatRegistry>	
 				<% end %>
 			</format>
-			<% unless @result.fileObject.profiles.nil? or @result.fileObject.profiles.size < 1 %>
-			<% @result.fileObject.profiles.each do |profile| %>			
-			<format>
-				<formatDesignation>
-					<formatName><%= profile %></formatName>
-				</formatDesignation>
-			</format>
-			<% end %>
 			<% end %>
 			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
 			<creatingApplication>
