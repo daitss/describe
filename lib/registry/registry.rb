@@ -14,6 +14,7 @@ class Registry
     @doc = XML::Document.file config_file('registrylookup.xml')
   end
   
+  # find format registry entry by using the lookup string
   def find_by_lookup(lookup)
     baseURI = "//registry[lookup='#{lookup}']"
     xml = @doc.find_first(baseURI)
