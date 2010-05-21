@@ -17,7 +17,8 @@ Feature: retrieve the description on an unsupported resource
 	Scenario: resource can be identified as multiple formats but can not be validated or extracted.
 		Given a file whose format is mpeg
 		When describing the file
-		Then I should receive MPEG-1 Video Format, MPEG-2 Video Format on the format name
+		Then I should receive MPEG-1 Video Format on the format
+		And I should receive MPEG-2 Video Format on the format		
 		And the status should be ok
 		And the general metadata should exist
 		

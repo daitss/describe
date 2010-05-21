@@ -187,15 +187,14 @@ Then /^I should have (.+?) on the feature element$/ do |feature|
   $1.should == feature
 end
 
-Then /^I should receive (.+?) on the format profile$/ do |profile|
+Then /^I should receive (.+?) on the format$/ do |format|
   doc = XML::Document.string(last_response.body)
   # make sure the intended profile exist in the file format
   list = doc.find("//premis:object[@xsi:type='file']/premis:objectCharacteristics/premis:format", 'premis' => 'info:lc/xmlns/premis-v2')
   
   found = false
   list.each do |node|
-    puts node
-    if node.content.include? profile
+    if node.content.include? format
       found = true
     end
   end
