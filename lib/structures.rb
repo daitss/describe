@@ -1,11 +1,19 @@
 #!/usr/local/env ruby
 
-# a placeholder for holding the extracted value from the format characterization.
+# a placeholder for holding the extracted values from the format characterization.
 
 class Inhibitor
   attr_accessor :type
   attr_accessor :target
   attr_accessor :key
+end
+
+class FileFormat
+  attr_accessor :registryName
+  attr_accessor :registryKey
+  attr_accessor :formatName
+  attr_accessor :formatVersion
+  attr_accessor :formatNote
 end
 
 class FileObject
@@ -14,16 +22,16 @@ class FileObject
   attr_accessor :size
   attr_accessor :originalName
   attr_accessor :compositionLevel
-  attr_accessor :registryName
-  attr_accessor :registryKey
-  attr_accessor :formatName
-  attr_accessor :formatVersion
-  attr_accessor :profiles
+  attr_accessor :formats
   attr_accessor :objectExtension
   attr_accessor :inhibitors
   attr_accessor :createAppName
   attr_accessor :createAppVersion
   attr_accessor :createDate
+
+  def initialize
+ 	@formats = Array.new
+  end
 end
 
 class BitstreamObject
