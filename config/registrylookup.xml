@@ -39,8 +39,40 @@
 
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
-		<identifier>fmt/155</identifier>
-		<lookup>Baseline GeoTIFF 1.0</lookup>
+		<identifier>fmt/14</identifier>
+		<lookup>PDF 1.0</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/15</identifier>
+		<lookup>PDF 1.1</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/16</identifier>
+		<lookup>PDF 1.2</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/17</identifier>
+		<lookup>PDF 1.3</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/18</identifier>
+		<lookup>PDF 1.4</lookup>
+	</registry>
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/19</identifier>
+		<lookup>PDF 1.5</lookup>
+	</registry>
+	
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/20</identifier>
+		<lookup>PDF 1.6</lookup>
 	</registry>
 
 	<registry>

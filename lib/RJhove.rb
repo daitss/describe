@@ -89,6 +89,14 @@ class RJhove
           break
         end
       end
+      # for consistency, use the format name and version in the registry instead of using the validator output
+      @result.fileObject.formats.each do |format| 
+		f = PRONOMFormat.instance.find_puid(format.registryKey)
+		if f
+	  	  format.formatName = f.name
+	   	  format.formatVersion = f.version
+	    end
+	  end
     else
       DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
       # no validator, retrieve the basic file metadata

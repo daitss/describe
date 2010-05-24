@@ -88,7 +88,6 @@ class Describe < Sinatra::Base
     # uri parameter is optional, set the file url is uri param is not specified
     unless params['uri'].nil?
       @uri = params['uri']
-      puts @uri
     else
       @uri = @input
     end
@@ -123,7 +122,6 @@ class Describe < Sinatra::Base
 
     case params['document']
     when Hash
-      puts params['document'][:tempfile].path
       File.link(params['document'][:tempfile].path, @input)
     when String
       tmp = File.new(@input, "w+")
@@ -134,7 +132,6 @@ class Describe < Sinatra::Base
     pp params['document'][:filename]
 
     @originalName = params['document'][:filename]
-    puts "originalName:#{@originalName}"
     # describe the transmitted file with format identifier and metadata
     description
     File.delete(@input)
@@ -157,8 +154,8 @@ class Describe < Sinatra::Base
         @result = jhove.extractAll(@input, @formats,  @uri)
       end
     rescue => e
-      puts "running into exception #{e}"
-      puts e.backtrace
+      DescribeLogger.instance.error "running into exception #{e}"
+      DescribeLogger.instance.error e.backtrace
     end
 
     unless (@result.nil?)

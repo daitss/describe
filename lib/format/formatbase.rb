@@ -17,10 +17,10 @@ class FormatBase
     'aes' => 'http://www.aes.org/audioObject'
   }
 
-  attr_reader :fileObject
-  attr_reader :bitstreams
-  attr_reader :anomaly
-  attr_reader :status
+  attr_reader :fileObject # a fileObject to hold the extracted file and format metadata from the described file
+  attr_reader :bitstreams # a bitstream object to hold the extracted bitstream metadata for the described file
+  attr_reader :anomaly # anomaly found during format validation
+  attr_reader :status  # validation status
 
   def initialize(jhoveModule)
     @module = jhoveModule
@@ -94,6 +94,7 @@ class FormatBase
     end
   end
 
+  # given an know format name and version, find the corresponding format entry in the format registry
   def formatLookup(formatName, formatVersion, presumeFormat)
 	fileformat = FileFormat.new
 	
@@ -112,7 +113,7 @@ class FormatBase
 	# lookup the registry entry
     registry = Registry.instance.find_by_lookup(lookup)
 
-    # make sure there is a format registry record,
+    # make sure there is a format registry record
     # if the format identifier has been decided (by format identification), skip this
     unless (registry.nil?)
       fileformat.registryName = registry.name
@@ -133,7 +134,7 @@ class FormatBase
       unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
         formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
       end
-
+	  
 	  fileformat = formatLookup(formatName, formatVersion, @presumeFormat)
 	  @fileObject.formats << fileformat
 
