@@ -90,7 +90,7 @@ class FormatBase
       recordFormat
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
-      raise FormatError.new("No JHOVE output")
+      raise FormatError.new("Running into prolems during JHOVE validation and charaterization.  No JHOVE output")
     end
   end
 
@@ -151,6 +151,7 @@ class FormatBase
     end
   end
 
+  # apply stylesheet into an xml document
   def apply_xsl xsl_file_name
     stylesheet_file = xsl_file xsl_file_name
     stylesheet_doc = open(stylesheet_file) { |io| LibXML::XML::Document::io io }
