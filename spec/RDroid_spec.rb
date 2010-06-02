@@ -1,3 +1,6 @@
+require 'rubygems'
+require "bundler"
+Bundler.setup
 require 'RDroid'
 require 'rjb'
 
@@ -6,7 +9,7 @@ describe RDroid do
     #load all required JAVA library.
     Rjb::load('jars/jhove.jar:jars/jhove-module.jar:jars/jhove-handler.jar:jars/shades.jar:jars/droid.jar')
     @droid = RDroid.instance
-  end 
+  end
 
   it "return an error exception if nil" do
     lambda {@droid.identify(nil)}.should raise_error

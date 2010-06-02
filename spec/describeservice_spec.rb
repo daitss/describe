@@ -1,3 +1,6 @@
+require 'rubygems'
+require "bundler"
+Bundler.setup
 require 'describe'
 require 'fileutils'
 require 'spec'

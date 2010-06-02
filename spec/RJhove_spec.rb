@@ -1,3 +1,6 @@
+require 'rubygems'
+require "bundler"
+Bundler.setup
 require 'RJhove'
 require 'rjb'
 
@@ -29,7 +32,7 @@ describe RJhove do
     xml = nil
 
    # lambda {xml = @jhove.extract(input, "fmt/19")}.should_not raise_error
-   
+
    xml = @jhove.extract("files/choi_s.pdf", "fmt/19")
     #check the output
     lambda {xml.nil?}.call.should be_false

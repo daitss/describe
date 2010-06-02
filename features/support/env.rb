@@ -1,17 +1,20 @@
-require File.dirname(__FILE__) + "/../../describe"
-
-# Force the application name because polyglot breaks the auto-detection logic.
-Sinatra::Application.app_file = File.join(File.dirname(__FILE__), "/../../describe")
+require "rubygems"
+require "bundler"
+Bundler.setup
 require 'rack/test'
-# RSpec matchers
 require 'spec/expectations'
 
-Sinatra::Application.set :environment, :development
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
+require File.dirname(__FILE__) + "/../../describe"
+
+Sinatra::Application.set :environment, :test
 
 World do
+
   def app
-      Describe
+    Sinatra::Application
   end
+
   include Rack::Test::Methods
   # include Webrat::Methods
   # include Webrat::Matchers

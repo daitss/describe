@@ -1,17 +1,11 @@
 require 'rubygems'
-require 'sinatra'
-$:.unshift '/var/www/html/description/lib'
+require 'bundler'
+Bundler.setup
 
-require '/var/www/html/description/describe.rb'
-Sinatra::Default.set(:run, false)
+$LOAD_PATH.unshift File.join File.dirname(__FILE__), 'lib'
+require 'describe'
 
-Rack::Handler::Thin.run Describe, :Port => 4577
+set :env, :production
+disable :run, :reload
 
-# require 'rubygems'
-# require 'sinatra'
-# 
-# log = File.new("log/describe.log", "a")
-# STDOUT.reopen(log)
-# STDERR.reopen(log)
-#  
-# Rack::Handler::Thin.run Describe, :Port => 4577
+run Sinatra::Application
