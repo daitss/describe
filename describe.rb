@@ -46,7 +46,7 @@ end
 Jar.load_jars
 
 class Describe < Sinatra::Base
-  enable :logging
+  enable :logging  # enable default sinatra logging
 
   set :root, File.dirname(__FILE__)
 
@@ -110,16 +110,19 @@ class Describe < Sinatra::Base
 
   # note: use /description to keep in sync with oss thin setup
   post '/description' do
-    halt 400, "query parameter document is required" unless params['document']
+    # make sure expected input parameters are specified
+    halt 400, "Query parameter document is required" unless params['document']
     halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']
 
+    # retrieve input aprameters.
     extension = params["extension"].to_s
     io = Tempfile.open("object")
     @input = io.path + '.' + extension;
     io.close!
 
-    pp request.env
-
+    # pp request.env
+	
+	# retrieve the uploaded file and store it into a temp file.
     case params['document']
     when Hash
       File.link(params['document'][:tempfile].path, @input)
@@ -143,33 +146,37 @@ class Describe < Sinatra::Base
     droid = RDroid.instance
     validator = nil
 
-    # identify the file format
-    @formats = droid.identify(@input)
-
     begin
+      # identify the file format
+      @formats = droid.identify(@input)
+
       if (@formats.empty?)
+        # if the input resource is an unknown format to our archive, still extract the genreal file properties.
         @result = jhove.retrieveFileProperties(@input, @formats, @uri)
       else
         # extract the technical metadata
         @result = jhove.extractAll(@input, @formats,  @uri)
       end
+
+      unless (@result.nil?)
+  		# perform needed post format characterization processing
+        @result.fileObject.trimFormatList
+
+        @result.fileObject.originalName = @originalName
+        # build a response
+        headers 'Content-Type' => 'application/xml'
+
+        # dump the xml output to the response, pretty the xml output (ruby bug)
+        body erb(:premis)
+        DescribeLogger.instance.info "HTTP 200"
+      else
+        throw :halt, [500, "unexpected empty response"]
+      end
+
     rescue => e
       DescribeLogger.instance.error "running into exception #{e}"
       DescribeLogger.instance.error e.backtrace
-    end
-
-    unless (@result.nil?)
-      # build a response
-      headers 'Content-Type' => 'application/xml'
-
-      @result.fileObject.originalName = @originalName
-
-      # dump the xml output to the response, pretty the xml output (ruby bug)
-      body erb(:premis)
-
-      DescribeLogger.instance.info "HTTP 200"
-    else
-      throw :halt, [500, "unexpected empty response"]
+      throw :halt, [500, "running into exception #{e}"]
     end
   end
 end

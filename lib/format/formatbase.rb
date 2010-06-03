@@ -90,7 +90,7 @@ class FormatBase
       recordFormat
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
-      raise FormatError.new("Running into prolems during JHOVE validation and charaterization.  No JHOVE output")
+      raise FormatError.new("Running into prolems during JHOVE validation and charaterization.  No JHOVE output is generated.")
     end
   end
 

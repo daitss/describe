@@ -5,8 +5,27 @@ match all PDF formats including "Acrobat PDF 1.0 - Portable Document Format", "A
 etc. -->
 
 <format-tree>
-	<branch format="*Portable Document Format">
-		<branch format="*PDF/A*"/>
-		<branch format="*PDF/X*"/>
+	<branch>
+		<format>Acrobat PDF 1.0 - Portable Document Format</format>
+		<format>Acrobat PDF 1.1 - Portable Document Format</format>
+		<format>Acrobat PDF 1.2 - Portable Document Format</format>
+		<format>Acrobat PDF 1.3 - Portable Document Format</format>
+		<format>Acrobat PDF 1.4 - Portable Document Format</format>
+		<format>Acrobat PDF 1.5 - Portable Document Format</format>	
+		<format>Acrobat PDF 1.6 - Portable Document Format</format>								
+		<branch>
+			<format>Acrobat PDF/A - Portable Document Format</format>
+			<format>Acrobat PDF/X - Portable Document Format - Exchange 1:1999</format>
+		</branch>
 	</branch>
+	<branch>
+		<format>Tagged Image File Format</format>						
+		<branch>
+			<format>Tagged Image File Format for Image Technology (TIFF/IT)</format>
+			<format>Tagged Image File Format for Electronic Still Picture Imaging (TIFF/EP)</format>
+			<format>Tagged Image File Format for Internet Fax (TIFF-FX)</format>			
+			<format>GeoTIFF</format>			
+			<format>Digital Negative Format (DNG)</format>
+		</branch>
+	</branch>	
 </format-tree>

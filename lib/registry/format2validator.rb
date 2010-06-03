@@ -1,5 +1,4 @@
 require 'xml'
-require 'singleton'
 require 'config'
 
 # Format2Validator class performs validator lookup by registry id
