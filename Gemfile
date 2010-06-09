@@ -6,7 +6,7 @@ gem "libxml-ruby", "~>1.1", :require => 'libxml'
 gem "libxslt-ruby", "~>0.9", :require => 'libxslt'
 
 group :test do
-  gem "cucumber", "~>0.7", :require => "spec"
+  gem "cucumber", "~>0.7"
   gem "rspec", "~>1.3", :require => "spec"
   gem "ruby-debug", "~>0.10", :require => "spec"
   gem "rack-test", "~>0.5", :require => 'rack/test'
