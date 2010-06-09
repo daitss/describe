@@ -18,25 +18,52 @@
 		<identifier>fmt/7</identifier>
 		<lookup>TIFF 3.0</lookup>
 	</registry>
-
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/8</identifier>
 		<lookup>TIFF 4.0</lookup>
 	</registry>
-
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/9</identifier>
 		<lookup>TIFF 5.0</lookup>
 	</registry>
-	
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/10</identifier>
 		<lookup>TIFF 6.0</lookup>
 	</registry>
-
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/153</identifier>
+		<lookup>TIFF/IT</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/154</identifier>
+		<lookup>TIFF/EP</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/155</identifier>
+		<lookup>Baseline GeoTIFF 1.0</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/399</identifier>
+		<lookup>Exif 2.0 (JEIDA-49-1998)</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/388</identifier>
+		<lookup>Exif 2.1 (JEIDA-49-1998)</lookup>
+	</registry>		
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/387</identifier>
+		<lookup>Exif 2.2 (JEITA CP-3451)</lookup>
+	</registry>
+					
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/14</identifier>
@@ -62,19 +89,16 @@
 		<identifier>fmt/18</identifier>
 		<lookup>PDF 1.4</lookup>
 	</registry>
-
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/19</identifier>
 		<lookup>PDF 1.5</lookup>
 	</registry>
-	
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/20</identifier>
 		<lookup>PDF 1.6</lookup>
 	</registry>
-
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/95</identifier>

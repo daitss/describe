@@ -1,5 +1,4 @@
 require 'xml'
-require 'singleton'
 require 'config'
 
 class Validator
@@ -21,4 +20,5 @@ class Validator
   def <=>(other)
     other.priority <=> self.priority
   end
+
 end
