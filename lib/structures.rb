@@ -5,6 +5,10 @@
 # see Premis data dictionary 2.0 for explaination of the metadata.
 
 require 'registry/format_tree'
+require 'registry/fda_format'
+require 'ruby-debug'
+
+class FormatError < StandardError; end
 
 # metadata related to inhibitor
 class Inhibitor
@@ -20,6 +24,17 @@ class FileFormat
   attr_accessor :formatName
   attr_accessor :formatVersion
   attr_accessor :formatNote
+
+  # returns true if other is the same format
+  def ==(other)
+	@formatName == other.formatName and @registryKey == other.registryKey
+  end
+
+  alias_method :eql?, :==
+
+  def hash
+    @formatName.hash
+  end
 end
 
 # extracted metadata of a file object
@@ -56,8 +71,23 @@ class FileObject
 		end
 	  end
 	end
+	# trim duplicate formats, duplicate may occurs because JHOVE sometimes dumps out profile (ex. JP2) that is already an format.
+	formats.uniq!
   end
 
+  # make sure all formats have associated format registry id.  Otherwise, look up the fda format registry to
+  # retrieve the locally defined format id.  
+  def resolveFormats
+	fdaRegistry = FDAFormat.new
+	formats.each do |format|
+	  if format.registryName.nil?
+		fmt = fdaRegistry.find(format.formatName)
+		# raise FormatError.new("No format registry defined for format name #{format.formatName}.") if fmt.nil?
+		format.registryName = fmt.registry unless fmt.nil?
+		format.registryKey = fmt.id unless fmt.nil?
+	  end
+	end
+  end
 end
 
 # extracted metadata of a bitstream object

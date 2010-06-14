@@ -8,8 +8,6 @@ require 'config'
 require 'set'
 require 'jar'
 
-class FormatError < StandardError; end
-
 class FormatBase
   NAMESPACES = {
    'jhove' => 'http://hul.harvard.edu/ois/xml/ns/jhove',
@@ -98,7 +96,7 @@ class FormatBase
   def formatLookup(formatName, formatVersion, presumeFormat)
 	fileformat = FileFormat.new
 	
-	# if there is already a determined presume format, use it as a baseline
+	# if there is already a determined presume format, use it as the baseline
 	fileformat = presumeFormat if presumeFormat
 	
 	fileformat.formatName = formatName
@@ -114,7 +112,6 @@ class FormatBase
     registry = Registry.instance.find_by_lookup(lookup)
 
     # make sure there is a format registry record
-    # if the format identifier has been decided (by format identification), skip this
     unless (registry.nil?)
       fileformat.registryName = registry.name
       fileformat.registryKey = registry.identifier

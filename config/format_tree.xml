@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- A format tree specifying formats from general to specific.  The "format" attribute is denoted as a search 
+<!-- A format tree specifying formats from general to the most specific.  The "format" attribute is denoted as a search 
 string where * character is used in a way similar to wild card search. Therefore, "*Portable Document Format" will
 match all PDF formats including "Acrobat PDF 1.0 - Portable Document Format", "Acrobat PDF 1.1 - Portable Document Format",
 etc. -->
