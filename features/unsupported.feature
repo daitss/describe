@@ -2,7 +2,7 @@ Feature: retrieve the description on an unsupported resource
 	Scenario: format of the resource cannot be identified
 		Given a file with unknown format 
 		When describing the file
-		Then I should receive unknown on the format name
+		Then I should receive Unknown on the format name
 		And the status should be ok
 		And the general metadata should exist
 		

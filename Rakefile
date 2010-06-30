@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/rdoctask'
-require 'spec/rake/spectask'
+#require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new

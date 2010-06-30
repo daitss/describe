@@ -98,6 +98,7 @@
 
   <format>
 	<rid>x-fmt/392</rid>
+	<rid>fmt/151</rid>
 	<validator>jp2</validator>
   </format>
 

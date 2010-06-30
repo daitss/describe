@@ -150,9 +150,12 @@ def description
       # extract the technical metadata
       @result = jhove.extractAll(@input, @formats,  @uri)
     end
+	@result.fileObject.trimFormatList
+	@result.fileObject.resolveFormats
   rescue => e
     DescribeLogger.instance.error "running into exception #{e}"
     DescribeLogger.instance.error e.backtrace
+	throw :halt, [500, "running into exception #{e}"]
   end
 
   unless (@result.nil?)

@@ -37,11 +37,18 @@
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/153</identifier>
 		<lookup>TIFF/IT</lookup>
+		<lookup>TIFF/IT-CT (ISO 12639:1998)</lookup>
+		<lookup>TIFF/IT-LW (ISO 12639:1998)</lookup>
+		<lookup>TIFF/IT-HC (ISO 12639:1998)</lookup>
+		<lookup>TIFF/IT-MP (ISO 12639:1998)</lookup>	
+		<lookup>TIFF/IT-BP (ISO 12639:1998)</lookup>
+		<lookup>TIFF/IT-BL (ISO 12639:1998)</lookup>
+		<lookup>TIFF/IT-FP (ISO 12639:1998)</lookup>											
 	</registry>
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/154</identifier>
-		<lookup>TIFF/EP</lookup>
+		<lookup>TIFF/EP (ISO 12234-2:2001)</lookup>
 	</registry>
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
@@ -64,6 +71,17 @@
 		<lookup>Exif 2.2 (JEITA CP-3451)</lookup>
 	</registry>
 					
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/392</identifier>
+		<lookup>JP2</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/151</identifier>
+		<lookup>JPX</lookup>
+	</registry>
+						
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/14</identifier>

@@ -150,7 +150,7 @@ class RJhove
         fileformat.formatName = 'N/A'
       else
         # for unempty file that can't be identified, the format name is 'unknown'
-        fileformat.formatName = 'unknown'
+        fileformat.formatName = 'Unknown'
       end
 	  @result.fileObject.formats << fileformat
       @result.status = "cannot identify file format of the file: #{input}"

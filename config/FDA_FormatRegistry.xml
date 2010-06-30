@@ -1,0 +1,9 @@
+<FDAFormatCollection xmlns="info:fda//www.fcla.edu/fda/format" Version="1" DateCreated="2010-06-10T23:45:04">
+   <Format ID="fmt/1" Name="Unknown"></Format>
+   <Format ID="fmt/2" Name="N/A"></Format>	
+   <Format ID="fmt/3" Name="DLF Benchmark for Faithful Digital Reproductions of Monographs and Serials"></Format>	
+   <Format ID="fmt/4" Name="Baseline bilevel (Class B)"></Format>	
+   <Format ID="fmt/5" Name="Baseline grayscale (Class G)"></Format>	
+   <Format ID="fmt/6" Name="Baseline palette-color (Class P)"></Format>	
+   <Format ID="fmt/7" Name="Baseline RGB (Class R)"></Format>
+</FDAFormatCollection>
