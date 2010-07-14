@@ -60,13 +60,13 @@ specs:
 - trollop: 
     version: 1.16.2
 - gherkin: 
-    version: 2.0.2
+    version: 2.1.4
 - json_pure: 
     version: 1.4.3
 - term-ansicolor: 
     version: 1.0.5
 - cucumber: 
-    version: 0.8.3
+    version: 0.8.5
 - daemons: 
     version: 1.1.0
 - eventmachine: 
@@ -95,7 +95,7 @@ specs:
     version: "1.0"
 - thin: 
     version: 1.2.7
-hash: baec620949e6c7c389745bb765886ae28f464ba5
+hash: 845c8a6c40ad740abc28e517f0450e0ea4cbeb55
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
