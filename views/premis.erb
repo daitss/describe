@@ -28,14 +28,15 @@
 					<% unless format.formatVersion.nil? %>
 					<formatVersion><%= format.formatVersion %></formatVersion>
 					<% end %>
+					<% unless format.formatNote.nil? %>
+						<formatNote><%= format.formatNote %></formatNote>
+					<% end %>
 				</formatDesignation>
 				<% unless format.registryKey.nil? %>
 				<formatRegistry>
 					<formatRegistryName><%= format.registryName %></formatRegistryName>
 					<formatRegistryKey><%= format.registryKey %></formatRegistryKey>
-					<% unless format.formatNote.nil? %>
-					<formatNote><%= format.formatNote %></formatNote>
-					<% end %>
+				
 				</formatRegistry>	
 				<% end %>
 			</format>
