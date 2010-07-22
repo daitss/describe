@@ -154,7 +154,7 @@ def description
 	@result.fileObject.resolveFormats
   rescue => e
     DescribeLogger.instance.error "running into exception #{e}"
-    DescribeLogger.instance.error e.backtrace
+    DescribeLogger.instance.error e.backtrace.join("\n")
 	throw :halt, [500, "running into exception #{e}"]
   end
 
