@@ -28,14 +28,16 @@
 					<% unless format.formatVersion.nil? %>
 					<formatVersion><%= format.formatVersion %></formatVersion>
 					<% end %>
-			</formatDesignation>
+				</formatDesignation>
 				<% unless format.registryKey.nil? %>
 				<formatRegistry>
 					<formatRegistryName><%= format.registryName %></formatRegistryName>
 					<formatRegistryKey><%= format.registryKey %></formatRegistryKey>
-				
 				</formatRegistry>	
 				<% end %>
+				<% unless format.formatNote.nil? %>
+	            <formatNote><%= format.formatNote %></formatNote>
+			    <% end %>
 			</format>
 			<% end %>
 			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
