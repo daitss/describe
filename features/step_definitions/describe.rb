@@ -70,6 +70,10 @@ Given /^a PDF with annotations$/ do
  @file = "file://#{abs}/files/outalbert_j.pdf"
 end
 
+Given /^a PDF with CreatingApplication but not CreateDate$/ do
+ @file = "file://#{abs}/files/00020.pdf"
+end
+
 Given /^tiff with application metadata$/ do
   @file = "file://#{abs}/files/MM00000285.tif"
 end
