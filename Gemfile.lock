@@ -60,7 +60,7 @@ specs:
 - trollop: 
     version: 1.16.2
 - gherkin: 
-    version: 2.1.4
+    version: 2.1.5
 - json_pure: 
     version: 1.4.3
 - term-ansicolor: 
@@ -84,7 +84,7 @@ specs:
 - rack-test: 
     version: 0.5.4
 - rjb: 
-    version: 1.2.5
+    version: 1.2.6
 - rspec: 
     version: 1.3.0
 - ruby-debug-base: 
@@ -95,7 +95,7 @@ specs:
     version: "1.0"
 - thin: 
     version: 1.2.7
-hash: 845c8a6c40ad740abc28e517f0450e0ea4cbeb55
+hash: da45e151d488e230a7c808e03fbc7013ec6970f4
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
