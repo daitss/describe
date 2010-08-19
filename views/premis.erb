@@ -2,7 +2,7 @@
 
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
 	<% unless @result.fileObject.nil? %>
-	<!-- generate premis file object -->
+	<!-- premis file object -->
 	<object xsi:type="file">
 		<objectIdentifier>
 			<objectIdentifierType>URI</objectIdentifierType>
@@ -46,7 +46,9 @@
 				<% if @result.fileObject.createAppVersion %>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
 				<% end %>
+				<% if @result.fileObject.createDate %>
 				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).xmlschema %></dateCreatedByApplication>
+				<% end %>
 			</creatingApplication>
 			<% end %>
 			<% unless @result.fileObject.inhibitors.nil? %>
@@ -90,7 +92,7 @@
 	<% end %>
 
 	<% unless @result.bitstreams.nil? %>
-	<!-- generate premis bitstream object -->
+	<!-- premis bitstream object -->
 	<% @result.bitstreams.each do |bs| %>
 	<object xsi:type="bitstream">
 		<objectIdentifier>
@@ -114,7 +116,7 @@
 	<% end %>
 	<% end %>
 
-	<!-- generate premis event -->
+	<!-- premis event -->
 	<event>
 		<eventIdentifier>
 			<eventIdentifierType>URI</eventIdentifierType>
@@ -145,7 +147,7 @@
 		</linkingObjectIdentifier>
 	</event>
 
-<!-- generate premis agent -->
+<!-- premis agent -->
 <agent>
 	<agentIdentifier>
 		<agentIdentifierType>URI</agentIdentifierType>
