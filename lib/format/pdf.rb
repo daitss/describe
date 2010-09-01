@@ -1,12 +1,11 @@
 require 'format/formatbase'
-
+require 'erb'
 class PDF < FormatBase
 
   def parse(xml)
     super
     # retrieve and dump the PDF metadata
     pdfMD = @jhove.find_first('//jhove:property[jhove:name/text()="PDFMetadata"]', NAMESPACES)
-    # puts pdfMD
     unless (pdfMD.nil?)
       # check if the pdf is encrypted
       encrypt = pdfMD.find_first('//jhove:property[jhove:name/text()="Encryption"]', NAMESPACES)
@@ -37,10 +36,40 @@ class PDF < FormatBase
       end
 
       # convert to doc schema        
-      DescribeLogger.instance.info "transforming JHOVE output to DocMD"
-      @fileObject.objectExtension = apply_xsl("pdf2DocMD.xsl").root
+  	  DescribeLogger.instance.info "transforming JHOVE output to DocMD"
+      nodes = pdfMD.find("//jhove:property[jhove:name='Page']", NAMESPACES)
+      @pageCount = nodes.size
+	
+	  if pdfMD.find_first("//jhove:property[jhove:name='Language']", NAMESPACES)
+	 	@language =  pdfMD.find_first("//jhove:property[jhove:name='Language']/jhove:values/jhove:value", NAMESPACES).content
+	  end
+	
+	  @fonts = Hash.new
+	  nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)	
+	  nodes.each do |font|
+		fontname = font.find_first("jhove:values/jhove:property[jhove:name='FontName']/jhove:values/jhove:value", NAMESPACES).content
+		# remove font substitution string (every character before +)
+		subfont = fontname.split("+")
+		fontname = subfont.last
+ 	    hasfontfile = font.find_first("jhove:values/jhove:property[starts-with(jhove:name, 'FontFile')]/jhove:values/jhove:value", NAMESPACES)
+		isEmbedded = 'false'
+ 	    isEmbedded = 'true' if hasfontfile && hasfontfile.content.eql?('true')
+		@fonts[fontname] = isEmbedded
+	  end
 
-      # retrieve all image bitstreams
+      @features = Array.new
+      @features << "isTagged" if pdfMD.find_first("//jhove:profiles[jhove:profile='Tagged PDF']", NAMESPACES)
+      @features << "hasOutline" if pdfMD.find_first("//jhove:property[jhove:name='Outlines']", NAMESPACES)
+      thumbnail = pdfMD.find_first("//jhove:property[jhove:name='Thumb']/jhove:values/jhove:value", NAMESPACES)
+  	  @features << "hasThumbnails" if thumbnail && thumbnail.content.eql?('true')   
+      @features << "hasAnnotations" if pdfMD.find_first("//jhove:property[jhove:name='Annotation']", NAMESPACES)
+
+	  docmd = File.read("views/docmd.erb").to_s
+      docmdTemplate = ERB.new(docmd)
+	  @fileObject.objectExtension = docmdTemplate.result(binding)
+      # @fileObject.objectExtension = apply_xsl("pdf2DocMD.xsl").root
+
+      # retrieve all image bitstreams inside the pdf
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
       sequence = 1
       nodes.each do |node|
