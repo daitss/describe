@@ -3,10 +3,7 @@
 		<PageCount><%= @pageCount %></PageCount>
 		<Language><%= @language %></Language>
 		<% @fonts.each do |fontname, isEmbedded| %>
-		<Font>
-			<FontName><%= fontname %></FontName>
-			<isEmbedded><%= isEmbedded %></isEmbedded>
-		</Font>
+		<Font FontName="<%= fontname %>" isEmbedded="<%= isEmbedded %>"/>
 		<% end %>			
 		<% @features.each do |feature| %>
 			<Feature><%= feature %></Feature>
