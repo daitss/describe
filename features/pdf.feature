@@ -67,4 +67,11 @@ Feature: retrieve the description on a PDF resource
 		When describing the file
 		Then I should have hasAnnotations on the feature element
 		And the status should be ok
-		And the docmd should exist			
+		And the docmd should exist
+		
+	Scenario: PDF with CreatingApplication but not CreateDate
+		Given a PDF with CreatingApplication but not CreateDate
+		When describing the file
+		Then the status should be ok
+		And the docmd should exist					
+		

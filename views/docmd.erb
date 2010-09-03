@@ -1,0 +1,12 @@
+<doc xmlns='http://www.fcla.edu/dls/md/docmd'>
+	<document>      
+		<PageCount><%= @pageCount %></PageCount>
+		<Language><%= @language %></Language>
+		<% @fonts.each do |fontname, isEmbedded| %>
+		<Font FontName="<%= fontname %>" isEmbedded="<%= isEmbedded %>"/>
+		<% end %>			
+		<% @features.each do |feature| %>
+			<Feature><%= feature %></Feature>
+		<% end %>
+	</document>
+</doc>
