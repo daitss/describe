@@ -1,12 +1,14 @@
-<doc xmlns='http://www.fcla.edu/dls/md/docmd'>
+<doc xmlns='http://www.fcla.edu/dls/md/docmd' xsi:schemaLocation="http://www.fcla.edu/dls/md/docmd http://www.fcla.edu/dls/md/docmd.xsd">
 	<document>      
 		<PageCount><%= @pageCount %></PageCount>
+		<% unless @language.nil? %>
 		<Language><%= @language %></Language>
+		<% end %>
 		<% @fonts.each do |fontname, isEmbedded| %>
 		<Font FontName="<%= fontname %>" isEmbedded="<%= isEmbedded %>"/>
 		<% end %>			
 		<% @features.each do |feature| %>
-			<Feature><%= feature %></Feature>
+			<Features><%= feature %></Features>
 		<% end %>
 	</document>
 </doc>
