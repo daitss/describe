@@ -187,7 +187,7 @@ Then /^I should have (.+?) on the language element$/ do |lang|
 end
 
 Then /^I should have (.+?) on the feature element$/ do |feature|
-  last_response.body.to_s =~ /Feature>(.*?)<\/Feature>/
+  last_response.body.to_s =~ /Features>(.*?)<\/Features>/
   $1.should == feature
 end
 
