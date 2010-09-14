@@ -43,6 +43,7 @@ class PDF < FormatBase
 	  if pdfMD.find_first("//jhove:property[jhove:name='Language']", NAMESPACES)
 	 	@language =  pdfMD.find_first("//jhove:property[jhove:name='Language']/jhove:values/jhove:value", NAMESPACES).content
 	  end
+	  puts @language.inspect
 	
 	  @fonts = Hash.new
 	  nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)	
