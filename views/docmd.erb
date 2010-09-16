@@ -2,7 +2,7 @@
 	<document>      
 		<PageCount><%= @pageCount %></PageCount>
 		<% unless @language.nil? %>
-		<Language><%= @language %></Language>
+		<Language><%= ERB::Util::h(@language) %></Language>
 		<% end %>
 		<% @fonts.each do |fontname, isEmbedded| %>
 		<Font FontName="<%= fontname %>" isEmbedded="<%= isEmbedded %>"/>

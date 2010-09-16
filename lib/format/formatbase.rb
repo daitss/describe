@@ -66,7 +66,7 @@ class FormatBase
           @anomaly.add msg.content
         end
         io.close
-        File.delete output
+        #File.delete output
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
       rescue  => ex
         DescribeLogger.instance.error ex

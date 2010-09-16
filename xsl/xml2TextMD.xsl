@@ -24,9 +24,11 @@
 				<xsl:element name = "markup_language">
 					<xsl:value-of select="$markupURI"/>
 				</xsl:element>
-				<xsl:element name = "processingNote">
-					<xsl:value-of select="$processingInstr"/>
-				</xsl:element>
+				<xsl:if test = "boolean($processingInstr)" >
+					<xsl:element name = "processingNote">
+						<xsl:value-of select="$processingInstr"/>
+					</xsl:element>
+				</xsl:if>
 			</language>
 		</textMD>
 	</xsl:template>

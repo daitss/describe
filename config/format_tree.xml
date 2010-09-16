@@ -18,7 +18,7 @@ etc. -->
 			<format>Acrobat PDF/X - Portable Document Format - Exchange 1:1999</format>
 		</branch>
 	</branch>
-	<branch>
+	<!-- <branch>
 		<format>Tagged Image File Format</format>						
 		<branch>
 			<format>Tagged Image File Format for Image Technology (TIFF/IT)</format>
@@ -27,5 +27,5 @@ etc. -->
 			<format>GeoTIFF</format>			
 			<format>Digital Negative Format (DNG)</format>
 		</branch>
-	</branch>	
+	</branch>	 -->
 </format-tree>
