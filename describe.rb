@@ -16,8 +16,7 @@
 
 # describe.rb
 require 'rubygems'
-require "bundler"
-Bundler.setup
+require "bundler/setup"
 
 require 'sinatra'
 require 'RJhove'
@@ -38,6 +37,7 @@ require 'yaml'
 # load in description service configuration parameter
 
 CONFIG = YAML.load_file config_file('describe.yml')
+CONFIG ||= {}
 
 # jvm options, for this to work it must be ran before any other rjb code
 if CONFIG["jvm-options"]
@@ -90,10 +90,13 @@ get '/describe' do
 
   # make sure the file exist and it's a valid file
   if (File.exist?(@input) && File.file?(@input)) then
+    puts 'pre'
     description
+    puts 'post'
   else
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
+  puts 'render'
 
   response.finish
 end
