@@ -1,6 +1,5 @@
 require 'rubygems'
-require 'bundler'
-Bundler.setup
+require 'bundler/setup'
 
 $LOAD_PATH.unshift File.join File.dirname(__FILE__), 'lib'
 require 'describe'
