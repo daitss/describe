@@ -1,6 +1,7 @@
+---
 #configuration options for stand-alone description service
 
 # jvm options
-jvm-options:
-  - -Dhttp.proxyHost=sake.fcla.edu
-  - -Dhttp.proxyPort=3128
+#jvm-options:
+  #- -Dhttp.proxyHost=sake.fcla.edu
+  #- -Dhttp.proxyPort=3128
