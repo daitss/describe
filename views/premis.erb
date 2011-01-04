@@ -51,14 +51,12 @@
 				<% end %>
 			</creatingApplication>
 			<% end %>
-			<% unless @result.fileObject.inhibitors.nil? %>
+			<% if @result.fileObject.inhibitors && !@result.fileObject.inhibitors.empty?%>
 			<inhibitors>
 			<% @result.fileObject.inhibitors.each do |inh| %>
 				<inhibitorType><%= inh.type %></inhibitorType>
-				<inhibitorTarget><%= inh.target %></inhibitorTarget>
-				<% if inh.key %>
-					<inhibitorKey><%= inh.key %></inhibitorKey>
-				<% end %>
+				<% if inh.target %><inhibitorTarget><%= inh.target %></inhibitorTarget><% end %>
+				<% if inh.key %><inhibitorKey><%= inh.key %></inhibitorKey><% end %>
 			<% end %>
 			</inhibitors>
 			<% end %>
