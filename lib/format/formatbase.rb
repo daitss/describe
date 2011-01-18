@@ -39,6 +39,7 @@ class FormatBase
     output = tmp.path()
     DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
     @jhoveEngine.validateFile @module, input, output
+    tmp.close
     nil
   end
 
@@ -49,12 +50,12 @@ class FormatBase
 
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      tmp = File.new("extract.xml", "w+")
-      output = tmp.path()
-      tmp.close
+      output = "extract.xml"
+      FileUtils.touch(output)
       DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
       @jhoveEngine.validateFile @module, input, output
-      begin
+      
+      begin  
         io = open output
         XML.default_keep_blanks = false
         doc = XML::Document.io io
@@ -66,7 +67,7 @@ class FormatBase
           @anomaly.add msg.content
         end
         io.close
-        #File.delete output
+        FileUtils.remove(output)
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
       rescue  => ex
         DescribeLogger.instance.error ex
