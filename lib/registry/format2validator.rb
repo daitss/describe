@@ -7,7 +7,7 @@ class Format2Validator
   attr_reader :validators
     
   def initialize
-    @doc = XML::Document.file config_file('format2validator.xml')
+    @doc = open(config_file('format2validator.xml')) { |io| XML::Document.io io }
     @validators = Array.new
   end
 

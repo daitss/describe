@@ -8,7 +8,7 @@ class FDAFormat
   attr_reader :version
   
   def initialize
-    @doc = XML::Document.file config_file('FDA_FormatRegistry.xml')
+    @doc = open(config_file('FDA_FormatRegistry.xml')) { |io| XML::Document.io io }
     @registry = "info:fda//www.fcla.edu/fda/format"
   end
   

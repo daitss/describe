@@ -14,7 +14,7 @@ class PRONOMFormat
   
   def initialize
     @registry = PRONOM_URL
-    @doc = XML::Document.file config_file('DROID_SignatureFile.xml')
+    @doc = open(config_file('DROID_SignatureFile.xml')) { |io| XML::Document.io io }  
   end
   
   def find_puid(puid)

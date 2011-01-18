@@ -11,7 +11,7 @@ class Registry
   include Singleton
     
   def initialize
-    @doc = XML::Document.file config_file('registrylookup.xml')
+    @doc = open(config_file('registrylookup.xml')) { |io| XML::Document.io io }    
   end
   
   # find format registry entry by using the lookup string

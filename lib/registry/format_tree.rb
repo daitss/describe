@@ -3,7 +3,7 @@ require 'config'
 
 class FormatTree
   def initialize
-      @doc = XML::Document.file config_file('format_tree.xml')
+    @doc = open(config_file('format_tree.xml')) { |io| XML::Document.io io }
   end
   
   # retrieve all branch formats 

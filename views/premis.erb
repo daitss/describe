@@ -51,14 +51,12 @@
 				<% end %>
 			</creatingApplication>
 			<% end %>
-			<% unless @result.fileObject.inhibitors.nil? %>
+			<% if @result.fileObject.inhibitors && !@result.fileObject.inhibitors.empty?%>
 			<inhibitors>
 			<% @result.fileObject.inhibitors.each do |inh| %>
 				<inhibitorType><%= inh.type %></inhibitorType>
-				<inhibitorTarget><%= inh.target %></inhibitorTarget>
-				<% if inh.key %>
-					<inhibitorKey><%= inh.key %></inhibitorKey>
-				<% end %>
+				<% if inh.target %><inhibitorTarget><%= inh.target %></inhibitorTarget><% end %>
+				<% if inh.key %><inhibitorKey><%= inh.key %></inhibitorKey><% end %>
 			<% end %>
 			</inhibitors>
 			<% end %>
@@ -123,8 +121,9 @@
 		</eventIdentifier>
 		<eventType>describe</eventType>
 		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
+		<eventDetail><%=  @result.status %></eventDetail>
 		<eventOutcomeInformation>
-			<eventOutcome><%=  @result.status %></eventOutcome>
+			<eventOutcome>success</eventOutcome>
 			<% unless @result.anomaly.nil? or @result.anomaly.size < 1 %>
 			<eventOutcomeDetail>
 				<eventOutcomeDetailExtension>

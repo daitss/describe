@@ -12,17 +12,21 @@ class PDF < FormatBase
       unless (encrypt.nil?)
         @fileObject.inhibitors = Array.new
         inhibitor = Inhibitor.new 
-        handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', NAMESPACES)
+        handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', NAMESPACES)  
         # based on PDF spec., "Standard" implies passwork-protected
-        if (handler.content == "Standard") 
+        if (handler.content == "Standard")
           inhibitor.type = "Password protection"
           inhbtrs = encrypt.find_first('//jhove:property[jhove:name/text()="StandardSecurityHandler"]/jhove:values/jhove:property[jhove:name/text()="UserAccess"]/jhove:values',
           NAMESPACES)
-          inhbtrs.each do |ele| 
-            inhibitor.target = 'UserAccess: ' + ele.content
+          unless (inhbtrs.nil?)
+            nodes = inhbtrs.find('jhove:value',NAMESPACES)
+            arr = Array.new
+            nodes.each {|node| arr << node.content}
+            inhibitor.target = "UserAccess: " + arr.join(', ')
           end
           @fileObject.inhibitors << inhibitor
         end
+        
       else
         # only retrieve CreateAppName when not encrypted, JHOVE dump out bad creator info for encrypted file
         unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Producer"]', NAMESPACES).nil?)
