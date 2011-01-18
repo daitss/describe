@@ -3,3 +3,4 @@ extract.xml
 DescribeService.log
 *.log
 *.swp
+*.pid
