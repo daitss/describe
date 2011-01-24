@@ -33,14 +33,14 @@
 				<formatRegistry>
 					<formatRegistryName><%= format.registryName %></formatRegistryName>
 					<formatRegistryKey><%= format.registryKey %></formatRegistryKey>
-				</formatRegistry>	
+				</formatRegistry>
 				<% end %>
 				<% unless format.formatNote.nil? %>
 	            <formatNote><%= format.formatNote %></formatNote>
 			    <% end %>
 			</format>
 			<% end %>
-			<% if @result.fileObject.createAppName or @result.fileObject.createDate%> 
+			<% if @result.fileObject.createAppName or @result.fileObject.createDate%>
 			<creatingApplication>
 				<creatingApplicationName><%= @result.fileObject.createAppName %></creatingApplicationName>
 				<% if @result.fileObject.createAppVersion %>
@@ -152,6 +152,6 @@
 	</agentIdentifier>
 	<agentName>Format Description Service</agentName>
 	<agentType>Web Service</agentType>
-	<agentNote xmlns="info:lc/xmlns/premis-v2">built with JHOVE 1.5, DROID 3.0 with DROID signature file version 34.</agentNote>
+	<agentNote>built with JHOVE 1.5, DROID 3.0 with DROID signature file version 34.</agentNote>
 </agent>
 </premis>
