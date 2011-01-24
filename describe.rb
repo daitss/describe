@@ -90,13 +90,10 @@ get '/describe' do
 
   # make sure the file exist and it's a valid file
   if (File.exist?(@input) && File.file?(@input)) then
-    puts 'pre'
     description
-    puts 'post'
   else
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
-  puts 'render'
 
   response.finish
 end

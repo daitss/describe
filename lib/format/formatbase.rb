@@ -51,7 +51,7 @@ class FormatBase
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       output = "extract.xml"
-      FileUtils.touch(output)
+      #FileUtils.touch(output)
       DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
       @jhoveEngine.validateFile @module, input, output
       
