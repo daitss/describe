@@ -6,17 +6,21 @@ class Tiff < Image
     super
 
     unless (@mix.nil?)
-      # retrieve the createDate metadata
-      createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
-      unless (createDate.nil?)
-        @fileObject.createDate = createDate.content
-     end
-
-     createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
-     unless (createAppName.nil?)
-       @fileObject.createAppName = createAppName.content
-     end
-
+      begin
+        # retrieve the createDate metadata
+        createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
+        unless (createDate.nil?)
+          # parse createDate
+          @fileObject.createDate = Time.parse(createDate.content).xmlschema
+          puts @fileObject.createDate
+        end
+      rescue => e
+         @anomaly.add "malformed createDate"
+      end
+      createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
+      unless (createAppName.nil?)
+        @fileObject.createAppName = createAppName.content
+      end
    end
    # traverse through multiple image bitstreams inside TIFF 
    nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)

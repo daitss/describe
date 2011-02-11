@@ -47,7 +47,7 @@
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
 				<% end %>
 				<% if @result.fileObject.createDate %>
-				<dateCreatedByApplication><%= Time.parse(@result.fileObject.createDate).xmlschema %></dateCreatedByApplication>
+				<dateCreatedByApplication><%= @result.fileObject.createDate %></dateCreatedByApplication>
 				<% end %>
 			</creatingApplication>
 			<% end %>
