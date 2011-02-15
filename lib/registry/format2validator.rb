@@ -11,6 +11,12 @@ class Format2Validator
     @validators = Array.new
   end
 
+  def clear
+    @doc = nil
+    @validators.clear
+    @validator = nil
+  end
+  
   def find_by_rid(rid)
     baseURI = "//format[rid='#{rid}']"
     xml = @doc.find_first(baseURI)

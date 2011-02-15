@@ -29,7 +29,7 @@ class RDroid
     puidsHash.each do |key, value|
       formats << key
     end
-
+    puidsHash.clear
     formats
   end
 

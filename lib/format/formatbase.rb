@@ -19,16 +19,34 @@ class FormatBase
   attr_reader :bitstreams # a bitstream object to hold the extracted bitstream metadata for the described file
   attr_reader :anomaly # anomaly found during format validation
   attr_reader :status  # validation status
-
+  attr_accessor :jhoveEngine
+  
   def initialize(jhoveModule)
     @module = jhoveModule
     @anomaly = Set.new
     @bitstreams = Array.new
-    jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
-    @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
+    #jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
+    #@jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 
   public
+  def clear
+    @anomaly.clear
+    @anomaly = nil
+    if @bitstreams
+    @bitstreams.clear
+    end
+    @bitstreams = nil
+    
+    @fileObject.clear
+    @fileObject = nil
+    
+    if @presumeFormat
+      @presumeFormat.clear
+      @presumeFormat.nil
+    end
+  end
+  
   def setPresumeFormat(format)
     @presumeFormat = format
   end
@@ -37,7 +55,6 @@ class FormatBase
     # A temporary file to hold the jhove extraction result
     tmp = File.new("extract.xml", "w+")
     output = tmp.path()
-    DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
     @jhoveEngine.validateFile @module, input, output
     tmp.close
     nil
@@ -51,8 +68,6 @@ class FormatBase
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       output = "extract.xml"
-      #FileUtils.touch(output)
-      DescribeLogger.instance.info "module #{@module}, input #{input}, output #{output}"
       @jhoveEngine.validateFile @module, input, output
       
       begin  
@@ -141,9 +156,9 @@ class FormatBase
       if profiles
         # retrieve all recognized profiles
         profiles.each do |p|
-      	  fileformat = formatLookup(p.content, nil, nil)
-		  fileformat.formatNote = "Alternate Format"
-		  @fileObject.formats << fileformat
+          fileformat = formatLookup(p.content, nil, nil)
+          fileformat.formatNote = "Alternate Format"
+          @fileObject.formats << fileformat
         end
       end
     end

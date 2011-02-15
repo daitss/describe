@@ -13,97 +13,79 @@ class Result
   attr_accessor :bitstreams
   attr_accessor :status
   attr_accessor :anomaly
+  
+  def clear
+    if @anomaly
+      @anomaly.clear
+      @anomaly = nil      
+    end
+
+    if @bitstreams
+      @bitstreams.clear
+      @bitstreams = nil      
+    end
+
+    if @fileObject
+      @fileObject.clear
+      @fileObject = nil
+    end
+   end
 end
 
 class RJhove
-  attr_reader :result
+  include Singleton
 
   def initialize
     @validators = open(config_file('validators.xml')) { |io| XML::Document.io io }
-  end
-
-  # given a tentative format id, extract technical metadata of the input file
-  def extract(input, format)
-    # retrieve the validator used for this format
-    vdr = Format2Validator.new
-    vdr.find_by_rid(format)
-
-    # make sure this is a valid format
-    if (vdr.nil?)
-      DescribeLogger.instance.warn "no validator for this format id #{format}"
-      result = nil
-    else
-      DescribeLogger.instance.info "validator id #{vdr.validator}"
-      xml = @validators.find_first("//validator[name/text()='#{vdr.validator}']")
-
-      # make sure there is a validator defined for this format
-      unless (xml.nil?)    
-        validator = Validator.new(@validators, "//validator[name/text()='#{vdr.validator}']")    
-    
-        # create the parser
-        DescribeLogger.instance.info "validator: #{validator.class} method: #{validator.method}" 
-        require "format/"+ validator.class.downcase
-        parser = eval(validator.class).new validator.parameter
-
-		# set the presume format since we already determine the file foramt prior to validation. 
-        parser.setPresumeFormat(findFormat(format))
-   
-        # validate and extract the metadata
-        result = parser.send validator.method, input, input
-      else
-        DescribeLogger.instance.warn "No validator is defined for this format " + format
-        result = nil
-      end
-    end
-    result
+    jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
+    @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 
   # given a list of tentative format id, extract technical metadata of the input file
   def extractAll(input, formats, uri)
-    @result = nil
-
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
 
     # make sure there is a validator defined for this validator id
     unless (validators.empty?)
-      @result = Result.new
+      result = Result.new
       validators.each do |vdr|
         DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
-
+        parser.jhoveEngine = @jhoveEngine
         # set the presume format if we can already determine the file foramt prior to validation. 
         parser.setPresumeFormat(findFormat(formats.first)) if (formats.size ==  1)
         
         # validate and extract metadata
-        @result.status = parser.send vdr.method, input, uri
-        @result.anomaly = parser.anomaly
-        @result.fileObject = parser.fileObject
-        @result.bitstreams = parser.bitstreams
-
+        result.status = parser.send vdr.method, input, uri
+        result.anomaly = parser.anomaly
+        result.fileObject = parser.fileObject
+        result.bitstreams = parser.bitstreams
+        #parser.clear
+        #parser = nil
+        
         # if result shows an invalid file, try the next validator in the list if there is any
-        if (@result.fileObject != nil && isValid(@result.status))
-          DescribeLogger.instance.info "valid #{vdr.name}"
+        if (result.fileObject != nil && isValid(result.status))
           break
         end
       end
       # for consistency, use the format name and version in the registry instead of using the validator output
-      @result.fileObject.formats.each do |format| 
-		f = PRONOMFormat.instance.find_puid(format.registryKey)
-		if f
-	  	  format.formatName = f.name
-	   	  format.formatVersion = f.version
-	    end
-	  end
+      result.fileObject.formats.each do |format| 
+        f = PRONOMFormat.instance.find_puid(format.registryKey)
+        if f
+          format.formatName = f.name
+          format.formatVersion = f.version
+        end
+      end
     else
       DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
       # no validator, retrieve the basic file metadata
-      @result = retrieveFileProperties(input, formats, uri)
+      result = retrieveFileProperties(input, formats, uri)
     end
-
-    @result
+    validators.clear
+    result
   end
 
   # given a puid, find the registry format information 
@@ -119,29 +101,28 @@ class RJhove
 
   # retrieve general file format properties such as size and format information
   def retrieveFileProperties(input, formats, uri)
-    @result = nil
-    @result = Result.new
+    result = Result.new
 
-    @result.fileObject = FileObject.new
-    @result.fileObject.location = input
-    @result.fileObject.uri = uri
-    @result.fileObject.size = File.size(input).to_s
-    @result.fileObject.compositionLevel = '0'
+    result.fileObject = FileObject.new
+    result.fileObject.location = input
+    result.fileObject.uri = uri
+    result.fileObject.size = File.size(input).to_s
+    result.fileObject.compositionLevel = '0'
     
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which exactly what format this file is 
 		fileformat = findFormat(formats.first)
-        @result.fileObject.formats << fileformat
-        @result.status = "format identified"
+        result.fileObject.formats << fileformat
+        result.status = "format identified"
       else
         # ambiguous formats, record all (based on premis data dictionary 2.0, page 196)
         formatName = formats.each do |f| 
 		  fileformat = findFormat(f)
 		  fileformat.formatNote = "Candidate Format"
-          @result.fileObject.formats << fileformat
+          result.fileObject.formats << fileformat
           end
-        @result.status = "multiple formats identified"
+        result.status = "multiple formats identified"
       end
     else
 	  fileformat = FileFormat.new
@@ -152,11 +133,11 @@ class RJhove
         # for unempty file that can't be identified, the format name is 'unknown'
         fileformat.formatName = 'Unknown'
       end
-	  @result.fileObject.formats << fileformat
-      @result.status = "cannot identify file format of the file: #{input}"
+	    result.fileObject.formats << fileformat
+      result.status = "cannot identify file format of the file: #{input}"
     end
 
-    @result
+    result
   end
 
   # get the list of validators that may be used to validate the list of identified formats
@@ -170,7 +151,7 @@ class RJhove
       fmt2val.find_by_rid(format)
       fmt2val.validators.each {|val| validatorSet.add(val)}
     end
-
+    fmt2val.clear
     DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
     # return a prioritized list of validators if applicable
     validators = SortedSet.new

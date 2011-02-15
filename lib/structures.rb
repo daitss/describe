@@ -55,6 +55,18 @@ class FileObject
  	@formats = Array.new
   end
 
+  def clear
+    if @format
+      @formats.clear
+      @formats = nil
+    end
+    
+    if @inhibitors
+      @inhibitors.clear
+      @inhibitors = nil
+    end   
+  end
+  
   # trim down the list of identified formats to the most specific.  Ex., if both PDF/A and PDF/1.4 are listed
   # as identified formats for the object, only PDF/A shall be recorded.
   def trimFormatList
@@ -68,7 +80,8 @@ class FileObject
 	    # remove the duplicate format from the list of identified formats
 	    otherFormats.each do |fmt| 
 	      formats.delete(format) if branches.include?(fmt.formatName) 
-		end
+		  end
+		  otherFormats.clear
 	  end
 	end
 	# trim duplicate formats, duplicate may occurs because JHOVE sometimes dumps out profile (ex. JP2) that is already an format.
