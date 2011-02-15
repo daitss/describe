@@ -10,8 +10,8 @@ class PDF < FormatBase
       encrypt = pdfMD.find_first('//jhove:property[jhove:name/text()="Encryption"]', NAMESPACES)
       unless (encrypt.nil?)
         @fileObject.inhibitors = Array.new
-        inhibitor = Inhibitor.new 
-        handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', NAMESPACES)  
+        inhibitor = Inhibitor.new
+        handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', NAMESPACES)
         # based on PDF spec., "Standard" implies passwork-protected
         if (handler.content == "Standard")
           inhibitor.type = "Password protection"
@@ -35,10 +35,11 @@ class PDF < FormatBase
 
       # retrieve CreateDate
       unless (pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]', NAMESPACES).nil?)
-        @fileObject.createDate =  pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]/jhove:values/jhove:value', NAMESPACES).content
+        createDate =  pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]/jhove:values/jhove:value', NAMESPACES).content
+        @fileObject.createDate =  Time.parse(createDate).xmlschema
       end
 
-      # convert to doc schema        
+      # convert to doc schema
       DescribeLogger.instance.info "transforming JHOVE output to DocMD"
       nodes = pdfMD.find("//jhove:property[jhove:name='Page']", NAMESPACES)
       @pageCount = nodes.size
@@ -48,7 +49,7 @@ class PDF < FormatBase
       end
 
       @fonts = Hash.new
-      nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)	
+      nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)
       nodes.each do |font|
         fontname = font.find_first("jhove:values/jhove:property[jhove:name='FontName']/jhove:values/jhove:value", NAMESPACES).content
         # remove font substitution string (every character before +)
@@ -64,7 +65,7 @@ class PDF < FormatBase
       @features << "isTagged" if pdfMD.find_first("//jhove:profiles[jhove:profile='Tagged PDF']", NAMESPACES)
       @features << "hasOutline" if pdfMD.find_first("//jhove:property[jhove:name='Outlines']", NAMESPACES)
       thumbnail = pdfMD.find_first("//jhove:property[jhove:name='Thumb']/jhove:values/jhove:value", NAMESPACES)
-      @features << "hasThumbnails" if thumbnail && thumbnail.content.eql?('true')   
+      @features << "hasThumbnails" if thumbnail && thumbnail.content.eql?('true')
       @features << "hasAnnotations" if pdfMD.find_first("//jhove:property[jhove:name='Annotation']", NAMESPACES)
 
       docmd = File.read("views/docmd.erb").to_s
@@ -82,20 +83,20 @@ class PDF < FormatBase
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
         if (compression)
           bitstream.formatName = compression.content
-        else 
+        else
           bitstream.formatName = 'unknown'
         end
         bitstream.objectExtension = mix
         @bitstreams << bitstream
         sequence += 1
       end
-      
+
       # clean up arrays
       @fonts.clear
       @features.clear
-    else 
+    else
       DescribeLogger.instance.warn "No PDFMetadata found"
-    end  
+    end
 
   end
 end
