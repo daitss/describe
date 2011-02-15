@@ -45,6 +45,10 @@ if CONFIG["jvm-options"]
 end
 
 Jar.load_jars
+require 'memory_debug'
+#memory_stats
+
+#delta_stats
 
 error do
   'Encounter Error ' + env['sinatra.error'].name
@@ -98,6 +102,10 @@ get '/describe' do
   response.finish
 end
 
+get '/debug' do
+  GC.start
+  delta_stats
+end
 
 get '/' do
   # render erb index template
@@ -136,9 +144,12 @@ post '/description' do
 end
 
 def description
-  jhove = RJhove.new
+
+  #require 'ruby-prof'
+  #RubyProf.measure_mode = RubyProf::MEMORY
+  #RubyProf.start
+  jhove = RJhove.instance
   droid = RDroid.instance
-  validator = nil
 
   # identify the file format
   @formats = droid.identify(@input)
@@ -150,6 +161,7 @@ def description
       # extract the technical metadata
       @result = jhove.extractAll(@input, @formats,  @uri)
     end
+  jhove = nil
 	@result.fileObject.trimFormatList
 	@result.fileObject.resolveFormats
   rescue => e
@@ -157,7 +169,8 @@ def description
     DescribeLogger.instance.error e.backtrace.join("\n")
 	throw :halt, [500, "running into exception #{e}"]
   end
-
+  
+  @formats.clear
   unless (@result.nil?)
     # build a response
     headers 'Content-Type' => 'application/xml'
@@ -167,8 +180,15 @@ def description
     # dump the xml output to the response, pretty the xml output (ruby bug)
     body erb(:premis)
 
-    DescribeLogger.instance.info "HTTP 200"
+    @result.clear
+    @result = nil
+
   else
     throw :halt, [500, "unexpected empty response"]
   end
+
+
+  #profresult = RubyProf.stop
+  #printer = RubyProf::FlatPrinter.new(profresult)
+  #printer.print(STDOUT, 0)
 end
