@@ -1,22 +1,24 @@
 #!/usr/local/env ruby
 require 'rubygems'
 
-# d1 dedup report
+# process id and data directory
 pid = ARGV.shift or raise "pid required"
+datadir = ARGV.shift or raise "data directory required"
 
-`curl http://localhost:7002/describe?location=file:///Users/franco/code/daitss/describe/files/tjpeg.tif`
-`curl http://localhost:7002/debug`
+current_dir =Dir.getwd 
+`curl http://localhost:3000/describe?location=file://#{current_dir}/files/tjpeg.tif`
+`curl http://localhost:3000/debug`
 #puts `vmmap #{pid}`
 puts `ps u -p #{pid}`
 puts `cat /proc/#{pid}/status`
 puts `cat /proc/#{pid}/smaps`
 
-d = Dir.glob("/Users/franco/code/daitss/describe/UF00053733_00004/*")
+d = Dir.glob("#{datadir}*")
 d.each  do |file|
-  `curl -s http://localhost:7002/describe?location=file://#{file}`
+  `curl -s http://localhost:3000/describe?location=file://#{file}`
 end
 
-`curl http://localhost:7002/debug`
+`curl http://localhost:3000/debug`
 #puts `vmmap #{pid}`
 puts `ps u -p #{pid}`
 puts `cat /proc/#{pid}/status`
