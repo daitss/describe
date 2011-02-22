@@ -10,7 +10,7 @@ class RXML < FormatBase
       DescribeLogger.instance.info "transforming JHOVE output to XML"
       @fileObject.objectExtension = apply_xsl("xml2TextMD.xsl").root
     else 
-      DescribeLogger.instance.warm "no XMLMetadata found"
+      DescribeLogger.instance.warn "no XMLMetadata found"
     end
 
   end
