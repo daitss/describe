@@ -12,21 +12,27 @@ Quickstart
 	%git clone git://github.com/daitss/describe.git
 	or download a copy from the download page.
 	
-	2. Test the installation via the test harness. 
-	%rake spec
-	%cucumber feature/*
+	2. Install all the required gems according to the Gemfile in this project
+	% bundle install
 	
-	3. Run the description srvice
-	%ruby describe.rb
+	3. Test the installation via the test harness. The provided test harness will retrieve test files from http://www.fcla.edu/daitss-test/files/.  
+	   Please make sure the internet is connected when running the test harness.
+	
+	%bundle exec cucumber feature/*
+	
+	4. Run the description srvice with thin (use "thin --help" to get additional information on using thin)
+	%thin start 
 	
 Requirements
 ------------
 * ruby (tested on 1.8.6 and 1.8.7)
 * java (tested on 1.5 and 1.6)
-* cucumber (gem)
+* bundler (gem, http://gembundler.com/)
+* cucumber (gem, http://cukes.info/)
 * libxml-ruby (gem)
 * ruby-xslt (gem)
-* rjb (gem. Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail.  On OSX, the JAVA_HOME should be set to "/Library/Java/Home")
+* rjb (gem. Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail.  
+  On OSX, the JAVA_HOME should be set to "/Library/Java/Home")
 * rspec (gem)
 * log4r (gem)
 * sinatra (gem) - a minimal web application framework.  It will work with any web server such as mongrel, thin, etc.
@@ -37,11 +43,10 @@ GNU General Public License
 
 Directory Structure
 -------------------
-* config: configuration files, including a copy of DROID signature file, jhove config file 
-  and configuration to lookup associated validator on a given PUID.
-* feature: cucumber feature files
-* files: contain test files for test harness. These files are for testing only and can be deleted after deployment.
-* jars: contain required java jars for droid and jhove.
+* config: configuration files, including a copy of DROID signature file, JHOVE config file, 
+  configuration to lookup associated validator on a given PUID, format tree and FDA format collection.
+* features: cucumber feature files. 
+* jars: contain required java jars for DROID and JHOVE.
 * lib: ruby source code
 * public: files for public access including jQuery and a sample text file for testing http url.
 * spec: rspec files
@@ -52,13 +57,13 @@ Usage
 -----
 * Use http GET method with a location parameter pointing to the FILE url of the intended file.  
   For example, if using curl
-  curl http://localhost:4567/describe?location=file///Users/Desktop/describe/files/etd.pdf
+  curl http://localhost:3000/describe?location=file///Users/Desktop/describe/files/etd.pdf
 
 * Use http GET method with a location parameter pointing to the http url of the intended resource.
   For example, if using curl
-  curl http://localhost:4567/describe?location=http://localhost:4567/test.txt
+  curl http://localhost:3000/describe?location=http://www.fcla.edu/daitss-test/files/00004.txt
 
-* Use the associated form to upload a file to the description service via HTTP POST method.
+* Use the browser to submit a file to the description service via HTTP POST method. 
 
 Documentation
 -------------
