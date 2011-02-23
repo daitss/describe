@@ -15,12 +15,15 @@ Quickstart
 	2. Install all the required gems according to the Gemfile in this project
 	% bundle install
 	
-	3. Test the installation via the test harness. The provided test harness will retrieve test files from http://www.fcla.edu/daitss-test/files/.  
+	3. Add lib/ path to RUBYLIB environment variable
+	%export RUBYLIB=lib:$RUBYLIB
+	
+	4. Test the installation via the test harness. The provided test harness will retrieve test files from http://www.fcla.edu/daitss-test/files/.  
 	   Please make sure the internet is connected when running the test harness.
 	
 	%bundle exec cucumber feature/*
 	
-	4. Run the description srvice with thin (use "thin --help" to get additional information on using thin)
+	5. Run the description srvice with thin (use "thin --help" to get additional information on using thin)
 	%thin start 
 	
 Requirements
