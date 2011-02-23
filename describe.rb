@@ -42,13 +42,17 @@ CONFIG ||= {}
 # jvm options, for this to work it must be ran before any other rjb code
 if CONFIG["jvm-options"]
   Rjb.load '.', CONFIG["jvm-options"]
+  #Rjb.load('.',  ['-Xms32m', '-Xmx32m'])
 end
 
 Jar.load_jars
-require 'memory_debug'
-#memory_stats
 
-#delta_stats
+# use cvk's memory_debug 
+require 'memory_debug'
+get '/debug' do
+  GC.start
+  delta_stats
+end
 
 error do
   'Encounter Error ' + env['sinatra.error'].name
@@ -58,18 +62,20 @@ get '/describe' do
   if params['location'].nil?
     throw :halt, [400, "require a location parameter."]
   end
-
+  io = nil
   url = URI.parse(params['location'].to_s)
   case url.scheme
   when "file"
     @input = url.path
   when "http"
     resource = Net::HTTP.get_response url
-    Tempfile.open("file2describe") do |io|
-      io.write resource.body
-      io.flush
-      @input = io.path
-    end
+    index = url.path.rindex('.')
+    file_ext = url.path.slice(index, url.path.length) if index
+    io = Tempfile.new(['file2describe', file_ext])
+    io.write resource.body
+    io.flush
+    @input = io.path
+    io.close
   else
     throw :halt, [400,  "invalid url location type"]
   end
@@ -95,16 +101,14 @@ get '/describe' do
   # make sure the file exist and it's a valid file
   if (File.exist?(@input) && File.file?(@input)) then
     description
+    if io
+      io.unlink
+    end
   else
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
 
   response.finish
-end
-
-get '/debug' do
-  GC.start
-  delta_stats
 end
 
 get '/' do
