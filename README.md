@@ -63,7 +63,9 @@ Usage
   For example, if using curl
   curl http://localhost:3000/describe?location=http://www.fcla.edu/daitss-test/files/00004.txt
 
-* Use the browser to submit a file to the description service via HTTP POST method. 
+* Use the browser to submit a file to the description service via HTTP POST method.  Alternatively, the 
+  HTTP POST method can also be used with curl, for example,
+  curl -F "document=@files/00001.pdf" -F "extension=pdf" http://localhost:4567/description
 
 Documentation
 -------------
