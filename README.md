@@ -6,39 +6,37 @@ Format Description Service
 * Transform the result of format characterization into standard schema such as TextMD, DocMD, MIX and AES
 * Transform the format description result into PREMIS schema
 
+Requirements
+------------
+* ruby (tested on 1.8.6 and 1.8.7)
+* java (tested on 1.5 and 1.6)
+* ruby-devel, rubygems, git and g++
+* zlib, libxml2-devel and libxslt-devel development libraries
+* bundler gem (http://gembundler.com/)
+* cucumber gem (http://cukes.info/)
+* rjb gem (Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail.  
+  On OSX, the JAVA_HOME should be set to "/Library/Java/Home")
+* sinatra gem - a minimal web application framework.  It will work with any web server such as mongrel, thin, etc.
+
 Quickstart
 ----------
 	1. Retrieve a copy of the description service.  You can either create a local git clone of the description service, ex.
-	%git clone git://github.com/daitss/describe.git
+	% git clone git://github.com/daitss/describe.git
 	or download a copy from the download page.
 	
 	2. Install all the required gems according to the Gemfile in this project
 	% bundle install
 	
 	3. Add lib/ path to RUBYLIB environment variable
-	%export RUBYLIB=lib:$RUBYLIB
+	% export RUBYLIB=lib:$RUBYLIB
 	
 	4. Test the installation via the test harness. The provided test harness will retrieve test files from http://www.fcla.edu/daitss-test/files/.  
 	   Please make sure the internet is connected when running the test harness.
 	
-	%bundle exec cucumber feature/*
+	% bundle exec cucumber feature/*
 	
 	5. Run the description srvice with thin (use "thin --help" to get additional information on using thin)
-	%thin start 
-	
-Requirements
-------------
-* ruby (tested on 1.8.6 and 1.8.7)
-* java (tested on 1.5 and 1.6)
-* bundler (gem, http://gembundler.com/)
-* cucumber (gem, http://cukes.info/)
-* libxml-ruby (gem)
-* ruby-xslt (gem)
-* rjb (gem. Please make sure JAVA_HOME is set when installing rjb, see http://rjb.rubyforge.org/ for detail.  
-  On OSX, the JAVA_HOME should be set to "/Library/Java/Home")
-* rspec (gem)
-* log4r (gem)
-* sinatra (gem) - a minimal web application framework.  It will work with any web server such as mongrel, thin, etc.
+	% bundle exec thin start 
 
 License
 -------
@@ -52,7 +50,6 @@ Directory Structure
 * jars: contain required java jars for DROID and JHOVE.
 * lib: ruby source code
 * public: files for public access including jQuery and a sample text file for testing http url.
-* spec: rspec files
 * views: erb templates
 * xsl: stylesheets for schema transformation
 
