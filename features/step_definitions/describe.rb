@@ -152,8 +152,6 @@ end
 
 Then /^I should receive (.+?) on the format name$/ do |name|
   last_response.body.to_s =~ /formatName>(.*?)<\/formatName>/
-  puts last_response.body.to_s 
-  puts $1
   $1.should == name
 end
 
@@ -190,7 +188,7 @@ Then /^I should have (.+?) on the language element$/ do |lang|
 end
 
 Then /^I should have (.+?) on the feature element$/ do |feature|
-  last_response.body.to_s =~ /Features>(.*?)<\/Features>/
+  last_response.body.to_s =~ /Feature>(.*?)<\/Feature>/
   $1.should == feature
 end
 
