@@ -11,31 +11,31 @@ class Tiff < Image
         createDate =  @mix.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
         unless (createDate.nil?)
           # parse createDate
-          @fileObject.createDate = Time.parse(createDate.content).xmlschema
-          puts @fileObject.createDate
+          @fileObject.createDate = Time.xmlschema(createDate.content)
         end
       rescue => e
-         @anomaly.add "malformed createDate"
+         @anomaly.add "malformed dateTimeCreated"
       end
       createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
       unless (createAppName.nil?)
         @fileObject.createAppName = createAppName.content
       end
    end
+   
    # traverse through multiple image bitstreams inside TIFF 
    nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
    sequence = 1
    nodes.each do |node|
-     mix = node.find_first("mix:mix", NAMESPACES)
+     mixstream = node.find_first("mix:mix", NAMESPACES)
      bitstream = BitstreamObject.new
      bitstream.uri = @fileObject.uri + "/" + sequence.to_s
-     compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
+     compression = mixstream.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
      if (compression)
        bitstream.formatName = compression.content
      else 
        bitstream.formatName = 'unknown'
      end
-     bitstream.objectExtension = mix
+     bitstream.objectExtension = fixMix(mixstream)
      @bitstreams << bitstream
      sequence += 1
    end
