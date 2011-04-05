@@ -23,7 +23,7 @@ class Image < FormatBase
     begin
       dateTimeCreated = mixstream.find_first('mix:ImageCaptureMetadata/mix:GeneralCaptureInformation/mix:dateTimeCreated', NAMESPACES)
       # parse dateTimeCreated
-      Time.xmlschema(dateTimeCreated.content) unless dateTimeCreated.nil?
+      Time.xmlschema(dateTimeCreated.content).xmlschema unless dateTimeCreated.nil?
     rescue => e
       puts e.inspect
       dateTimeCreated.content = "" unless dateTimeCreated.nil?
