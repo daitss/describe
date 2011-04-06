@@ -26,7 +26,7 @@ class Image < FormatBase
       Time.xmlschema(dateTimeCreated.content).xmlschema unless dateTimeCreated.nil?
     rescue => e
       puts e.inspect
-      dateTimeCreated.content = "" unless dateTimeCreated.nil?
+      dateTimeCreated.remove! unless dateTimeCreated.nil?
       @anomaly.add "malformed dateTimeCreated"
     end
     mixstream
