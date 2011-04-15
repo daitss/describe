@@ -5,7 +5,7 @@
 		<Language><%= ERB::Util::h(@language) %></Language>
 		<% end %>
 		<% @fonts.each do |fontname, isEmbedded| %>
-		<Font FontName="<%= fontname %>" isEmbedded="<%= isEmbedded %>"/>
+		<Font FontName="<%= ERB::Util::h(fontname) %>" isEmbedded="<%= isEmbedded %>"/>
 		<% end %>			
 		<% @features.each do |feature| %>
 			<Features><%= feature %></Features>

@@ -71,7 +71,6 @@ class PDF < FormatBase
       docmd = File.read("views/docmd.erb").to_s
       docmdTemplate = ERB.new(docmd)
       @fileObject.objectExtension = docmdTemplate.result(binding)
-      # @fileObject.objectExtension = apply_xsl("pdf2DocMD.xsl").root
 
       # retrieve all image bitstreams inside the pdf
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
@@ -81,7 +80,7 @@ class PDF < FormatBase
         bitstream = BitstreamObject.new
         bitstream.uri = @fileObject.uri + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
-        if (compression)
+      if (compression)
           bitstream.formatName = compression.content
         else
           bitstream.formatName = 'unknown'
