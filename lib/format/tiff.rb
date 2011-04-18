@@ -13,7 +13,7 @@ class Tiff < Image
           # parse createDate, Time.parse in Ruby 1.8.7 sometimes default to current time instead of raise exception for bad dateTime
           # thus, we put in a check via xmlschema to raise exception for bad dateTime.
           if Time.xmlschema(createDate.content)
-            @fileObject.createDate = Time.parse(createDate.content).xmlschema
+            @fileObject.createDate = Time.xmlschema(createDate.content).xmlschema 
           end
         end
       rescue => e
