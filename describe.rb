@@ -36,12 +36,13 @@ require 'yaml'
 
 # load in description service configuration parameter
 
-CONFIG = YAML.load_file config_file('describe.yml')
-CONFIG ||= {}
+DESCRIBE_CONFIG = YAML.load_file config_file('describe.yml')
+DESCRIBE_CONFIG ||= {}
+MAX_RANDOM_NUM = 10000
 
 # jvm options, for this to work it must be ran before any other rjb code
-if CONFIG["jvm-options"]
-  Rjb.load '.', CONFIG["jvm-options"]
+if DESCRIBE_CONFIG["jvm-options"]
+  Rjb.load '.', DESCRIBE_CONFIG["jvm-options"]
   #Rjb.load('.',  ['-Xms32m', '-Xmx32m'])
 end
 
@@ -76,7 +77,7 @@ get '/describe' do
   when "file"
     
     urlpath = url.path
-    link = File.join(Dir.tmpdir, File.basename(@originalName))
+    link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(@originalName))
     FileUtils::ln_s(url.path, link)
     @input = link
   when "http"
@@ -95,7 +96,6 @@ get '/describe' do
   if (@input.nil?)
     throw :halt, [400,  "invalid url location"]
   end
-
 
   # uri parameter is optional, set the file url is uri param is not specified
   unless params['uri'].nil?
