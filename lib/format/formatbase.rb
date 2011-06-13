@@ -1,5 +1,5 @@
 require 'xml'
- require 'libxslt'
+require 'libxslt'
 require 'structures'
 require 'DescribeLogger'
 require 'fileutils'
@@ -25,8 +25,6 @@ class FormatBase
     @module = jhoveModule
     @anomaly = Set.new
     @bitstreams = Array.new
-    #jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
-    #@jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 
   public
@@ -51,15 +49,6 @@ class FormatBase
     @presumeFormat = format
   end
 
-  def extractWOparse(input)
-    # A temporary file to hold the jhove extraction result
-    tmp = File.new("extract.xml", "w+")
-    output = tmp.path()
-    @jhoveEngine.validateFile @module, input, output
-    tmp.close
-    nil
-  end
-
   def extract(input, uri)
     @fileOjbect = nil
     @uri = uri
@@ -82,7 +71,7 @@ class FormatBase
           @anomaly.add msg.content
         end
         io.close
-        FileUtils.remove(output)
+        #FileUtils.remove(output)
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
       rescue  => ex
         DescribeLogger.instance.error ex
@@ -154,7 +143,7 @@ class FormatBase
       # record and lookup extracted format profiles from jhove
       profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
       if profiles
-        # retrieve all recognized profiles
+        # retrieve all recognized profiles and record them as alternate format in premis format elements
         profiles.each do |p|
           fileformat = formatLookup(p.content, nil, nil)
           fileformat.formatNote = "Alternate Format"

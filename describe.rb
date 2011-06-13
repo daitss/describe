@@ -15,9 +15,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 # describe.rb
+
 require 'rubygems'
 require "bundler/setup"
-
 require 'sinatra'
 require 'RJhove'
 require 'RDroid'
@@ -34,26 +34,15 @@ require 'net/http'
 require 'jar'
 require 'yaml'
 
-# load in description service configuration parameter
-
-DESCRIBE_CONFIG = YAML.load_file config_file('describe.yml')
-DESCRIBE_CONFIG ||= {}
 MAX_RANDOM_NUM = 10000
 
 # jvm options, for this to work it must be ran before any other rjb code
-if DESCRIBE_CONFIG["jvm-options"]
-  Rjb.load '.', DESCRIBE_CONFIG["jvm-options"]
-  #Rjb.load('.',  ['-Xms32m', '-Xmx32m'])
+jvm_option = config_option "jvm-options"
+if jvm_option
+  Rjb.load '.', jvm_option
 end
 
 Jar.load_jars
-
-# use cvk's memory_debug 
-require 'memory_debug'
-get '/debug' do
-  GC.start
-  delta_stats
-end
 
 error do
   'Encounter Error ' + env['sinatra.error'].name
@@ -121,7 +110,6 @@ end
 
 get '/' do
   # render erb index template
-  # puts options.inspect
   erb :index
 end
 
@@ -156,10 +144,6 @@ post '/description' do
 end
 
 def description
-
-  #require 'ruby-prof'
-  #RubyProf.measure_mode = RubyProf::MEMORY
-  #RubyProf.start
   jhove = RJhove.instance
   droid = RDroid.instance
 
@@ -194,13 +178,8 @@ def description
 
     @result.clear
     @result = nil
-
   else
     throw :halt, [500, "unexpected empty response"]
   end
 
-
-  #profresult = RubyProf.stop
-  #printer = RubyProf::FlatPrinter.new(profresult)
-  #printer.print(STDOUT, 0)
 end

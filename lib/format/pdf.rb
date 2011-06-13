@@ -1,6 +1,13 @@
 require 'format/formatbase'
 require 'erb'
+
 class PDF < FormatBase
+  def initialize(jhoveModule)
+    super
+    # jvm options, for this to work it must be ran before any other rjb code
+    @max_pdf_bitstreams = config_option "max-pdf-bitstreams"
+  end
+  
   def parse(xml)
     super
     # retrieve and dump the PDF metadata
@@ -40,7 +47,7 @@ class PDF < FormatBase
       end
 
       # convert to doc schema
-      DescribeLogger.instance.info "transforming JHOVE output to DocMD"
+      # DescribeLogger.instance.info "transforming JHOVE output to DocMD"
       nodes = pdfMD.find("//jhove:property[jhove:name='Page']", NAMESPACES)
       @pageCount = nodes.size
 
@@ -48,6 +55,7 @@ class PDF < FormatBase
         @language =  pdfMD.find_first("//jhove:property[jhove:name='Language']/jhove:values/jhove:value", NAMESPACES).content
       end
 
+      #retrieve fonts used in the pdf, note if it's embedded.
       @fonts = Hash.new
       nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)
       nodes.each do |font|
@@ -60,7 +68,7 @@ class PDF < FormatBase
         isEmbedded = 'true' if hasfontfile && hasfontfile.content.eql?('true')
         @fonts[fontname] = isEmbedded
       end
-
+      #retrieve all the features in the pdf.
       @features = Array.new
       @features << "isTagged" if pdfMD.find_first("//jhove:profiles[jhove:profile='Tagged PDF']", NAMESPACES)
       @features << "hasOutline" if pdfMD.find_first("//jhove:property[jhove:name='Outlines']", NAMESPACES)
@@ -80,7 +88,7 @@ class PDF < FormatBase
         bitstream = BitstreamObject.new
         bitstream.uri = @fileObject.uri + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
-      if (compression)
+        if (compression)
           bitstream.formatName = compression.content
         else
           bitstream.formatName = 'unknown'
@@ -88,6 +96,9 @@ class PDF < FormatBase
         bitstream.objectExtension = mix
         @bitstreams << bitstream
         sequence += 1
+   
+        # stop retrieving image bitstream when exceeding number of bitstream we want to retrieve in pdf.
+        break if (@max_pdf_bitstreams and sequence > @max_pdf_bitstreams)
       end
 
       # clean up arrays

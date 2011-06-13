@@ -50,7 +50,7 @@ class RJhove
     unless (validators.empty?)
       result = Result.new
       validators.each do |vdr|
-        DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
+        # DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
@@ -63,8 +63,6 @@ class RJhove
         result.anomaly = parser.anomaly
         result.fileObject = parser.fileObject
         result.bitstreams = parser.bitstreams
-        #parser.clear
-        #parser = nil
         
         # if result shows an invalid file, try the next validator in the list if there is any
         if (result.fileObject != nil && isValid(result.status))
@@ -152,7 +150,7 @@ class RJhove
       fmt2val.validators.each {|val| validatorSet.add(val)}
     end
     fmt2val.clear
-    DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
+    # DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
     # return a prioritized list of validators if applicable
     validators = SortedSet.new
     validatorSet.each do |val|
@@ -169,7 +167,7 @@ class RJhove
   def isValid(status)
     valid = false
     unless status.nil?
-      DescribeLogger.instance.info "status : #{status}"
+      # DescribeLogger.instance.info "status : #{status}"
       if status.casecmp("well-formed and valid") >=0
         valid = true
       end
