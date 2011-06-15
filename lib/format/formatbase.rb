@@ -76,7 +76,6 @@ class FormatBase
       rescue  => ex
         DescribeLogger.instance.error ex
       end
-      GC.start
     end
     @status
   end
