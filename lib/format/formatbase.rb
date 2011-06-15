@@ -70,12 +70,13 @@ class FormatBase
         messages.each do |msg|
           @anomaly.add msg.content
         end
-        io.close
-        #FileUtils.remove(output)
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
+        @jhove = nil
+        io.close        
       rescue  => ex
         DescribeLogger.instance.error ex
       end
+      GC.start
     end
     @status
   end

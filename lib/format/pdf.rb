@@ -98,7 +98,10 @@ class PDF < FormatBase
         sequence += 1
    
         # stop retrieving image bitstream when exceeding number of bitstream we want to retrieve in pdf.
-        break if (@max_pdf_bitstreams and sequence > @max_pdf_bitstreams)
+        if (@max_pdf_bitstreams and sequence > @max_pdf_bitstreams)
+          @anomaly.add "excessive number of image bitstreams in the PDF"
+          break
+        end
       end
 
       # clean up arrays
