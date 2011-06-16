@@ -5,6 +5,10 @@
 # comment out to set max image bitstream extraction unlimited
 max-pdf-bitstreams: 1000
 
+# specify the log file to be used for the description service logging.  
+# Comment out to dump logs to standard output.
+log-file: DescribeService.log
+
 # jvm options
 #jvm-options:
 #  - -Xms16m 

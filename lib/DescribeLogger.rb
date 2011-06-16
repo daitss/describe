@@ -1,22 +1,29 @@
 require 'log4r'
+require 'config'
 
 class DescribeLogger
   attr_reader :LOGGERNAME
   include Singleton
 
   def initialize()
+    logfile = config_option "log-file"    
     @LOGGERNAME = 'DescribeService'
     logger = Log4r::Logger.new(@LOGGERNAME)
     
-    #add the file and stdout outputer
-    #fileoutput = Log4r::FileOutputter.new('fileoutput', :filename => @LOGGERNAME+'.log', :trunc =>false)
-    #logger.add(fileoutput)
-    stdoutput = Log4r::StdoutOutputter.new('stdout')
-    logger.add(stdoutput)
-    
-    #add a formatter to file output
+    #add a formatter to log output
     formatter = Log4r::PatternFormatter.new(:pattern => "[%l] %d %c: %m")
-    stdoutput.formatter = formatter
+      
+    #add logfile if log-file config option is specified, otherwise use stdout outputer
+    if logfile
+      fileoutput = Log4r::FileOutputter.new('fileoutput', :filename => logfile, :trunc =>false)
+      fileoutput.formatter = formatter
+      logger.add(fileoutput)
+    else
+      stdoutput = Log4r::StdoutOutputter.new('stdout')
+      stdoutput.formatter = formatter
+      logger.add(stdoutput)      
+    end
+
   end
   
   def error message

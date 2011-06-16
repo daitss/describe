@@ -64,7 +64,6 @@ get '/describe' do
   
   case url.scheme
   when "file"
-    
     urlpath = url.path
     link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(@originalName))
     FileUtils::ln_s(url.path, link)
