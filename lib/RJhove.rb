@@ -37,7 +37,7 @@ class RJhove
 
   def initialize
     @validators = open(config_file('validators.xml')) { |io| XML::Document.io io }
-    jhoveEngine = Jar.import_from_jars('shades.JhoveEngine')
+    jhoveEngine = Jar.import_from_jars('fcla.format.api.JhoveEngine')
     @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
   end
 

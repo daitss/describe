@@ -10,7 +10,7 @@ class RDroid
 
   def initialize
     #create the JAVA Minimal object
-    mindroid = Jar::import_from_jars('shades.MinimalDroid')
+    mindroid = Jar::import_from_jars('fcla.format.api.MinimalDroid')
     @droid = mindroid.new config_file('DROID_SignatureFile.xml')
   end
 
