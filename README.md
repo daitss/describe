@@ -44,8 +44,19 @@ GNU General Public License
 
 Directory Structure
 -------------------
-* config: configuration files, including a copy of DROID signature file, JHOVE config file, 
-  configuration to lookup associated validator on a given PUID, format tree and FDA format collection.
+* config: directory containing configuration files for setting up the description service including 
+  1. a copy of DROID signature file (DROID_SignatureFile.xml),
+  2. JHOVE config file (jhove.conf)
+  3. settings for the description service (describe.yml)
+  4. supported format validators (validators.xml)
+  5. configuration to lookup associated validator on a given format identifier (PUID) (format2validator.xml)
+  6. A format tree specifying formats from general to the most specific, used for identifying the most specific format (format_tree.xml)
+  7. A lookup table to look up the format identifier given a format description returned from the validator.  For example,
+     DROID would return a list of formats for a TIFF file (fmt/7 - fmt/10 for TIFF 3.0 - TIFF 6.0), after format validation through JHOVE,
+     JHOVE would return the the version of the TIFF file, ex TIFF 6.0.  The description service would then map TIFF 6.0
+     back to fmt/10 and record only the fmt/10 (TIFF 6.0) on the format section of its premis output.
+  8. A collection of FDA format registry which assign a temporary format identifier for those formats not yet
+     supported in PRONOM (FDA_FormatRegistry.xml)
 * features: cucumber feature files. 
 * jars: contain required java jars for DROID and JHOVE.
 * lib: ruby source code
