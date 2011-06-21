@@ -16,3 +16,6 @@ group :test do
   gem "rack-test", "~>0.5", :require => 'rack/test'
 end
 
+group :thin do
+  gem 'thin', "~>1.2"
+end
