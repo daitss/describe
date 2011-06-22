@@ -114,15 +114,15 @@ end
 
 # note: use /description to keep in sync with oss thin setup
 post '/description' do
-  halt 400, "query parameter document is required" unless params['document']
+  halt 400, "Query parameter document is required" unless params['document']
   halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']
 
   extension = params["extension"].to_s
   io = Tempfile.open("object")
   @input = io.path + '.' + extension;
   io.close!
-
-  pp request.env
+  @uri = @input
+  # pp request.env
 
   case params['document']
   when Hash
@@ -133,7 +133,7 @@ post '/description' do
     tmp.close
   end
 
-  pp params['document'][:filename]
+  # pp params['document'][:filename]
 
   @originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata

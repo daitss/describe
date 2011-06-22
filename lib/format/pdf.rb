@@ -83,8 +83,10 @@ class PDF < FormatBase
       # retrieve all image bitstreams inside the pdf
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
       sequence = 1
+
       nodes.each do |node|
         mix = node.find_first("mix:mix", NAMESPACES)
+ 
         bitstream = BitstreamObject.new
         bitstream.uri = @fileObject.uri + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
@@ -94,6 +96,7 @@ class PDF < FormatBase
           bitstream.formatName = 'unknown'
         end
         bitstream.objectExtension = mix
+
         @bitstreams << bitstream
         sequence += 1
    
@@ -103,13 +106,12 @@ class PDF < FormatBase
           break
         end
       end
-
       # clean up arrays
       @fonts.clear
       @features.clear
     else
       DescribeLogger.instance.warn "No PDFMetadata found"
     end
-
+    
   end
 end
