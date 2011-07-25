@@ -108,8 +108,13 @@ get '/describe' do
 end
 
 get '/' do
-  # render erb index template
-  erb :index
+  # render haml index template
+  #erb :index
+  haml :index
+end
+
+get '/resource' do
+  haml :'resource/index'
 end
 
 # note: use /description to keep in sync with oss thin setup

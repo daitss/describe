@@ -110,20 +110,20 @@ class RJhove
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which exactly what format this file is 
-		fileformat = findFormat(formats.first)
+		    fileformat = findFormat(formats.first)
         result.fileObject.formats << fileformat
         result.status = "format identified"
       else
         # ambiguous formats, record all (based on premis data dictionary 2.0, page 196)
         formatName = formats.each do |f| 
-		  fileformat = findFormat(f)
-		  fileformat.formatNote = "Candidate Format"
+          fileformat = findFormat(f)
+          fileformat.formatNote = "Candidate Format"
           result.fileObject.formats << fileformat
-          end
+        end
         result.status = "multiple formats identified"
       end
     else
-	  fileformat = FileFormat.new
+      fileformat = FileFormat.new
       # for empty file, the format Name should be 'N/A'
       if (File.zero?(input))
         fileformat.formatName = 'N/A'
@@ -131,8 +131,8 @@ class RJhove
         # for unempty file that can't be identified, the format name is 'unknown'
         fileformat.formatName = 'Unknown'
       end
-	    result.fileObject.formats << fileformat
-      result.status = "cannot identify file format of the file: #{input}"
+      result.fileObject.formats << fileformat
+      result.status = "cannot identify file format"
     end
 
     result

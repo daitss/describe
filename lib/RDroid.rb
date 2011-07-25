@@ -24,6 +24,7 @@ class RDroid
       entry = puidsItr.next()
       puidsHash[entry.key().toString] = entry.value().toString
     end
+    puids.clear
     # build a list of tentative format id that should be tested
     formats = Array.new
     puidsHash.each do |key, value|
