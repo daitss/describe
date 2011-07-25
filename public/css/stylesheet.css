@@ -1,0 +1,95 @@
+body {
+	margin: 0px;
+	padding:0px;
+	color: #222020;
+	font-family: "Droid Sans", sans-serif;
+	padding:0px 20px
+}
+
+p, form  {
+	margin: 0px;
+	padding:0px;
+	color: #222020;
+	font-family: "Droid Sans", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px;
+	padding:2px;
+	color: #0097DB;
+	font-weight: bold;
+
+}
+
+
+* {
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+	background-color: #E4E9E4		
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -2em;
+}
+
+.header {
+	background-image:url(../images/FDA-colorLogo.png);
+	background-repeat:no-repeat;
+	height:132px;
+	text-align:right;
+	font-weight: bold;
+	color: #F58123;	
+	padding:0px 20px	
+}
+
+.footer, .push {
+	height: 2em;
+}
+
+.footer {
+	color: #F58123;	
+	background-color: black	
+}
+
+#email {
+	float:left;
+	width:500px;
+	height:27px;
+	padding-top:5px;
+}
+
+#email a{
+	font-size:11px;
+	color:#fff;
+	font-weight:normal;
+	text-decoration:underline;
+	padding:0px 20px;
+}
+
+#email a:hover{
+	font-size:11px;
+	color:#fff;
+	font-weight:normal;
+	text-decoration:none;
+	padding:0px 20px;	
+}
+
+#download {
+	float:right;
+	width:278px;
+	height:27px;
+	padding-top:5px;
+}
+
+#download a{
+	font-size:11px;
+	color:#fff;
+	font-weight:normal;
+	text-decoration:underline;
+}

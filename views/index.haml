@@ -1,0 +1,66 @@
+%img{ :src => '/fda_logo' }
+
+%html
+%head
+	%link{:href => "http://fonts.googleapis.com/css?family=Lobster+serif:regular", :rel => "stylesheet", :type => "text/css" }  
+	%title
+	  Format Description Service
+	%meta{:http-equiv => 'Content-Type', content => 'text/html', charset => 'utf-8'}
+	
+	%script{:type => 'text/javascript', :src => '/js/jquery-1.3.2.min.js'}
+	%script{:type => 'text/javascript', :src => '/document.js'}
+
+%body
+	%h1 DAITSS 2 Format Description Service
+	%p Format Description Service performs format identification, validation and characterization
+		on a given file. The result is expressed in 
+		%a{:href => "http://www.loc.gov/standards/premis"} PREMIS
+		schema containing a PREMIS object for the identification and characterization result, a PREMIS event 
+		describing the validation status with applicable anomaly, and a PREMIS agent identifying the software agent
+		that generates PREMIS output, in this case, the description service.
+	%h3 Tools and schema
+	%p  The Format Description Service uses 
+		%a {:href => "http://droid.sourceforge.net/wiki/index.php/Introduction"} DROID
+		for format identification and 
+		%a {:href => "http://hul.harvard.edu/jhove/"} JHOVE
+		for format validation and characterization.  Based on the identification result, the
+		Format Description Service launches applicable JHOVE validators to perform format validation and
+		characterization.  The JHOVE characterization and validation result is then 
+		transformed into PREMIS along with applicable standard metadata schema.  The Format Description 
+		Service currently exports the following standard format-specific metadata schema,
+		%ul
+			%li 
+			  %a {:href => "http://www.loc.gov/standards/mix/" } MIX 2.0 
+			    for image metadata in JPEG, JP2 and TIFF
+			%li 
+			  proposed AES-X098B for audio metadata in WAVE and AIFF.  Please see JHOVE website for more details.
+			%li 
+			  %a {:href => "http://www.loc.gov/standards/textMD/"} TextMD
+			   for describing the metadata in ASCII, UTF8 and XML.
+			%li 
+			  %a {:href => http://fclaweb.fcla.edu/uploads/Lydia%20Motyka/FDA_documentation/documentMD.pdf DocMD
+			    for document metadata in PDF.
+
+	%p
+		General file metadata such as format information, file size, checksum, creator, create date, 
+		inhibitors will also be extracted and expressed in PREMIS schema.
+		
+	%h3 Try it out
+	%p Select and submit a file on your local system to the format description service. The 
+		result of format description may be saved locally using the browser "Save Page As" function.
+
+		%form{:method => "post", :action => "/description", :enctype => "multipart/form-data"}
+		  %label {:for => "document"} 
+			File:
+		  %input {:name => "document", :id => "uploadfile",  :size => "60", :type => "file"}
+		  %input {:type => "submit", :value => "Submit" }
+		  %br
+		  %br
+		  %input {:name => "extension", :id => "extension", :size => "24", :type => "hidden"}	    
+
+	%p Please note that there is a limit of 60MB for file upload.
+	%p We cordially invite you to try out this service and provide feedback to us.  Any problem or
+	   comment may be sent to cchou at ufl.edu.  The source code may be downloaded directly from 
+	   http://github.com/daitss/describe.
+
+	%h5 July 2011, Florida Digital Archive
