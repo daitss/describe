@@ -85,7 +85,7 @@ get '/describe' do
     throw :halt, [400,  "invalid url location"]
   end
 
-  # uri parameter is optional, set the file url is uri param is not specified
+  # uri parameter is optional, set the file url if uri param is not specified
   unless params['uri'].nil?
     @uri = params['uri']
   else
@@ -124,6 +124,7 @@ post '/description' do
 
   extension = params["extension"].to_s
   io = Tempfile.open("object")
+  
   @input = io.path + '.' + extension;
   io.close!
   @uri = @input
@@ -165,9 +166,9 @@ def description
 	@result.fileObject.trimFormatList
 	@result.fileObject.resolveFormats
   rescue => e
-    DescribeLogger.instance.error "running into exception #{e}"
+    DescribeLogger.instance.error "running into exception #{e} while processing #{@originalName}"
     DescribeLogger.instance.error e.backtrace.join("\n")
-	throw :halt, [500, "running into exception #{e}"]
+	throw :halt, [500, "running into exception #{e} while processing #{@originalName}\n#{e.backtrace.join('\n')}"]
   end
   
   @formats.clear
@@ -183,7 +184,7 @@ def description
     @result.clear
     @result = nil
   else
-    throw :halt, [500, "unexpected empty response"]
+    throw :halt, [500, "unexpected empty response while processing #{@originalName}"]
   end
 
 end

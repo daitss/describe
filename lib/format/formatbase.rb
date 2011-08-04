@@ -58,11 +58,12 @@ class FormatBase
     unless (@module.nil?)
       output = "extract.xml"
       @jhoveEngine.validateFile @module, input, output
-      
+
       begin  
         io = open output
         XML.default_keep_blanks = false
         doc = XML::Document.io io
+
         # parse the jhove output, extracting only the information we need
         parse(doc)
         # parse the validation result, record anomaly
@@ -73,8 +74,10 @@ class FormatBase
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
         @jhove = nil
         io.close        
-      rescue  => ex
-        DescribeLogger.instance.error ex
+      rescue  => e
+      #  DescribeLogger.instance.error "running into exception #{e} while processing #{input}"
+      #  DescribeLogger.instance.error e.backtrace.join("\n")
+        raise e
       end
     end
     @status
@@ -83,7 +86,7 @@ class FormatBase
   protected
   def parse(doc)
     @jhove = doc.find_first("//jhove:repInfo", NAMESPACES)
-    # puts @jhove
+
     unless (@jhove.nil?)
       @fileObject = FileObject.new
       @fileObject.location = @location
