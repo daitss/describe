@@ -33,8 +33,10 @@ require 'pp'
 require 'net/http'
 require 'jar'
 require 'yaml'
+require 'semver'
 
 MAX_RANDOM_NUM = 10000
+DESCRIBE_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
 # jvm options, for this to work it must be ran before any other rjb code
 jvm_option = config_option "jvm-options"

@@ -5,6 +5,7 @@ gem "rjb", "~>1.2"
 gem "libxml-ruby", "~>1.1", :require => 'libxml'
 gem "libxslt-ruby", "~>0.9", :require => 'libxslt'
 gem 'haml'
+gem 'semver'
 
 if RUBY_VERSION == "1.8.6"
   gem "rack", "~>1.0.0"
