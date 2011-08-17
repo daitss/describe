@@ -115,8 +115,8 @@ get '/' do
   haml :index
 end
 
-get '/resource' do
-  haml :'resource/index'
+get '/information' do
+  haml :'information/index'
 end
 
 # note: use /description to keep in sync with oss thin setup

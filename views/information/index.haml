@@ -1,0 +1,33 @@
+%h2 
+  Information
+%br
+%p 
+  Format Description Service uses
+  %a{:href => "http://sourceforge.net/apps/mediawiki/droid/index.php?title=Main_Page"} DROID
+  for format identification and 
+  %a{:href => "http://hul.harvard.edu/jhove/"} JHOVE
+  for format validation and characterization.  Based on the identification result, the
+  Format Description Service launches applicable JHOVE validators to perform format validation and
+  characterization.  The JHOVE characterization and validation result is then 
+  transformed into PREMIS along with applicable standard metadata schema.  
+%br
+%p
+  The Format Description Service currently exports the following standard format-specific metadata schema,
+
+%ul
+  %li 
+    %a{:href => "http://www.loc.gov/standards/mix/" } MIX 2.0 
+    for image metadata in JPEG, JP2 and TIFF
+  %li 
+    proposed AES-X098B for audio metadata in WAVE and AIFF.  Please see JHOVE website for more details.
+  %li 
+    %a{:href => "http://www.loc.gov/standards/textMD/"} TextMD
+    for describing the metadata in ASCII, UTF8 and XML.
+  %li 
+    %a{:href => "http://fclaweb.fcla.edu/uploads/Lydia%20Motyka/FDA_documentation/documentMD.pdf"} DocMD
+    for document metadata in PDF.
+
+%br
+%p
+  General file metadata such as format information, file size, checksum, creator, create date, 
+  inhibitors will also be extracted and expressed in PREMIS schema.
