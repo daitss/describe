@@ -1,13 +1,28 @@
 %h2 
-  Submit
+  Submit : 
+  %span{:id => 'inputchoice'}
+    %a{:href => "#input-file"} file upload
+    %a{:href => "#input-uri"} uri
+
 %br
-%p Select and submit a file on your local system to the format description service. The result of format description may be saved locally using the browser "Save Page As" function.
+%p Submit a file to the description service. The result of format description may be saved locally using the browser "Save Page As" function.
 %br
-%form{:action => '/description', :method => 'POST',  :enctype => 'multipart/form-data'}
-  %label{:for => 'document'} File:
-  %input{:name => 'document', :id => 'uploadfile',  :size => '60', :type => 'file'}
-  %input{:type => 'submit', :value => 'Submit' }
-  %br
-  %br  
-  %input{:name => 'extension', :id => 'extension', :size => '24', :type => 'hidden'}	  
-%p Please note that there is a limit of 60MB for file upload.
+
+%div{:id => "input-file", :class => "form-container"}
+  %form{:action => '/description', :method => 'POST', :enctype => 'multipart/form-data'}
+    %label{:for => 'document'} File:
+    %input{:name => 'document', :id => 'uploadfile',  :size => '60', :type => 'file'}
+    %input{:type => 'submit', :value => 'Submit' }
+    %br
+    %br  
+    %input{:name => 'extension', :id => 'extension', :size => '24', :type => 'hidden'}
+
+%div{:id => "input-uri", :class => "form-container"}
+  %form{:action => '/describe', :method => 'get'}
+    %label{:for => "location"} Address:
+    %input{:name => "location", :id => "uri", :type => "text", :size => "45"}
+    %input{:type => 'submit', :value => 'Submit' }
+    %br
+    %br
+
+

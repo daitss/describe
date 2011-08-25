@@ -55,21 +55,28 @@ get '/describe' do
     throw :halt, [400, "require a location parameter."]
   end
   io = nil
-
+ 
   url = URI.parse(params['location'].to_s)
   # set originalName, "originalName" param is optional
+  
   unless params['originalName'].nil?
     @originalName = params['originalName']
   else
     @originalName = url.path
   end
-  
+   
   case url.scheme
   when "file"
     urlpath = url.path
     link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(@originalName))
     FileUtils::ln_s(url.path, link)
     @input = link
+    # uri parameter is optional, set the file url if uri param is not specified
+    unless params['uri'].nil?
+      @uri = params['uri']
+    else
+      @uri = @input
+    end
   when "http"
     resource = Net::HTTP.get_response url
     index = url.path.rindex('.')
@@ -79,6 +86,12 @@ get '/describe' do
     io.flush
     @input = io.path
     io.close
+    # uri parameter is optional, set to the specified url if uri param is not specified
+    unless params['uri'].nil?
+      @uri = params['uri']
+    else
+      @uri = url
+    end
   else
     throw :halt, [400,  "invalid url location type"]
   end
@@ -87,12 +100,7 @@ get '/describe' do
     throw :halt, [400,  "invalid url location"]
   end
 
-  # uri parameter is optional, set the file url if uri param is not specified
-  unless params['uri'].nil?
-    @uri = params['uri']
-  else
-    @uri = @input
-  end
+
 
   # make sure the file exist and it's a valid file
   if (File.symlink?(@input) || File.file?(@input)) then

@@ -119,3 +119,35 @@ ol{
 	border: 1px solid;
 }
 
+#inputchoice a.active {
+	font-size:26px;
+	color:#4A4344;
+	font-weight:normal;
+	text-decoration:none;
+	padding: 0px;
+}
+
+#inputchoice a.active:hover {
+	font-size:26px;
+	color:#4A4344;
+	font-weight:normal;
+	text-decoration:underline;
+	padding: 0px;
+}
+
+#inputchoice a {
+	font-size:26px;
+	color:#797B7A;
+	font-weight:normal;
+	text-decoration:none;
+	padding: 0px;
+}
+
+#inputchoice a:hover {
+	font-size:26px;
+	color:#797B7A;
+	font-weight:normal;
+	text-decoration:underline;
+	padding: 0px;
+}
+
