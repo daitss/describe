@@ -11,7 +11,7 @@ require 'rubygems'
 require 'railsless-deploy'
 require 'bundler/capistrano'
 
-set :repository,   "http://github.com/daitss/describe.git"
+set :repository,   "git://github.com/daitss/describe.git"
 set :scm,          "git"
 set :branch,       "master"
 
@@ -61,6 +61,8 @@ namespace :deploy do
   task :layout, :roles => :app do
     # make everything group ownership daitss, for easy maintenance.
     run "find #{shared_path} #{release_path} -print0 | xargs -0 chgrp #{group}"
+    run "find #{shared_path} #{release_path} -print0 -type d | xargs -0 chmod 2775"
+    run "find #{shared_path} #{release_path} -print0 -type f | xargs -0 chmod g+rwX"
   end
   
 end

@@ -1,9 +1,9 @@
 source "http://rubygems.org"
-gem "sinatra", "~>1.0"
-gem "log4r", "~>1.1"
-gem "rjb", "~>1.2"
-gem "libxml-ruby", "~>1.1", :require => 'libxml'
-gem "libxslt-ruby", "~>0.9", :require => 'libxslt'
+gem "sinatra"
+gem "log4r"
+gem "rjb"
+gem "libxml-ruby", :require => 'libxml'
+gem "libxslt-ruby", :require => 'libxslt'
 gem 'haml'
 gem 'semver'
 
@@ -12,12 +12,12 @@ if RUBY_VERSION == "1.8.6"
 end
 
 group :test do
-  gem "cucumber", "~>0.7"
-  gem "rspec", "~>1.3", :require => "spec"
-  gem "ruby-debug", "~>0.10", :require => "spec"
-  gem "rack-test", "~>0.5", :require => 'rack/test'
+  gem "cucumber"
+  gem "rspec", :require => "spec"
+  gem "ruby-debug", :require => "spec"
+  gem "rack-test", :require => 'rack/test'
 end
 
 group :thin do
-  gem 'thin', "~>1.2"
+  gem 'thin'
 end

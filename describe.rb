@@ -158,6 +158,10 @@ post '/description' do
   response.finish
 end
 
+get '/status' do
+  [ 200, {'Content-Type'  => 'application/xml'}, "<status/>\n" ]
+end
+
 def description
   jhove = RJhove.instance
   droid = RDroid.instance
