@@ -8,11 +8,14 @@
   %a{:href => "http://hul.harvard.edu/jhove/"} JHOVE
   for format validation and characterization.  Based on the identification result, the
   Format Description Service launches applicable JHOVE validators to perform format validation and
-  characterization.  The JHOVE characterization and validation result is then 
+  characterization.  The JHOVE characterization and validation results are then 
   transformed into PREMIS along with applicable standard metadata schema.  
 %br
+%h4 Characterization Result
 %p
-  The Description Service currently exports the following standard format-specific metadata schema,
+  General file metadata such as format information, file size, checksum, creator, create date, 
+  inhibitors are extracted and expressed in PREMIS schema.  The Description Service currently exports 
+  the following standard format-specific metadata schema,
 
 %ul
   %li 
@@ -26,8 +29,19 @@
   %li 
     %a{:href => "http://fclaweb.fcla.edu/uploads/Lydia%20Motyka/FDA_documentation/documentMD.pdf"} DocMD
     for document metadata in PDF.
-
+  
 %br
+%h4 Validation Result
 %p
-  General file metadata such as format information, file size, checksum, creator, create date, 
-  inhibitors will also be extracted and expressed in PREMIS schema.
+ 
+  Description service utilize PREMIS event objects to record validation result.  General validation result 
+  is recorded the eventDetail, for example, this following line indicates that the file is both well-formed and valid 
+  according to the file format specification.
+%p 
+  &lteventDetail&gtWell-Formed and valid&lt/eventDetail&gt
+%br
+%p If there is any anomaly detected during format validation, it will be recorded in the eventOutcomeDetailExtension section.
+%p &lteventOutcomeDetailExtension&gt
+%p &ltanomaly&gtImproperly formed date&lt/anomaly&gt
+%p &lt/eventOutcomeDetailExtension&gt
+  

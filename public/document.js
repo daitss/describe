@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// initial state for js enabled browsers
-	$("#inputchoice a:contains('file upload')").addClass("active")
+	$("#inputchoice a:contains('file')").addClass("active")
 	$("#input-uri").hide();
 	
 	// select the visible input form

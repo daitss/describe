@@ -1,7 +1,8 @@
 %h2 
-  Submit : 
+  Submit : &nbsp;
   %span{:id => 'inputchoice'}
-    %a{:href => "#input-file"} file upload
+    %a{:href => "#input-file"} file 
+    &nbsp; &nbsp;
     %a{:href => "#input-uri"} uri
 
 %br
@@ -14,6 +15,13 @@
     %input{:name => 'document', :id => 'uploadfile',  :size => '60', :type => 'file'}
     %input{:type => 'submit', :value => 'Submit' }
     %br
+    %br
+    %p 
+      Alternatively, users can use HTTP clients such as curl to submit local files directly to the 
+      description service via HTTP protocol. For example, to use curl to upload a local file named 00001.pdf to 
+      the description service and save the result to premis.xml,
+    %br
+    %p curl -F "document=@00001.pdf" -F "extension=pdf" http://description.fcla.edu/description > premis.xml
     %br  
     %input{:name => 'extension', :id => 'extension', :size => '24', :type => 'hidden'}
 
@@ -23,6 +31,13 @@
     %input{:name => "location", :id => "uri", :type => "text", :size => "45"}
     %input{:type => 'submit', :value => 'Submit' }
     %br
+    %br
+    %p
+      Alternatively, users can use HTTP clients such as curl to submit URI address directly to the description 
+      service via HTTP protocol. For example, to use curl to submit the resource located at http://www.fcla.edu/daitss-test/files/00004.txt 
+      to the description service and save the result to premis.xml,
+    %br
+    %p curl http://description.fcla.edu/describe?location=http://www.fcla.edu/daitss-test/files/00004.txt > premis.xml
     %br
 
 
