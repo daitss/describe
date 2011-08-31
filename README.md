@@ -1,4 +1,4 @@
-Format Description Service
+Description Service
 ==========================
 * Format identification via TNA DROID software.
 * Using the identification result, find appropriate JHOVE validator.  
