@@ -3,15 +3,20 @@ require 'rake/rdoctask'
 #require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
-Cucumber::Rake::Task.new
-
-Spec::Rake::SpecTask.new do |t|
-  t.libs << 'lib'
-  t.libs << 'spec'
+desc "Cucumber"
+task :cucumber do
+  Cucumber::Rake::Task.new
 end
 
+desc "rspec"
+task :rspec do
+  Spec::Rake::SpecTask.new do |t|
+    t.libs << 'lib'
+    t.libs << 'spec'
+  end
+end
 
-HOME    = File.expand_path(File.dirname(__FILE__))
+HOME = File.expand_path(File.dirname(__FILE__))
 
 desc "Hit the restart button for apache/passenger, pow servers"
 task :restart do
