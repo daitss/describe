@@ -20,6 +20,7 @@ set :user,         "daitss"
 set :group,        "daitss" 
 
 set :bundle_without,      []
+set :keep_releases, 4   # default is 5
 
 def usage(*messages)
   STDERR.puts "Usage: cap deploy -S target=<host:filesystem>"  
