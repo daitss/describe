@@ -4,3 +4,4 @@ DescribeService.log
 *.log
 *.swp
 *.pid
+bundle
