@@ -1,4 +1,5 @@
 require 'format/formatbase.rb'
+require 'datyl/logger'
 
 class Image < FormatBase  
   protected 
@@ -11,12 +12,12 @@ class Image < FormatBase
       #retrieve the mix namespace
       @mix = niso.find_first("//mix:mix", NAMESPACES)
     else 
-      DescribeLogger.instance.warn "No NisoImageMetadata found"
+      Datyl::Logger.warn "No NisoImageMetadata found"
     end
   end
   
   
-  #fix malformed mix metadata, example include non-printable characters in dateTimeCreated
+  # fix malformed mix metadata, example include non-printable characters in dateTimeCreated
   protected 
   
   def fixMix(mixstream)

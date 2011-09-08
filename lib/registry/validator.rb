@@ -1,5 +1,4 @@
 require 'xml'
-require 'config'
 
 class Validator
   attr_reader :name

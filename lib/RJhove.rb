@@ -1,11 +1,9 @@
-#!/usr/local/env ruby
-require 'rubygems' 
 require 'structures'
 require 'registry/format2validator'
 require 'registry/pronom_format'
 require 'registry/validator'
 require 'registry/registry'
-require 'DescribeLogger'
+require 'datyl/logger'
 require 'config'
 
 class Result
@@ -50,7 +48,7 @@ class RJhove
     unless (validators.empty?)
       result = Result.new
       validators.each do |vdr|
-        # DescribeLogger.instance.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
+        # Datyl::Logger.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
@@ -78,7 +76,7 @@ class RJhove
         end
       end
     else
-      DescribeLogger.instance.info "no validator is defined for these formats: " + formats.join(",")
+      Datyl::Logger.info "no validator is defined for these formats: " + formats.join(",")
       # no validator, retrieve the basic file metadata
       result = retrieveFileProperties(input, formats, uri)
     end
@@ -150,7 +148,7 @@ class RJhove
       fmt2val.validators.each {|val| validatorSet.add(val)}
     end
     fmt2val.clear
-    # DescribeLogger.instance.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
+    # Datyl::Logger.info "applicable validators found: #{validatorSet.to_a.join(",")}"  
     # return a prioritized list of validators if applicable
     validators = SortedSet.new
     validatorSet.each do |val|
@@ -167,7 +165,7 @@ class RJhove
   def isValid(status)
     valid = false
     unless status.nil?
-      # DescribeLogger.instance.info "status : #{status}"
+      # Datyl::Logger.info "status : #{status}"
       if status.casecmp("well-formed and valid") >=0
         valid = true
       end

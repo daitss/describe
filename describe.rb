@@ -21,7 +21,6 @@ require "bundler/setup"
 require 'sinatra'
 require 'RJhove'
 require 'RDroid'
-require 'DescribeLogger'
 require 'uri'
 require 'rjb'
 require 'structures'
@@ -34,20 +33,78 @@ require 'net/http'
 require 'jar'
 require 'yaml'
 require 'semver'
+require 'format/pdf'
+
+require 'datyl/logger'
+require 'datyl/config'
+
+include Datyl
 
 MAX_RANDOM_NUM = 10000
 DESCRIBE_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
-# jvm options, for this to work it must be ran before any other rjb code
-jvm_option = config_option "jvm-options"
-if jvm_option
-  Rjb.load '.', jvm_option
+def get_config
+  raise "No DAITSS_CONFIG environment variable has been set, so there's no configuration file to read"             unless ENV['DAITSS_CONFIG']
+  raise "The DAITSS_CONFIG environment variable points to a non-existant file, (#{ENV['DAITSS_CONFIG']})"          unless File.exists? ENV['DAITSS_CONFIG']
+  raise "The DAITSS_CONFIG environment variable points to a directory instead of a file (#{ENV['DAITSS_CONFIG']})"     if File.directory? ENV['DAITSS_CONFIG']
+  raise "The DAITSS_CONFIG environment variable points to an unreadable file (#{ENV['DAITSS_CONFIG']})"            unless File.readable? ENV['DAITSS_CONFIG']
+
+  Datyl::Config.new(ENV['DAITSS_CONFIG'], :defaults, ENV['VIRTUAL_HOSTNAME'])
 end
 
-Jar.load_jars
+configure do |s|
+  config = get_config
+
+  ENV['TMPDIR'] = config.temp_directory
+
+  disable :logging        # Stop CommonLogger from logging to STDERR; we'll set it up ourselves.
+
+  disable :dump_errors    # Normally set to true in 'classic' style apps (of which this is one) regardless of :environment; it adds a backtrace to STDERR on all raised errors (even those we properly handle). Not so good.
+
+  set :environment,  :production  # Get some exceptional defaults.
+
+  set :raise_errors, false        # Handle our own exceptions.
+
+  PDF.max_pdf_bitstreams = config.max_pdf_bitstreams
+
+  Datyl::Logger.setup('Describe', ENV['VIRTUAL_HOSTNAME'])
+
+  if not (config.log_syslog_facility or config.log_filename)
+    Datyl::Logger.stderr # log to STDERR
+  end
+
+  Datyl::Logger.facility = config.log_syslog_facility if config.log_syslog_facility
+  Datyl::Logger.filename = config.log_filename if config.log_filename
+
+  Datyl::Logger.info "Starting up describe service"
+
+  use Rack::CommonLogger, Datyl::Logger.new(:info, 'Rack:')
+
+  # jvm options, for this to work it must be ran before any other rjb code
+  if config.jvm_options
+    Rjb.load '.', config.jvm_options
+  end
+
+  Jar.load_jars
+end #of configure
 
 error do
-  'Encounter Error ' + env['sinatra.error'].name
+  e = @env['sinatra.error']
+
+  request.body.rewind if request.body.respond_to?('rewind') # work around for verbose passenger warning
+
+  Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}'; backtrace follows", @env
+  e.backtrace.each { |line| Datyl::Logger.err line, @env }
+
+  halt 500, { 'Content-Type' => 'text/plain' }, e.message + "\n"
+end 
+
+not_found do
+  request.body.rewind if request.body.respond_to?(:rewind)
+
+  content_type 'text/plain'  
+
+  "Not Found\n"
 end
 
 get '/describe' do
@@ -180,8 +237,8 @@ def description
 	@result.fileObject.trimFormatList
 	@result.fileObject.resolveFormats
   rescue => e
-    DescribeLogger.instance.error "running into exception #{e} while processing #{@originalName}"
-    DescribeLogger.instance.error e.backtrace.join("\n")
+    Datyl::Logger.err "running into exception #{e} while processing #{@originalName}"
+    Datyl::Logger.err e.backtrace.join("\n")
 	throw :halt, [500, "running into exception #{e} while processing #{@originalName}\n#{e.backtrace.join('\n')}"]
   end
   

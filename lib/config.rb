@@ -8,10 +8,3 @@ def xsl_file name
   File.expand_path rel
 end
 
-def config_option option
-  # load in description service configuration parameter
-  describe_config = YAML.load_file config_file('describe.yml')
-  describe_config ||= {}
-  
-  describe_config[option]
-end

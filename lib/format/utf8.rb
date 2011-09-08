@@ -1,4 +1,5 @@
 require 'format/formatbase'
+require 'datyl/logger'
 
 class UTF8 < FormatBase
 
@@ -11,7 +12,7 @@ class UTF8 < FormatBase
     unless (utf8MD.nil?)
       @fileObject.objectExtension = apply_xsl("utf2TextMD.xsl").root
     else
-      DescribeLogger.instance.warn "No UTF8Metadata found"
+      Datyl::Logger.warn "No UTF8Metadata found"
     end
 
   end

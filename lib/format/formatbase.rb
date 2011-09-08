@@ -1,10 +1,8 @@
 require 'xml'
 require 'libxslt'
 require 'structures'
-require 'DescribeLogger'
 require 'fileutils'
 require 'rjb'
-require 'config'
 require 'set'
 require 'jar'
 
@@ -75,9 +73,7 @@ class FormatBase
         @jhove = nil
         io.close        
       rescue  => e
-      #  DescribeLogger.instance.error "running into exception #{e} while processing #{input}"
-      #  DescribeLogger.instance.error e.backtrace.join("\n")
-        raise e
+        raise "running into exception #{e.class} '#{e.message}' while processing #{input.length} bytes of input"
       end
     end
     @status

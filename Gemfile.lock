@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/daitss/datyl.git
+  revision: 53f8c8142a0e2df2fa3a1df0095abb8646ab0483
+  specs:
+    datyl (0.1.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -56,6 +62,7 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
+  datyl!
   haml
   libxml-ruby
   libxslt-ruby

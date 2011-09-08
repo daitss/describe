@@ -1,8 +1,5 @@
-#!/usr/local/env ruby
-require 'rubygems'
 require 'rjb'
 require 'singleton'
-require 'DescribeLogger'
 require 'config'
 
 class RDroid

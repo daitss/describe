@@ -2,7 +2,7 @@ require "rubygems"
 require "bundler"
 Bundler.setup
 require 'rack/test'
-require 'spec/expectations'
+require 'rspec/expectations'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
 require File.dirname(__FILE__) + "/../../describe"

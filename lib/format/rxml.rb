@@ -1,4 +1,5 @@
 require 'format/formatbase'
+require 'datyl/logger'
 
 class RXML < FormatBase
 
@@ -9,7 +10,7 @@ class RXML < FormatBase
     unless (xmlMD.nil?)
       @fileObject.objectExtension = apply_xsl("xml2TextMD.xsl").root
     else 
-      DescribeLogger.instance.warn "no XMLMetadata found"
+      Datyl::Logger.warn "no XMLMetadata found"
     end
 
   end

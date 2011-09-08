@@ -7,6 +7,8 @@ gem "libxslt-ruby", :require => 'libxslt'
 gem 'haml'
 gem 'semver'
 
+gem "datyl", :git => "git://github.com/daitss/datyl.git"
+
 if RUBY_VERSION == "1.8.6"
   gem "rack", "~>1.0.0"
 end

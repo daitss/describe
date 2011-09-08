@@ -1,4 +1,5 @@
 require 'format/formatbase.rb'
+require 'datyl/logger'
 
 class Audio < FormatBase
   protected
@@ -12,7 +13,7 @@ class Audio < FormatBase
       audio = aes.find_first("//aes:audioObject", NAMESPACES)
       @fileObject.objectExtension = audio
     else 
-      DescribeLogger.instance.warn "No AESAudioMetadata found"
+      Datyl::Logger.warn "No AESAudioMetadata found"
     end
   end
 

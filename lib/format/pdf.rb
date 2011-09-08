@@ -1,11 +1,20 @@
 require 'format/formatbase'
 require 'erb'
+require 'datyl/logger'
 
 class PDF < FormatBase
+
+  @@max_pdf_bitstreams = nil
+
+  # SMELL we should modify the constructor to accept multiple arguments - this means eval(vdr.class) plugin
+  # design has to handle multiple arguments
+
+  def self.max_pdf_bitstreams= num
+      @@max_pdf_bitstreams = num
+  end
+   
   def initialize(jhoveModule)
-    super
-    # jvm options, for this to work it must be ran before any other rjb code
-    @max_pdf_bitstreams = config_option "max-pdf-bitstreams"
+      super
   end
   
   def parse(xml)
@@ -47,7 +56,8 @@ class PDF < FormatBase
       end
 
       # convert to doc schema
-      # DescribeLogger.instance.info "transforming JHOVE output to DocMD"
+
+      Datyl::Logger.info "transforming JHOVE output to DocMD"
       nodes = pdfMD.find("//jhove:property[jhove:name='Page']", NAMESPACES)
       @pageCount = nodes.size
 
@@ -101,7 +111,7 @@ class PDF < FormatBase
         sequence += 1
    
         # stop retrieving image bitstream when exceeding number of bitstream we want to retrieve in pdf.
-        if (@max_pdf_bitstreams and sequence > @max_pdf_bitstreams)
+        if (@@max_pdf_bitstreams and sequence > @@max_pdf_bitstreams)
           @anomaly.add "excessive number of image bitstreams in the PDF"
           break
         end
@@ -110,7 +120,7 @@ class PDF < FormatBase
       @fonts.clear
       @features.clear
     else
-      DescribeLogger.instance.warn "No PDFMetadata found"
+      Datyl::Logger.warn "No PDFMetadata found"
     end
     
   end

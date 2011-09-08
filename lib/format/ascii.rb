@@ -1,4 +1,5 @@
 require 'format/formatbase'
+require 'datyl/logger'
 
 class ASCII < FormatBase
 
@@ -11,7 +12,7 @@ class ASCII < FormatBase
     unless (asciiMD.nil?)
       @fileObject.objectExtension = apply_xsl("ascii2TextMD.xsl").root
     else 
-      DescribeLogger.instance.warn "No ASCIIMetadata found"
+      Datyl::Logger.warn "No ASCIIMetadata found"
     end
 
   end
