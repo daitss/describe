@@ -75,6 +75,7 @@ configure do |s|
   Datyl::Logger.filename = config.log_filename if config.log_filename
 
   Datyl::Logger.info "Starting up describe service"
+  Datyl::Logger.info "Using temp directory #{ENV['TMPDIR']}"
 
   use Rack::CommonLogger, Datyl::Logger.new(:info, 'Rack:')
 
