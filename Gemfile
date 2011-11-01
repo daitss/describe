@@ -3,7 +3,7 @@ gem "sinatra"
 gem "log4r"
 gem "rjb"
 gem "libxml-ruby", :require => 'libxml'
-gem "libxslt-ruby", :require => 'libxslt'
+gem "libxslt-ruby", "<=1.0.1", :require => 'libxslt'
 gem 'haml'
 gem 'semver'
 
