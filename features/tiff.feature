@@ -26,3 +26,9 @@ Scenario: GeoTiff
 	Then I should receive GeoTIFF on the format
 	And the status should be ok
 	And mix should exist
+
+Scenario: TIFF with flash, meteringMode and exposureBiasValue metadata
+	Given a TIFF file with flash, meteringMode and exposureBiasValue metadata
+ 	When describing the file
+	Then the status should be ok
+	And mix should exist
