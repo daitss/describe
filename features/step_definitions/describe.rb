@@ -75,6 +75,10 @@ Given /^a PDF with CreatingApplication but not CreateDate$/ do
  @file = "#{path}/00020.pdf"
 end
 
+Given /^a PDF with bad Encoding property in its font dictionary/ do
+  @file = "#{path}/JAPR_April_2010.pdf"
+end
+
 Given /^tiff with application metadata$/ do
   @file = "#{path}/MM00000285.tif"
 end
@@ -91,6 +95,10 @@ Given /^a TIFF 6\.0 file$/ do
   @file = "#{path}/MM00000285.tif"
 end
 
+Given /^a TIFF file with flash, meteringMode and exposureBiasValue metadata$/ do
+   @file = "#{path}/18.tif"
+end
+
 Given /^a GeoTiff file$/ do
   @file = "#{path}/tjpeg.tif"
 end
@@ -102,6 +110,10 @@ end
 
 Given /^an utf\-8 file$/ do
   @file = "#{path}/Doc1.txt"
+end
+
+Given /^a bad text file with disallowed character$/ do
+  @file = "#{path}/00356.txt"
 end
 
 Given /^a file with unknown format$/ do
@@ -227,4 +239,9 @@ Then /^I should receive (.+?) bitstreams$/ do |num|
   # make sure there are expected number of bitstream objects
   list = doc.find("//premis:object[@xsi:type='bitstream']", 'premis' => 'info:lc/xmlns/premis-v2', 'xsi' => 'http://www.w3.org/2001/XMLSchema-instance')
   list.size.should == num.to_i
+end
+
+Then /^I should receive eventDetail equal to 'Not well-formed'$/ do
+  last_response.body.to_s =~ /eventDetail>(.*?)<\/eventDetail>/
+  $1.should == 'Not well-formed'
 end
