@@ -74,4 +74,10 @@ Feature: retrieve the description on a PDF resource
 		When describing the file
 		Then the status should be ok
 		And the docmd should exist					
+
+	Scenario: PDF with bad Encoding property in its font dictionary
+		Given a PDF with bad Encoding property in its font dictionary
+		When describing the file
+		Then the status should be ok
+		And the docmd should exist					
 		
