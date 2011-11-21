@@ -23,8 +23,8 @@ GEM
     haml (3.1.2)
     json (1.5.4)
     libxml-ruby (2.2.2)
-    libxslt-ruby (1.0.7)
-      libxml-ruby (>= 2.2.2)
+    libxslt-ruby (1.0.1)
+      libxml-ruby (>= 2.0.2)
     linecache (0.46)
       rbx-require-relative (> 0.0.4)
     log4r (1.1.9)
@@ -65,7 +65,7 @@ DEPENDENCIES
   datyl!
   haml
   libxml-ruby
-  libxslt-ruby
+  libxslt-ruby (<= 1.0.1)
   log4r
   rack-test
   rjb
