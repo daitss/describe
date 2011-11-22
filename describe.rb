@@ -79,6 +79,10 @@ configure do |s|
 
   use Rack::CommonLogger, Datyl::Logger.new(:info, 'Rack:')
 
+  config.jvm_options.each do |o| 
+    ENV["_JAVA_OPTIONS"] = o if o =~ /-Xmx/
+  end
+
   # jvm options, for this to work it must be ran before any other rjb code
   if config.jvm_options
     Rjb.load '.', config.jvm_options
