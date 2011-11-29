@@ -160,16 +160,10 @@ get '/describe' do
     throw :halt, [400,  "invalid url location"]
   end
 
-
-
   # make sure the file exist and it's a valid file
   if (File.symlink?(@input) || File.file?(@input)) then
     description
-    if io
-      io.unlink
-    else
-      FileUtils.rm link
-    end
+    FileUtils.rm @input
   else
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
@@ -214,7 +208,8 @@ post '/description' do
   @originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata
   description
-  File.delete(@input)
+  number = File.delete(@input)
+  puts "delete #{@input}, result #{number}"
   response.finish
 end
 
@@ -222,6 +217,10 @@ get '/status' do
   [ 200, {'Content-Type'  => 'application/xml'}, "<status/>\n" ]
 end
 
+def cleanup
+end
+
+# perform format description and generate the result in premis
 def description
   jhove = RJhove.instance
   droid = RDroid.instance
@@ -242,7 +241,8 @@ def description
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{@originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
-	throw :halt, [500, "running into exception #{e} while processing #{@originalName}\n#{e.backtrace.join('\n')}"]
+    FileUtils.rm @input
+	  throw :halt, [500, "running into exception #{e} while processing #{@originalName}\n#{e.backtrace.join('\n')}"]
   end
   
   @formats.clear
@@ -258,6 +258,7 @@ def description
     @result.clear
     @result = nil
   else
+    FileUtils.rm @input
     throw :halt, [500, "unexpected empty response while processing #{@originalName}"]
   end
 
