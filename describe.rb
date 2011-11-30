@@ -168,6 +168,7 @@ get '/describe' do
     throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
   end
 
+  GC.start
   response.finish
 end
 
