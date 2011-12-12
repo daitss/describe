@@ -73,7 +73,7 @@ class FormatBase
         @jhove = nil
         io.close        
       rescue  => e
-        raise "running into exception #{e.class} '#{e.message}' while processing #{input.length} bytes of input"
+        raise "running into exception #{e.class} '#{e.message}' while processing #{input.length} bytes of input\n#{e.backtrace.join('\n')}"
       end
     end
     @status

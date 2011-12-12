@@ -69,14 +69,17 @@ class PDF < FormatBase
       @fonts = Hash.new
       nodes = pdfMD.find("//jhove:property[jhove:name='Fonts']/jhove:values/jhove:property/jhove:values/jhove:property[jhove:name='Font']/jhove:values/jhove:property[jhove:name='FontDescriptor']", NAMESPACES)
       nodes.each do |font|
-        fontname = font.find_first("jhove:values/jhove:property[jhove:name='FontName']/jhove:values/jhove:value", NAMESPACES).content
-        # remove font substitution string (every character before +)
-        subfont = fontname.split("+")
-        fontname = subfont.last
-        hasfontfile = font.find_first("jhove:values/jhove:property[starts-with(jhove:name, 'FontFile')]/jhove:values/jhove:value", NAMESPACES)
-        isEmbedded = 'false'
-        isEmbedded = 'true' if hasfontfile && hasfontfile.content.eql?('true')
-        @fonts[fontname] = isEmbedded
+        font_name = font.find_first("jhove:values/jhove:property[jhove:name='FontName']/jhove:values/jhove:value", NAMESPACES)
+        unless font_name.nil?
+          fontname = font_name.content
+          # remove font substitution string (every character before +)
+          subfont = fontname.split("+")
+          fontname = subfont.last
+          hasfontfile = font.find_first("jhove:values/jhove:property[starts-with(jhove:name, 'FontFile')]/jhove:values/jhove:value", NAMESPACES)
+          isEmbedded = 'false'
+          isEmbedded = 'true' if hasfontfile && hasfontfile.content.eql?('true')
+          @fonts[fontname] = isEmbedded
+        end
       end
       #retrieve all the features in the pdf.
       @features = Array.new
