@@ -42,7 +42,7 @@
 			<% end %>
 			<% if @result.fileObject.createAppName or @result.fileObject.createDate%>
 			<creatingApplication>
-				<creatingApplicationName><%= @result.fileObject.createAppName %></creatingApplicationName>
+				<creatingApplicationName><%= ERB::Util::h(@result.fileObject.createAppName) %></creatingApplicationName>
 				<% if @result.fileObject.createAppVersion %>
 				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
 				<% end %>
