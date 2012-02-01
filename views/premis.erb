@@ -67,7 +67,7 @@
 			<%end%>
 		</objectCharacteristics>
 		<% if @result.fileObject.originalName %>
-		<originalName><%= @result.fileObject.originalName%></originalName>
+		<originalName><%= ERB::Util::h(@result.fileObject.originalName)%></originalName>
 		<% end %>
 		<% unless @result.bitstreams.nil? %>
 		<% @result.bitstreams.each do |bs| %>
