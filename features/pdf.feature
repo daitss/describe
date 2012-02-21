@@ -31,6 +31,7 @@ Feature: retrieve the description on a PDF resource
 		Given a PDF 1.7 file
 		When describing the file
 		Then I should receive 1.7 on the format version
+	    And I should receive fmt/276 on the format id
 		And the status should be ok
 		And the docmd should exist
 				
