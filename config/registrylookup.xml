@@ -12,27 +12,7 @@
 		<identifier>x-fmt/111</identifier>
 		<lookup>ASCII</lookup>
 	</registry>
-		
-	<registry>
-		<name>http://www.nationalarchives.gov.uk/pronom</name>
-		<identifier>fmt/7</identifier>
-		<lookup>TIFF 3.0</lookup>
-	</registry>
-	<registry>
-		<name>http://www.nationalarchives.gov.uk/pronom</name>
-		<identifier>fmt/8</identifier>
-		<lookup>TIFF 4.0</lookup>
-	</registry>
-	<registry>
-		<name>http://www.nationalarchives.gov.uk/pronom</name>
-		<identifier>fmt/9</identifier>
-		<lookup>TIFF 5.0</lookup>
-	</registry>
-	<registry>
-		<name>http://www.nationalarchives.gov.uk/pronom</name>
-		<identifier>fmt/10</identifier>
-		<lookup>TIFF 6.0</lookup>
-	</registry>
+	
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/153</identifier>
@@ -45,11 +25,13 @@
 		<lookup>TIFF/IT-BL (ISO 12639:1998)</lookup>
 		<lookup>TIFF/IT-FP (ISO 12639:1998)</lookup>											
 	</registry>
+	
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/154</identifier>
 		<lookup>TIFF/EP (ISO 12234-2:2001)</lookup>
 	</registry>
+	
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/155</identifier>
@@ -119,9 +101,18 @@
 	</registry>
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/276</identifier>
+		<lookup>PDF 1.7</lookup>
+	</registry>	
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>fmt/95</identifier>
+		<lookup>ISO PDF/A-1, Level A</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/354</identifier>
 		<lookup>ISO PDF/A-1, Level B</lookup>
 	</registry>
-
 </registries>
 		
