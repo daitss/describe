@@ -83,6 +83,10 @@ Given /^a PDF with bad Encoding property in its font dictionary/ do
   @file = "#{path}/JAPR_April_2010.pdf"
 end
 
+Given /^a non\-wellformed PDF$/ do
+  @file = "#{path}/IATUL_FSU_2010_06_17.pdf"
+end
+
 Given /^tiff with application metadata$/ do
   @file = "#{path}/MM00000285.tif"
 end

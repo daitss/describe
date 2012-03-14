@@ -81,4 +81,9 @@ Feature: retrieve the description on a PDF resource
 		When describing the file
 		Then the status should be ok
 		And the docmd should exist					
-		
+	
+	Scenario: non-wellformed PDF
+		Given a non-wellformed PDF 
+		When describing the file
+		Then the status should be ok
+		And I should receive eventDetail equal to 'Not well-formed'
