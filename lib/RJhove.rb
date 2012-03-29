@@ -48,7 +48,6 @@ class RJhove
     unless (validators.empty?)
       result = Result.new
       validators.each do |vdr|
-        # Datyl::Logger.info "validator: #{vdr.class}, method: #{vdr.method}, parameter: #{vdr.parameter}"
         # create the parser
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
