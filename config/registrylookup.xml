@@ -52,7 +52,19 @@
 		<identifier>x-fmt/387</identifier>
 		<lookup>Exif 2.2 (JEITA CP-3451)</lookup>
 	</registry>
-					
+
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/44</identifier>
+		<lookup>JPEG 1.02</lookup>
+	</registry>
+			
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>fmt/43</identifier>
+		<lookup>JPEG 1.01</lookup>
+	</registry>
+							
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>x-fmt/392</identifier>
