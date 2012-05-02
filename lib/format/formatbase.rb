@@ -54,7 +54,7 @@ class FormatBase
 
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      output = "extract.xml"
+      output = "extract_#{Process.pid}.xml"
       @jhoveEngine.validateFile @module, input, output
 
       begin  
@@ -71,7 +71,8 @@ class FormatBase
         end
         @status = @jhove.find_first('jhove:status', NAMESPACES).content
         @jhove = nil
-        io.close        
+        io.close 
+        FileUtils.rm output       
       rescue  => e
         raise "running into exception #{e.class} '#{e.message}' while processing #{input.length} bytes of input\n#{e.backtrace.join('\n')}"
       end
