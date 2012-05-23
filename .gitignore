@@ -5,3 +5,4 @@ DescribeService.log
 *.swp
 *.pid
 bundle
+Gemfile.lock
