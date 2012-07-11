@@ -114,7 +114,6 @@ get '/describe' do
   if params['location'].nil?
     throw :halt, [400, "require a location parameter."]
   end
-  io = nil
  
   url = URI.parse(params['location'].to_s)
   # set originalName, "originalName" param is optional
@@ -146,6 +145,8 @@ get '/describe' do
     io.flush
     @input = io.path
     io.close
+    io = nil
+    resource = nil # ruby memory leak if not nullify the resource from Net::HTTP.get_response
     # uri parameter is optional, set to the specified url if uri param is not specified
     unless params['uri'].nil?
       @uri = params['uri']
@@ -194,7 +195,6 @@ post '/description' do
   io.close!
   @uri = @input
   # pp request.env
-
   case params['document']
   when Hash
     File.link(params['document'][:tempfile].path, @input)
@@ -202,15 +202,14 @@ post '/description' do
     tmp = File.new(@input, "w+")
     tmp.write params['document']
     tmp.close
+    tmp = nil
   end
-
-  # pp params['document'][:filename]
-
+  
   @originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata
   description
   number = File.delete(@input)
-  puts "delete #{@input}, result #{number}"
+  GC.start  
   response.finish
 end
 
