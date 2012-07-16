@@ -64,7 +64,7 @@ configure do |s|
   set :raise_errors, false        # Handle our own exceptions.
 
   PDF.max_pdf_bitstreams = config.max_pdf_bitstreams
-
+ 
   Datyl::Logger.setup('Describe', ENV['VIRTUAL_HOSTNAME'])
 
   if not (config.log_syslog_facility or config.log_filename)
@@ -175,8 +175,9 @@ end
 
 get '/' do
   # render haml index template
-  #erb :index
-  haml :index
+  config = get_config
+  max_upload_file_size = config.max_upload_file_size   
+  haml :index, :locals => {:max_upload_file_size => "#{max_upload_file_size}"}
 end
 
 get '/information' do
