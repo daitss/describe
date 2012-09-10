@@ -239,6 +239,8 @@ def description
   jhove = nil
 	@result.fileObject.trimFormatList
 	@result.fileObject.resolveFormats
+	@result.fileObject.calculateFixity
+	
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{@originalName}"
     Datyl::Logger.err e.backtrace.join("\n")

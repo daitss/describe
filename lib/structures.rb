@@ -50,6 +50,8 @@ class FileObject
   attr_accessor :createAppName
   attr_accessor :createAppVersion
   attr_accessor :createDate
+  attr_accessor :md5
+  attr_accessor :sha1
 
   def initialize
  	@formats = Array.new
@@ -100,6 +102,12 @@ class FileObject
 		format.registryKey = fmt.id unless fmt.nil?
 	  end
 	end
+  end
+  
+  # calculate md5 and sha1 for the fileObject
+  def calculateFixity
+    @md5 = Digest::MD5.file(@location).hexdigest 
+    @sha1 = Digest::SHA1.file(@location).hexdigest 
   end
 end
 
