@@ -197,14 +197,14 @@ post '/description' do
   @uri = @input
   # pp request.env
   case params['document']
-  when Hash
-    File.link(params['document'][:tempfile].path, @input)
-  when String
-    tmp = File.new(@input, "w+")
-    tmp.write params['document']
-    tmp.close
-    tmp = nil
-  end
+    when Hash
+      File.link(params['document'][:tempfile].path, @input)
+    when String
+      tmp = File.new(@input, "w+")
+      tmp.write params['document']
+      tmp.close
+      tmp = nil
+    end
   
   @originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata
@@ -218,9 +218,6 @@ get '/status' do
   [ 200, {'Content-Type'  => 'application/xml'}, "<status/>\n" ]
 end
 
-def cleanup
-end
-
 # perform format description and generate the result in premis
 def description
   jhove = RJhove.instance
@@ -228,20 +225,19 @@ def description
 
   # identify the file format
   @formats = droid.identify(@input)
-
+  puts @formats
   begin
-    if (@formats.empty?)
-      @result = jhove.retrieveFileProperties(@input, @formats, @uri)
-    else
-      # extract the technical metadata
-      @result = jhove.extractAll(@input, @formats,  @uri)
-    end
-  jhove = nil
-	@result.fileObject.trimFormatList
-	@result.fileObject.resolveFormats
-	@result.fileObject.calculateFixity
+    # retrieve general file properties including recording the identified formats
+    @result = jhove.retrieveFileProperties(@input, @formats, @uri)
+    # extract the technical metadata
+    jhove.extractAll(@input, @formats,  @uri, @result)
+
+    jhove = nil
+  	#@result.fileObject.trimFormatList
+  	@result.fileObject.resolveFormats
+  	@result.fileObject.calculateFixity
 	
-  rescue => e
+    rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{@originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
     FileUtils.rm @input
@@ -264,5 +260,4 @@ def description
     FileUtils.rm @input
     throw :halt, [500, "unexpected empty response while processing #{@originalName}"]
   end
-
 end
