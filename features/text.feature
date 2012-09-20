@@ -10,14 +10,14 @@ Scenario: describe an ascii file
 Scenario: describe an utf-8 file
   Given an utf-8 file
   When describing the file
-  Then I should receive Unicode Text File on the format name
-  And I should receive x-fmt/16 on the format id
+  Then I should receive Plain Text File on the format name
+  And I should receive x-fmt/111 on the format id
   And the status should be ok
   And textmd should exist
 
 Scenario: describe a bad text file with disallowed character
   Given a bad text file with disallowed character
   When describing the file
-  Then I should receive Unicode Text File on the format name
+  Then I should receive Plain Text File on the format name
   And I should receive eventDetail equal to 'Not well-formed'
   And the status should be ok
