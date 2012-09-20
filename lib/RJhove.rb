@@ -11,23 +11,23 @@ class Result
   attr_accessor :bitstreams
   attr_accessor :status
   attr_accessor :anomaly
+
+  def initialize
+    @anomaly = Set.new
+    @bitstreams = Set.new
+    @fileObject = FileObject.new
+  end
   
   def clear
-    if @anomaly
       @anomaly.clear
       @anomaly = nil      
-    end
-
-    if @bitstreams
+ 
       @bitstreams.clear
       @bitstreams = nil      
-    end
-
-    if @fileObject
+  
       @fileObject.clear
       @fileObject = nil
-    end
-   end
+  end
 end
 
 class RJhove
@@ -40,47 +40,31 @@ class RJhove
   end
 
   # given a list of tentative format id, extract technical metadata of the input file
-  def extractAll(input, formats, uri)
+  def extractAll(input, formats, uri, result)
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
-
+ 
     # make sure there is a validator defined for this validator id
     unless (validators.empty?)
-      result = Result.new
       validators.each do |vdr|
         # create the parser
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
         parser.jhoveEngine = @jhoveEngine
-        # set the presume format if we can already determine the file foramt prior to validation. 
-        parser.setPresumeFormat(findFormat(formats.first)) if (formats.size ==  1)
-        
+        parser.result = result        
+     
         # validate and extract metadata
-        result.status = parser.send vdr.method, input, uri
-        result.anomaly = parser.anomaly
-        result.fileObject = parser.fileObject
-        result.bitstreams = parser.bitstreams
+        parser.send vdr.method, input, uri
         
         # if result shows an invalid file, try the next validator in the list if there is any
         if (result.fileObject != nil && isValid(result.status))
           break
         end
       end
-      # for consistency, use the format name and version in the registry instead of using the validator output
-      result.fileObject.formats.each do |format| 
-        f = PRONOMFormat.instance.find_puid(format.registryKey)
-        if f
-          format.formatName = f.name
-          format.formatVersion = f.version
-        end
-      end
     else
       Datyl::Logger.info "no validator is defined for these formats: " + formats.join(",")
-      # no validator, retrieve the basic file metadata
-      result = retrieveFileProperties(input, formats, uri)
     end
     validators.clear
-    result
   end
 
   # given a puid, find the registry format information 
@@ -98,7 +82,6 @@ class RJhove
   def retrieveFileProperties(input, formats, uri)
     result = Result.new
 
-    result.fileObject = FileObject.new
     result.fileObject.location = input
     result.fileObject.uri = uri
     result.fileObject.size = File.size(input).to_s
@@ -157,6 +140,7 @@ class RJhove
         validators.add val
       end
     end
+    validatorSet = nil
     validators.sort
   end
 

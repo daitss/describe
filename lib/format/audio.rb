@@ -11,7 +11,7 @@ class Audio < FormatBase
     unless (aes.nil?)
       #retrieve the aes namespace
       audio = aes.find_first("//aes:audioObject", NAMESPACES)
-      @fileObject.objectExtension = audio
+      @result.fileObject.objectExtension = audio
     else 
       Datyl::Logger.warn "No AESAudioMetadata found"
     end

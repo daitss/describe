@@ -28,7 +28,7 @@ class Image < FormatBase
     rescue => e
       puts e.inspect
       dateTimeCreated.remove! unless dateTimeCreated.nil?
-      @anomaly.add "malformed dateTimeCreated"
+      @result.anomaly.add "malformed dateTimeCreated"
     end
     mixstream
   end

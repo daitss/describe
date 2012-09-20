@@ -54,7 +54,8 @@ class FileObject
   attr_accessor :sha1
 
   def initialize
- 	@formats = Array.new
+ 	  @formats = Array.new
+   	@inhibitors = Array.new
   end
 
   def clear
@@ -96,12 +97,12 @@ class FileObject
 	fdaRegistry = FDAFormat.new
 	formats.each do |format|
 	  if format.registryName.nil?
-		fmt = fdaRegistry.find(format.formatName)
-		# raise FormatError.new("No format registry defined for format name #{format.formatName}.") if fmt.nil?
-		format.registryName = fmt.registry unless fmt.nil?
-		format.registryKey = fmt.id unless fmt.nil?
+	  	fmt = fdaRegistry.find(format.formatName)
+	  	# raise FormatError.new("No format registry defined for format name #{format.formatName}.") if fmt.nil?
+	  	format.registryName = fmt.registry unless fmt.nil?
+	  	format.registryKey = fmt.id unless fmt.nil?
 	  end
-	end
+  end
   end
   
   # calculate md5 and sha1 for the fileObject

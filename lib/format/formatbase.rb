@@ -18,37 +18,15 @@ class FormatBase
   attr_reader :anomaly # anomaly found during format validation
   attr_reader :status  # validation status
   attr_accessor :jhoveEngine
+  attr_accessor :result
   
   def initialize(jhoveModule)
     @module = jhoveModule
-    @anomaly = Set.new
-    @bitstreams = Array.new
   end
 
   public
-  def clear
-    @anomaly.clear
-    @anomaly = nil
-    if @bitstreams
-    @bitstreams.clear
-    end
-    @bitstreams = nil
-    
-    @fileObject.clear
-    @fileObject = nil
-    
-    if @presumeFormat
-      @presumeFormat.clear
-      @presumeFormat.nil
-    end
-  end
-  
-  def setPresumeFormat(format)
-    @presumeFormat = format
-  end
-
+ 
   def extract(input, uri)
-    @fileOjbect = nil
     @uri = uri
     @location = input
 
@@ -67,9 +45,9 @@ class FormatBase
         # parse the validation result, record anomaly
         messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES)
         messages.each do |msg|
-          @anomaly.add msg.content
+          @result.anomaly.add msg.content
         end
-        @status = @jhove.find_first('jhove:status', NAMESPACES).content
+        @result.status = @jhove.find_first('jhove:status', NAMESPACES).content
         @jhove = nil
         io.close 
         FileUtils.rm output       
@@ -77,7 +55,6 @@ class FormatBase
         raise "running into exception #{e.class} '#{e.message}' while processing #{input.length} bytes of input\n#{e.backtrace.join('\n')}"
       end
     end
-    @status
   end
 
   protected
@@ -85,71 +62,13 @@ class FormatBase
     @jhove = doc.find_first("//jhove:repInfo", NAMESPACES)
 
     unless (@jhove.nil?)
-      @fileObject = FileObject.new
-      @fileObject.location = @location
-      @fileObject.uri = @uri
-      @fileObject.size = @jhove.find_first('//jhove:size/text()', NAMESPACES)
-      @fileObject.compositionLevel = '0'
-      recordFormat
+      @result.fileObject.location = @location
+      @result.fileObject.uri = @uri
+      @result.fileObject.size = @jhove.find_first('//jhove:size/text()', NAMESPACES)
+      @result.fileObject.compositionLevel = '0'
     else
       # if JHOVE crash while validating the file, there would be no JHOVE output
       raise FormatError.new("Running into prolems during JHOVE validation and charaterization.  No JHOVE output is generated.")
-    end
-  end
-
-  # given an know format name and version, find the corresponding format entry in the format registry
-  def formatLookup(formatName, formatVersion, presumeFormat)
-	fileformat = FileFormat.new
-	
-	# if there is already a determined presume format, use it as the baseline
-	fileformat = presumeFormat if presumeFormat
-	
-	fileformat.formatName = formatName
-	# construct the lookup string using formatName, formatVersion
-	if formatVersion
-	  fileformat.formatVersion = formatVersion
-	  lookup = formatName.to_s + ' ' + formatVersion.to_s
-    else
-      lookup = formatName.to_s
-    end
-
-	# lookup the registry entry
-    registry = Registry.instance.find_by_lookup(lookup)
-
-    # make sure there is a format registry record
-    unless (registry.nil?)
-      fileformat.registryName = registry.name
-      fileformat.registryKey = registry.identifier
-    end
-
-	# return fileformat
-	fileformat
-  end
-
-  # extract and process identified formats in JHOVE.
-  def recordFormat
-    #retrieve the format name
-    unless (@jhove.find_first('//jhove:format', NAMESPACES).nil?)
-      formatName = @jhove.find_first('//jhove:format', NAMESPACES).content
-	  formatVersion = nil
-      # retrieve format version
-      unless (@jhove.find_first('//jhove:version', NAMESPACES).nil?)
-        formatVersion = @jhove.find_first('//jhove:version', NAMESPACES).content
-      end
-	  
-	  fileformat = formatLookup(formatName, formatVersion, @presumeFormat)
-	  @fileObject.formats << fileformat
-
-      # record and lookup extracted format profiles from jhove
-      profiles = @jhove.find('//jhove:profiles/jhove:profile', NAMESPACES)
-      if profiles
-        # retrieve all recognized profiles and record them as alternate format in premis format elements
-        profiles.each do |p|
-          fileformat = formatLookup(p.content, nil, nil)
-          fileformat.formatNote = "Alternate Format"
-          @fileObject.formats << fileformat
-        end
-      end
     end
   end
 

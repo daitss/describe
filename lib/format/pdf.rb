@@ -8,6 +8,8 @@ class PDF < FormatBase
 
   # SMELL we should modify the constructor to accept multiple arguments - this means eval(vdr.class) plugin
   # design has to handle multiple arguments
+  # Note by CC: The above suggestion won't work because the constructor for the reflection has to be generic across all
+  # format plugin.  Why was max_pdf_bitstreams change from an instance variable to class variable?
 
   def self.max_pdf_bitstreams= num
       @@max_pdf_bitstreams = num
@@ -25,7 +27,6 @@ class PDF < FormatBase
       # check if the pdf is encrypted
       encrypt = pdfMD.find_first('//jhove:property[jhove:name/text()="Encryption"]', NAMESPACES)
       unless (encrypt.nil?)
-        @fileObject.inhibitors = Array.new
         inhibitor = Inhibitor.new
         handler = encrypt.find_first('//jhove:property[jhove:name/text()="SecurityHandler"]/jhove:values/jhove:value', NAMESPACES)
         # based on PDF spec., "Standard" implies passwork-protected
@@ -38,21 +39,22 @@ class PDF < FormatBase
             arr = Array.new
             nodes.each {|node| arr << node.content}
             inhibitor.target = "UserAccess: " + arr.join(', ')
+            arr = nil
           end
-          @fileObject.inhibitors << inhibitor
+          @result.fileObject.inhibitors << inhibitor
         end
 
       else
         # only retrieve CreateAppName when not encrypted, JHOVE dump out bad creator info for encrypted file
         unless (pdfMD.find_first('//jhove:property[jhove:name/text()="Producer"]', NAMESPACES).nil?)
-          @fileObject.createAppName = pdfMD.find_first('//jhove:property[jhove:name/text()="Producer"]/jhove:values/jhove:value', NAMESPACES).content
+          @result.fileObject.createAppName = pdfMD.find_first('//jhove:property[jhove:name/text()="Producer"]/jhove:values/jhove:value', NAMESPACES).content
         end
       end
 
       # retrieve CreateDate
       unless (pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]', NAMESPACES).nil?)
         createDate =  pdfMD.find_first('//jhove:property[jhove:name/text()="CreationDate"]/jhove:values/jhove:value', NAMESPACES).content
-        @fileObject.createDate =  Time.parse(createDate).xmlschema
+        @result.fileObject.createDate =  Time.parse(createDate).xmlschema
       end
 
       # convert to doc schema
@@ -91,7 +93,7 @@ class PDF < FormatBase
 
       docmd = File.read("views/docmd.erb").to_s
       docmdTemplate = ERB.new(docmd)
-      @fileObject.objectExtension = docmdTemplate.result(binding)
+      @result.fileObject.objectExtension = docmdTemplate.result(binding)
 
       # retrieve all image bitstreams inside the pdf
       nodes = @jhove.find("//jhove:property[jhove:name/text()='NisoImageMetadata']/jhove:values/jhove:value", NAMESPACES)
@@ -101,7 +103,7 @@ class PDF < FormatBase
         mix = node.find_first("mix:mix", NAMESPACES)
  
         bitstream = BitstreamObject.new
-        bitstream.uri = @fileObject.uri + "/" + sequence.to_s
+        bitstream.uri = @result.fileObject.uri + "/" + sequence.to_s
         compression = mix.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
         if (compression)
           bitstream.formatName = compression.content
@@ -110,18 +112,20 @@ class PDF < FormatBase
         end
         bitstream.objectExtension = mix
 
-        @bitstreams << bitstream
+        @result.bitstreams << bitstream
         sequence += 1
    
         # stop retrieving image bitstream when exceeding number of bitstream we want to retrieve in pdf.
         if (@@max_pdf_bitstreams and sequence > @@max_pdf_bitstreams)
-          @anomaly.add "excessive number of image bitstreams in the PDF"
+          @result.anomaly.add "excessive number of image bitstreams in the PDF"
           break
         end
       end
       # clean up arrays
       @fonts.clear
       @features.clear
+      @fonts = nil
+      @features = nil
     else
       Datyl::Logger.warn "No PDFMetadata found"
     end

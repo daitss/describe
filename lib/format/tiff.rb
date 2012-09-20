@@ -13,15 +13,15 @@ class Tiff < Image
           # parse createDate, Time.parse in Ruby 1.8.7 sometimes default to current time instead of raise exception for bad dateTime
           # thus, we put in a check via xmlschema to raise exception for bad dateTime.
           if Time.xmlschema(createDate.content)
-            @fileObject.createDate = Time.xmlschema(createDate.content).xmlschema 
+            @result.fileObject.createDate = Time.xmlschema(createDate.content).xmlschema 
           end
         end
       rescue => e
-         @anomaly.add "malformed dateTimeCreated"
+         @result.anomaly.add "malformed dateTimeCreated"
       end
       createAppName = @mix.find_first('mix:ImageCaptureMetadata/mix:ScannerCapture/mix:ScanningSystemSoftware/mix:scanningSoftwareName', NAMESPACES)
       unless (createAppName.nil?)
-        @fileObject.createAppName = createAppName.content
+        @result.fileObject.createAppName = createAppName.content
       end
    end
    
@@ -31,7 +31,7 @@ class Tiff < Image
    nodes.each do |node|
      mixstream = node.find_first("mix:mix", NAMESPACES)
      bitstream = BitstreamObject.new
-     bitstream.uri = @fileObject.uri + "/" + sequence.to_s
+     bitstream.uri = @result.fileObject.uri + "/" + sequence.to_s
      compression = mixstream.find_first('mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme', NAMESPACES)
      if (compression)
        bitstream.formatName = compression.content
@@ -39,7 +39,7 @@ class Tiff < Image
        bitstream.formatName = 'unknown'
      end
      bitstream.objectExtension = fixMix(mixstream)
-     @bitstreams << bitstream
+     @result.bitstreams << bitstream
      sequence += 1
    end
   end
