@@ -27,6 +27,10 @@
 	<rid>fmt/8</rid>	
 	<rid>fmt/9</rid>	
 	<rid>fmt/10</rid>	
+	<rid>fmt/153</rid>	
+	<rid>fmt/154</rid>
+	<rid>fmt/155</rid>
+	<rid>fmt/156</rid>					
 	<rid>fmt/353</rid>		
 	<validator>tif</validator>
   </format>
