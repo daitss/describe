@@ -33,9 +33,9 @@ class FormatBase
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       output = "extract_#{Process.pid}.xml"
-      @jhoveEngine.validateFile @module, input, output
-
-      begin  
+      begin        
+        @jhoveEngine.validateFile @module, input, output
+ 
         io = open output
         XML.default_keep_blanks = false
         doc = XML::Document.io io
@@ -45,7 +45,7 @@ class FormatBase
         # parse the validation result, record anomaly
         messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES)
         messages.each do |msg|
-          @result.anomaly.add msg.content
+          @result.anomaly.add msg.content unless msg.content.empty?
         end
         @result.status = @jhove.find_first('jhove:status', NAMESPACES).content
         @jhove = nil

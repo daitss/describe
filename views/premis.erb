@@ -124,7 +124,7 @@
 		<eventDetail><%=  @result.status %></eventDetail>
 		<eventOutcomeInformation>
 			<eventOutcome>success</eventOutcome>
-			<% unless @result.anomaly.nil? or @result.anomaly.size < 1 %>
+			<% unless @result.anomaly.nil? or @result.anomaly.empty? %>
 			<eventOutcomeDetail>
 				<eventOutcomeDetailExtension>
 					<% @result.anomaly.each do |anomaly| %>
