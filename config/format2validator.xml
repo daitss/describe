@@ -43,7 +43,6 @@
 	<rid>fmt/18</rid>	
 	<rid>fmt/19</rid>	
 	<rid>fmt/20</rid>	
-	<rid>fmt/95</rid>	
 	<rid>fmt/144</rid>	
 	<rid>fmt/145</rid>	
 	<rid>fmt/146</rid>	
@@ -51,8 +50,19 @@
 	<rid>fmt/157</rid>	
 	<rid>fmt/158</rid>	
 	<rid>fmt/276</rid>
-	<rid>fmt/354</rid>	
 	<validator>pdf</validator>
+  </format>
+
+  <format>
+	<rid>fmt/95</rid>	
+	<rid>fmt/354</rid>
+	<rid>fmt/476</rid>	
+	<rid>fmt/477</rid>	
+	<rid>fmt/478</rid>	
+	<rid>fmt/479</rid>	
+	<rid>fmt/480</rid>	
+	<rid>fmt/481</rid>							
+	<validator>pdfa</validator>
   </format>
 
   <format>

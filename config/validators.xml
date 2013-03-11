@@ -9,6 +9,13 @@
 		<priority>1</priority>
 	</validator>
 	<validator>
+		<name>pdfa</name>
+		<class>PDFA</class>
+		<method>extract</method>
+		<parameter>pdf-hul</parameter>
+		<priority>1</priority>
+	</validator>	
+	<validator>
 		<name>xml</name>
 		<class>RXML</class>
 		<method>extract</method>
