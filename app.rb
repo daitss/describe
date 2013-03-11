@@ -189,12 +189,14 @@ post '/description' do
   halt 400, "Query parameter document is required" unless params['document']
   halt 400, "Query parameter extension is required.  Is java script enabled?" unless params['extension']
 
+  require 'ruby-debug'
+  debugger
   extension = params["extension"].to_s
   io = Tempfile.open("object")
   
   input = io.path + '.' + extension;
   io.close!
-  uri = @input
+  uri = input
   # pp request.env
   case params['document']
     when Hash
