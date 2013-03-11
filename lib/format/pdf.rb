@@ -1,20 +1,16 @@
 require 'format/formatbase'
 require 'erb'
 require 'datyl/logger'
+require 'datyl/config'
 
 class PDF < FormatBase
-
   @@max_pdf_bitstreams = nil
-
-  # SMELL we should modify the constructor to accept multiple arguments - this means eval(vdr.class) plugin
-  # design has to handle multiple arguments
-  # Note by CC: The above suggestion won't work because the constructor for the reflection has to be generic across all
-  # format plugin.  Why was max_pdf_bitstreams change from an instance variable to class variable?
-
+  
   def self.max_pdf_bitstreams= num
       @@max_pdf_bitstreams = num
   end
    
+  
   def initialize(jhoveModule)
       super
   end

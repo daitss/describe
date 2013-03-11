@@ -1,0 +1,55 @@
+require 'format/pdf'
+
+INPUTFILE = '$INPUT_FILE$'
+LEVEL = '$LEVEL$'
+REPORTFILE = '$REPORT_FILE$'
+
+class PDFA < PDF  
+  @@validator = nil
+  
+  def self.validator= validator
+      @@validator = validator
+  end
+  
+  def initialize(jhoveModule)
+      super
+  end
+  
+  # perform the pdf/a specific format validation and extract the format-specific metadata
+  def parse(xml)
+    super
+    unless @@validator.nil?
+      # default the conformance level for pdf/a validation to 1b
+      level = "1b"
+      file = Tempfile.new("validate_pdfa", "xml")
+      reportpath = file.path
+      file.close
+      # retrieve the pdf/a conformance level already identified for the input file.
+      level = @result.fileObject.formats[0].formatVersion if @result.fileObject.formats[0]
+      command = @instruction.sub(INPUTFILE, input).sub(LEVEL, level).sub(REPORTFILE, reportpath)
+      # backquote the external pdf/a validator
+      command_output = `#{command}`
+      output_code = $?
+      parse_report(reportpath)
+      file.unlink
+    end
+  end
+  
+  # parse and record the validation errors in report generated from pdf/a validation
+  def parse_report(report_file)
+    doc = open(report_file) { |io| XML::Document.io io }
+    # retrieve the transformation conversion error from the report.
+    namespace = "callas:http://www.callassoftware.com/namespace/pi4"
+    hits = doc.find("//callas:hits[@severity='Error']", namespace)
+    unless hits.nil?
+      # retrieve the detail description of the validation errors
+      hits.each do |hit|
+        rule_id = hit.find_first("@rule_id", namespace).value
+        error = doc.find_first("//callas:rule[@id='#{rule_id}']/callas:display_name", namespace).content + 
+        # record the pdf/a validation errors as anomalies
+        @result.anomaly.add('pdfaPilot:' + error)
+      end
+    end
+    doc = nil
+  end
+end
