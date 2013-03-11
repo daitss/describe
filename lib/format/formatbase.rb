@@ -13,12 +13,8 @@ class FormatBase
     'aes' => 'http://www.aes.org/audioObject'
   }
 
-  attr_reader :fileObject # a fileObject to hold the extracted file and format metadata from the described file
-  attr_reader :bitstreams # a bitstream object to hold the extracted bitstream metadata for the described file
-  attr_reader :anomaly # anomaly found during format validation
-  attr_reader :status  # validation status
-  attr_accessor :jhoveEngine
-  attr_accessor :result
+  attr_accessor :jhoveEngine # An instance of JHOVE interface
+  attr_accessor :result      # placeholder for the validation and characterization result
   
   def initialize(jhoveModule)
     @module = jhoveModule
