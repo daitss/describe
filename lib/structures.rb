@@ -7,9 +7,35 @@
 require 'registry/format_tree'
 require 'registry/fda_format'
 require 'ruby-debug'
+require 'digest/md5'
+require 'digest/sha1'
 
 class FormatError < StandardError; end
 
+# PREMIS metadata container
+class Premis
+  attr_accessor :fileObject
+  attr_accessor :bitstreams
+  attr_accessor :status
+  attr_accessor :anomaly
+
+  def initialize
+    @anomaly = Set.new
+    @bitstreams = Set.new
+    @fileObject = FileObject.new
+  end
+  
+  def clear
+    @anomaly.clear
+    @anomaly = nil      
+
+    @bitstreams.clear
+    @bitstreams = nil      
+
+    @fileObject.clear
+    @fileObject = nil
+  end
+end
 # metadata related to inhibitor
 class Inhibitor
   attr_accessor :type
