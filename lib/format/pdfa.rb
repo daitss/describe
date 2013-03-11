@@ -21,16 +21,16 @@ class PDFA < PDF
     unless @@validator.nil?
       # default the conformance level for pdf/a validation to 1b
       level = "1b"
-      file = Tempfile.new("validate_pdfa", "xml")
+      file = Tempfile.new("validate_pdfa")
       reportpath = file.path
       file.close
       # retrieve the pdf/a conformance level already identified for the input file.
       level = @result.fileObject.formats[0].formatVersion if @result.fileObject.formats[0]
-      command = @instruction.sub(INPUTFILE, input).sub(LEVEL, level).sub(REPORTFILE, reportpath)
+      command = @@validator.sub(INPUTFILE, @location).sub(LEVEL, level).sub(REPORTFILE, reportpath)
       # backquote the external pdf/a validator
       command_output = `#{command}`
       output_code = $?
-      parse_report(reportpath)
+      parse_report(reportpath) if file.length > 0
       file.unlink
     end
   end
