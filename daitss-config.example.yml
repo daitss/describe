@@ -22,7 +22,7 @@ describe.example.org:
     log_filename:                describe.log
     max_pdf_bitstreams:          1000
     max_upload_file_size:        100MB   
-    pdfa_validator:              /opt/pdfapilot/pdfaPilot -a $FILE_NAME$ --level=$LEVEL$ --report=XML,IFNOPDFA,PATH=$REPORT_FILE$
+    pdfa_validator:              /opt/pdfapilot/pdfaPilot -a $INPUT_FILE$ --level=$LEVEL$ --report=XML,IFNOPDFA,PATH=$REPORT_FILE$
     jvm_options: 
       - -Dhttp.proxyHost=localhost
       - -Dhttp.proxyPort=3128
