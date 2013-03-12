@@ -27,11 +27,15 @@ class PDFA < PDF
       # retrieve the pdf/a conformance level already identified for the input file.
       level = @result.fileObject.formats[0].formatVersion if @result.fileObject.formats[0]
       command = @@validator.sub(INPUTFILE, @location).sub(LEVEL, level).sub(REPORTFILE, reportpath)
+      Datyl::Logger.info "command #{command}"
       # backquote the external pdf/a validator
       command_output = `#{command}`
+      Datyl::Logger.info "command output #{command_output}"
       output_code = $?
-      parse_report(reportpath) if file.length > 0
-      file.unlink
+      Datyl::Logger.info "output_code #{output_code}"
+      Datyl::Logger.info "reportpath #{File.size(reportpath)}"
+      parse_report(reportpath) if File.size?(reportpath)
+      #file.unlink
     end
   end
   
