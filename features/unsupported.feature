@@ -15,7 +15,7 @@ Feature: retrieve the description on an unsupported resource
 		And the general metadata should exist
 		
 	Scenario: resource can be identified as multiple formats but can not be validated or extracted.
-		Given a file whose format is mpeg
+		Given PENDING a file whose format is mpeg
 		When describing the file
 		Then I should receive fmt/425 on the format id		
 		And the status should be ok
