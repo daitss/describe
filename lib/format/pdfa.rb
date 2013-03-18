@@ -21,7 +21,7 @@ class PDFA < PDF
     unless @@validator.nil?
       # default the conformance level for pdf/a validation to 1b
       level = "1b"
-      file = Tempfile.new("validate_pdfa")
+      file = Tempfile.new("pdfa")
       reportpath = file.path
       file.close
       # retrieve the pdf/a conformance level already identified for the input file.
@@ -49,7 +49,7 @@ class PDFA < PDF
       # retrieve the detail description of the validation errors
       hits.each do |hit|
         rule_id = hit.find_first("@rule_id", namespace).value
-        error = doc.find_first("//callas:rule[@id='#{rule_id}']/callas:display_name", namespace).content + 
+        error = doc.find_first("//callas:rule[@id='#{rule_id}']/callas:display_name", namespace).content 
         # record the pdf/a validation errors as anomalies
         @result.anomaly.add('pdfaPilot:' + error)
       end
