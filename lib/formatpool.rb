@@ -26,7 +26,6 @@ class FormatPool
   # perform format description and generate the result in premis
   def describe input, uri, originalName
     result = nil
-
     # identify the file format
     formats = identify(input)
     # retrieve general file properties including recording the identified formats

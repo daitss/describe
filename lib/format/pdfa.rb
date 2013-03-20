@@ -1,4 +1,5 @@
 require 'format/pdf'
+require 'tmpdir'
 
 INPUTFILE = '$INPUT_FILE$'
 LEVEL = '$LEVEL$'
@@ -21,9 +22,7 @@ class PDFA < PDF
     unless @@validator.nil?
       # default the conformance level for pdf/a validation to 1b
       level = "1b"
-      file = Tempfile.new("pdfa")
-      reportpath = file.path
-      file.close
+      reportpath = Dir.tmpdir + "/pdfa" + rand(1000).to_s + ".xml"
       # retrieve the pdf/a conformance level already identified for the input file.
       level = @result.fileObject.formats[0].formatVersion if @result.fileObject.formats[0]
       command = @@validator.sub(INPUTFILE, @location).sub(LEVEL, level).sub(REPORTFILE, reportpath)
@@ -35,7 +34,7 @@ class PDFA < PDF
       Datyl::Logger.info "output_code #{output_code}"
       Datyl::Logger.info "reportpath #{File.size(reportpath)}"
       parse_report(reportpath) if File.size?(reportpath)
-      #file.unlink
+      FileUtils.rm reportpath
     end
   end
   
