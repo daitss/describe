@@ -217,6 +217,8 @@ post '/description' do
     @result.clear
     @result = nil
     FileUtils.rm input
+    # remove the temporary file created by sinatra-rack
+    params['document'][:tempfile].unlink unless params['document'][:tempfile].nil?
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
