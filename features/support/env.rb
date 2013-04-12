@@ -5,7 +5,7 @@ require 'rack/test'
 require 'rspec/expectations'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
-require File.dirname(__FILE__) + "/../../describe"
+require File.dirname(__FILE__) + "/../../app"
 
 Sinatra::Application.set :environment, :test
 

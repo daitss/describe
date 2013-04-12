@@ -20,7 +20,9 @@ defaults:
 describe.example.org:
     log_syslog_facility:         LOG_LOCAL0
     log_filename:                describe.log
-    max_pdf_bitstreams: 1000
+    max_pdf_bitstreams:          1000
+    max_upload_file_size:        100MB   
+    pdfa_validator:              /opt/pdfapilot/pdfaPilot -a $INPUT_FILE$ --level=$LEVEL$ --report=XML,ALWAYS,PATH=$REPORT_FILE$
     jvm_options: 
       - -Dhttp.proxyHost=localhost
       - -Dhttp.proxyPort=3128
@@ -36,6 +38,10 @@ describe.example.org:
 # If set, direct log information to this file. If neither log_filename
 # nor log_syslog_facility are set, log to STDERR.
 ##
-# describe:max_pdf_bitstreams
+# describe:max_pdf_bitstreams (optional)
 # --------------------------
 # Sets the maximum number of bitstreams per file describe will attempt to parse
+##
+# describe:max_upload_file_size (optional)
+# --------------------------
+# display the max file size for file upload.

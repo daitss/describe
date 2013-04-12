@@ -35,7 +35,9 @@ Quickstart
 	
 	% bundle exec cucumber feature/*
 	
-	5. Run the description srvice with thin (use "thin --help" to get additional information on using thin)
+	5. Run the description srvice with thin (use "thin --help" to get additional information on using thin). Please
+	   make sure the DAITSS_CONFIG variable and the VIRTUAL_HOSTNAME environement variables are set, see daitss-config.examle.yml
+	   for details.
 	% bundle exec thin start 
 
 License

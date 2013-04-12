@@ -87,3 +87,4 @@ Feature: retrieve the description on a PDF resource
 		When describing the file
 		Then the status should be ok
 		And I should receive eventDetail equal to 'Not well-formed'
+		

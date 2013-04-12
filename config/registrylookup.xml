@@ -3,6 +3,16 @@
 <registries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<registry>
 		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/135</identifier>
+		<lookup>AIFF</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
+		<identifier>x-fmt/136</identifier>
+		<lookup>AIFF-C</lookup>
+	</registry>
+	<registry>
+		<name>http://www.nationalarchives.gov.uk/pronom</name>
 		<identifier>x-fmt/16</identifier>
 		<lookup>UTF-8</lookup>
 	</registry>

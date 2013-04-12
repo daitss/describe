@@ -12,12 +12,12 @@
 			<compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
 			<fixity>
 				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-				<messageDigest><%= Digest::MD5.hexdigest(File.read(@result.fileObject.location)) %></messageDigest>
+				<messageDigest><%= @result.fileObject.md5 %></messageDigest>
 				<messageDigestOriginator>Archive</messageDigestOriginator>
 			</fixity>
 			<fixity>
 				<messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
-				<messageDigest><%= Digest::SHA1.hexdigest(File.read(@result.fileObject.location)) %></messageDigest>
+				<messageDigest><%= @result.fileObject.sha1 %></messageDigest>
 				<messageDigestOriginator>Archive</messageDigestOriginator>
 			</fixity>
 			<size><%= @result.fileObject.size %></size>
@@ -124,7 +124,7 @@
 		<eventDetail><%=  @result.status %></eventDetail>
 		<eventOutcomeInformation>
 			<eventOutcome>success</eventOutcome>
-			<% unless @result.anomaly.nil? or @result.anomaly.size < 1 %>
+			<% unless @result.anomaly.nil? or @result.anomaly.empty? %>
 			<eventOutcomeDetail>
 				<eventOutcomeDetailExtension>
 					<% @result.anomaly.each do |anomaly| %>
@@ -152,6 +152,6 @@
 	</agentIdentifier>
 	<agentName>Format Description Service</agentName>
 	<agentType>Web Service</agentType>
-	<agentNote>built with JHOVE 1.6 (built on December 12, 2011), DROID 3.0 with DROID signature file version 55.</agentNote>
+	<agentNote>built with JHOVE 1.6 (built on December 12, 2011), DROID 3.0 with DROID signature file version 67.</agentNote>
 </agent>
 </premis>

@@ -10,7 +10,7 @@ class UTF8 < FormatBase
     utf8MD = @jhove.find_first('//jhove:property[jhove:name/text()="UTF8Metadata"]', NAMESPACES)
 
     unless (utf8MD.nil?)
-      @fileObject.objectExtension = apply_xsl("utf2TextMD.xsl").root
+      @result.fileObject.objectExtension = apply_xsl("utf2TextMD.xsl").root
     else
       Datyl::Logger.warn "No UTF8Metadata found"
     end

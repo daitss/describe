@@ -10,7 +10,7 @@ class ASCII < FormatBase
     asciiMD = @jhove.find_first('//jhove:property[jhove:name/text()="ASCIIMetadata"]', NAMESPACES)
 
     unless (asciiMD.nil?)
-      @fileObject.objectExtension = apply_xsl("ascii2TextMD.xsl").root
+      @result.fileObject.objectExtension = apply_xsl("ascii2TextMD.xsl").root
     else 
       Datyl::Logger.warn "No ASCIIMetadata found"
     end

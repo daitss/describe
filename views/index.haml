@@ -22,7 +22,10 @@
       the description service and save the result to premis.xml,
     %br
     %p curl -F "document=@00001.pdf" -F "extension=pdf" http://description.fcla.edu/description > premis.xml
-    %br  
+    %br
+    - if !max_upload_file_size.empty?
+      %p= "The file upload is limit to #{max_upload_file_size}."
+ 
     %input{:name => 'extension', :id => 'extension', :size => '24', :type => 'hidden'}
 
 %div{:id => "input-uri", :class => "form-container"}
@@ -39,5 +42,3 @@
     %br
     %p curl http://description.fcla.edu/describe?location=http://www.fcla.edu/daitss-test/files/00004.txt > premis.xml
     %br
-
-

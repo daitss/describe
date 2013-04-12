@@ -14,19 +14,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-# describe.rb
+# app.rb
 
 require 'rubygems'
 require "bundler/setup"
 require 'sinatra'
-require 'RJhove'
-require 'RDroid'
 require 'uri'
-require 'rjb'
 require 'structures'
 require 'erb'
-require 'digest/md5'
-require 'digest/sha1'
 require 'ftools'
 require 'pp'
 require 'net/http'
@@ -34,7 +29,8 @@ require 'jar'
 require 'yaml'
 require 'semver'
 require 'format/pdf'
-
+require 'format/pdfa'
+require 'formatpool'
 require 'datyl/logger'
 require 'datyl/config'
 
@@ -49,7 +45,7 @@ def get_config
   raise "The DAITSS_CONFIG environment variable points to a directory instead of a file (#{ENV['DAITSS_CONFIG']})"     if File.directory? ENV['DAITSS_CONFIG']
   raise "The DAITSS_CONFIG environment variable points to an unreadable file (#{ENV['DAITSS_CONFIG']})"            unless File.readable? ENV['DAITSS_CONFIG']
 
-  Datyl::Config.new(ENV['DAITSS_CONFIG'], :defaults, ENV['VIRTUAL_HOSTNAME'])
+  config = Datyl::Config.new(ENV['DAITSS_CONFIG'], :defaults, ENV['VIRTUAL_HOSTNAME'])
 end
 
 configure do |s|
@@ -62,9 +58,9 @@ configure do |s|
   set :environment,  :production  # Get some exceptional defaults.
 
   set :raise_errors, false        # Handle our own exceptions.
-
+ 
   PDF.max_pdf_bitstreams = config.max_pdf_bitstreams
-
+  PDFA.validator = config.pdfa_validator 
   Datyl::Logger.setup('Describe', ENV['VIRTUAL_HOSTNAME'])
 
   if not (config.log_syslog_facility or config.log_filename)
@@ -111,31 +107,28 @@ not_found do
 end
 
 get '/describe' do
-  if params['location'].nil?
-    throw :halt, [400, "require a location parameter."]
-  end
-  io = nil
+  throw :halt, [400, "require a location parameter."] if params['location'].nil?
  
   url = URI.parse(params['location'].to_s)
   # set originalName, "originalName" param is optional
   
   unless params['originalName'].nil?
-    @originalName = params['originalName']
+    originalName = params['originalName']
   else
-    @originalName = url.path
+    originalName = url.path
   end
    
   case url.scheme
   when "file"
     urlpath = url.path
-    link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(@originalName))
+    link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(originalName))
     FileUtils::ln_s(url.path, link)
-    @input = link
+    input = link
     # uri parameter is optional, set the file url if uri param is not specified
     unless params['uri'].nil?
-      @uri = params['uri']
+      uri = params['uri']
     else
-      @uri = @input
+      uri = input
     end
   when "http"
     resource = Net::HTTP.get_response url
@@ -144,38 +137,47 @@ get '/describe' do
     io = Tempfile.new(['file2describe', file_ext])
     io.write resource.body
     io.flush
-    @input = io.path
+    input = io.path
     io.close
+    io = nil
+    resource = nil # ruby memory leak if not nullify the resource from Net::HTTP.get_response
     # uri parameter is optional, set to the specified url if uri param is not specified
     unless params['uri'].nil?
-      @uri = params['uri']
+      uri = params['uri']
     else
-      @uri = url
+      uri = url
     end
   else
     throw :halt, [400,  "invalid url location type"]
   end
 
-  if (@input.nil?)
-    throw :halt, [400,  "invalid url location"]
-  end
-
+  throw :halt, [400,  "invalid url"] if (input.nil?)
+ 
   # make sure the file exist and it's a valid file
-  if (File.symlink?(@input) || File.file?(@input)) then
-    description
-    FileUtils.rm @input
-  else
-    throw :halt, [404, "either #{@input} does not exist or it is not a valid file"]
+  throw :halt, [404, "either #{input} does not exist or it is not a valid file"] unless File.symlink?(input) || File.file?(input)
+  begin
+    pool = FormatPool.instance
+    @result = pool.describe(input, uri, originalName)
+    headers 'Content-Type' => 'application/xml'
+    # dump the xml output to the response, pretty the xml output (ruby bug)
+    body erb(:premis)
+    @result.clear
+    @result = nil
+    FileUtils.rm input
+  rescue => e
+    Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
+    Datyl::Logger.err e.backtrace.join("\n")
+    FileUtils.rm input
+    throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
   end
-
-  GC.start
   response.finish
 end
 
 get '/' do
   # render haml index template
-  #erb :index
-  haml :index
+  config = get_config
+  max_upload_file_size = config.max_upload_file_size   
+  haml :index, :locals => {:max_upload_file_size => "#{max_upload_file_size}"}
 end
 
 get '/information' do
@@ -190,27 +192,39 @@ post '/description' do
   extension = params["extension"].to_s
   io = Tempfile.open("object")
   
-  @input = io.path + '.' + extension;
+  input = io.path + '.' + extension;
   io.close!
-  @uri = @input
+  uri = input
   # pp request.env
-
   case params['document']
-  when Hash
-    File.link(params['document'][:tempfile].path, @input)
-  when String
-    tmp = File.new(@input, "w+")
-    tmp.write params['document']
-    tmp.close
-  end
-
-  # pp params['document'][:filename]
-
-  @originalName = params['document'][:filename]
+    when Hash
+      File.link(params['document'][:tempfile].path, input)
+    when String
+      tmp = File.new(input, "w+")
+      tmp.write params['document']
+      tmp.close
+      tmp = nil
+    end
+  
+  originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata
-  description
-  number = File.delete(@input)
-  puts "delete #{@input}, result #{number}"
+  begin
+    pool = FormatPool.instance
+    @result = pool.describe(input, uri, originalName)
+    headers 'Content-Type' => 'application/xml'
+    # dump the xml output to the response, pretty the xml output (ruby bug)
+    body erb(:premis)
+    @result.clear
+    @result = nil
+    FileUtils.rm input
+    # remove the temporary file created by sinatra-rack
+    params['document'][:tempfile].unlink unless params['document'][:tempfile].nil?
+  rescue => e
+    Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
+    Datyl::Logger.err e.backtrace.join("\n")
+    FileUtils.rm input
+    throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
+  end
   response.finish
 end
 
@@ -218,49 +232,3 @@ get '/status' do
   [ 200, {'Content-Type'  => 'application/xml'}, "<status/>\n" ]
 end
 
-def cleanup
-end
-
-# perform format description and generate the result in premis
-def description
-  jhove = RJhove.instance
-  droid = RDroid.instance
-
-  # identify the file format
-  @formats = droid.identify(@input)
-
-  begin
-    if (@formats.empty?)
-      @result = jhove.retrieveFileProperties(@input, @formats, @uri)
-    else
-      # extract the technical metadata
-      @result = jhove.extractAll(@input, @formats,  @uri)
-    end
-  jhove = nil
-	@result.fileObject.trimFormatList
-	@result.fileObject.resolveFormats
-  rescue => e
-    Datyl::Logger.err "running into exception #{e} while processing #{@originalName}"
-    Datyl::Logger.err e.backtrace.join("\n")
-    FileUtils.rm @input
-	  throw :halt, [500, "running into exception #{e} while processing #{@originalName}\n#{e.backtrace.join('\n')}"]
-  end
-  
-  @formats.clear
-  unless (@result.nil?)
-    # build a response
-    headers 'Content-Type' => 'application/xml'
-
-    @result.fileObject.originalName = @originalName
-
-    # dump the xml output to the response, pretty the xml output (ruby bug)
-    body erb(:premis)
-
-    @result.clear
-    @result = nil
-  else
-    FileUtils.rm @input
-    throw :halt, [500, "unexpected empty response while processing #{@originalName}"]
-  end
-
-end

@@ -7,9 +7,35 @@
 require 'registry/format_tree'
 require 'registry/fda_format'
 require 'ruby-debug'
+require 'digest/md5'
+require 'digest/sha1'
 
 class FormatError < StandardError; end
 
+# PREMIS metadata container
+class Premis
+  attr_accessor :fileObject
+  attr_accessor :bitstreams
+  attr_accessor :status
+  attr_accessor :anomaly
+
+  def initialize
+    @anomaly = Set.new
+    @bitstreams = Set.new
+    @fileObject = FileObject.new
+  end
+  
+  def clear
+    @anomaly.clear
+    @anomaly = nil      
+
+    @bitstreams.clear
+    @bitstreams = nil      
+
+    @fileObject.clear
+    @fileObject = nil
+  end
+end
 # metadata related to inhibitor
 class Inhibitor
   attr_accessor :type
@@ -50,9 +76,12 @@ class FileObject
   attr_accessor :createAppName
   attr_accessor :createAppVersion
   attr_accessor :createDate
+  attr_accessor :md5
+  attr_accessor :sha1
 
   def initialize
- 	@formats = Array.new
+ 	  @formats = Array.new
+   	@inhibitors = Array.new
   end
 
   def clear
@@ -94,12 +123,18 @@ class FileObject
 	fdaRegistry = FDAFormat.new
 	formats.each do |format|
 	  if format.registryName.nil?
-		fmt = fdaRegistry.find(format.formatName)
-		# raise FormatError.new("No format registry defined for format name #{format.formatName}.") if fmt.nil?
-		format.registryName = fmt.registry unless fmt.nil?
-		format.registryKey = fmt.id unless fmt.nil?
+	  	fmt = fdaRegistry.find(format.formatName)
+	  	# raise FormatError.new("No format registry defined for format name #{format.formatName}.") if fmt.nil?
+	  	format.registryName = fmt.registry unless fmt.nil?
+	  	format.registryKey = fmt.id unless fmt.nil?
 	  end
-	end
+  end
+  end
+  
+  # calculate md5 and sha1 for the fileObject
+  def calculateFixity
+    @md5 = Digest::MD5.file(@location).hexdigest 
+    @sha1 = Digest::SHA1.file(@location).hexdigest 
   end
 end
 

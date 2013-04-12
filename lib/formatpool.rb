@@ -1,61 +1,83 @@
+require 'rjb'
+require 'config'
 require 'structures'
 require 'registry/format2validator'
 require 'registry/pronom_format'
 require 'registry/validator'
 require 'registry/registry'
 require 'datyl/logger'
-require 'config'
 
-class Result
-  attr_accessor :fileObject
-  attr_accessor :bitstreams
-  attr_accessor :status
-  attr_accessor :anomaly
-
-  def initialize
-    @anomaly = Set.new
-    @bitstreams = Set.new
-    @fileObject = FileObject.new
-  end
-  
-  def clear
-      @anomaly.clear
-      @anomaly = nil      
- 
-      @bitstreams.clear
-      @bitstreams = nil      
-  
-      @fileObject.clear
-      @fileObject = nil
-  end
-end
-
-class RJhove
+class FormatPool
   include Singleton
 
   def initialize
-    @validators = open(config_file('validators.xml')) { |io| XML::Document.io io }
+    #create the JAVA Minimal object for interacting with DROID
+    mindroid = Jar::import_from_jars('fcla.format.api.MinimalDroid')
+    @droid = mindroid.new config_file('DROID_SignatureFile.xml')
+
+    #create the JAVA Minimal object for interacting with JHOVE    
     jhoveEngine = Jar.import_from_jars('fcla.format.api.JhoveEngine')
-    @jhoveEngine = jhoveEngine.new config_file('jhove.conf')
+    @jhove = jhoveEngine.new config_file('jhove.conf') 
+
+    # create a list of validators for format validation
+    @validators = open(config_file('validators.xml')) { |io| XML::Document.io io }    
   end
 
+  # perform format description and generate the result in premis
+  def describe input, uri, originalName
+    result = nil
+    # identify the file format
+    formats = identify(input)
+    # retrieve general file properties including recording the identified formats
+    result = retrieveFileProperties(input, formats, uri)
+    # extract the technical metadata
+    extractAll(input, formats,  uri, result)
+    result.fileObject.resolveFormats
+    result.fileObject.calculateFixity
+    result.fileObject.originalName = originalName
+    formats.clear
+    result
+  end
+
+  # perform format identification on file {input}, using DROID
+  def identify(input)
+    puids = @droid.IdentifyFile(input)
+    puidsHash = Hash.new
+    # iterate through the list of returned puids (java code) and put them
+    # in a ruby hash
+    puidsItr = puids.entrySet().iterator()
+    while puidsItr.hasNext()
+      entry = puidsItr.next()
+      puidsHash[entry.key().toString] = entry.value().toString
+    end
+    puids.clear
+    # build a list of tentative format id that should be tested
+    formats = Array.new
+    puidsHash.each do |key, value|
+      formats << key
+    end
+    puidsHash.clear
+    formats
+  end
+
+ 
   # given a list of tentative format id, extract technical metadata of the input file
   def extractAll(input, formats, uri, result)
     # get the list of validators for validating the matching formats
     validators = getValidator(formats)
- 
+
     # make sure there is a validator defined for this validator id
     unless (validators.empty?)
       validators.each do |vdr|
-        # create the parser
+        # create the format parser, using object reflection mechanism
         require "format/"+ vdr.class.downcase
         parser = eval(vdr.class).new vdr.parameter
-        parser.jhoveEngine = @jhoveEngine
+        parser.jhoveEngine = @jhove
         parser.result = result        
-     
+
         # validate and extract metadata
         parser.send vdr.method, input, uri
-        
+
         # if result shows an invalid file, try the next validator in the list if there is any
         if (result.fileObject != nil && isValid(result.status))
           break
@@ -69,28 +91,28 @@ class RJhove
 
   # given a puid, find the registry format information 
   def findFormat(puid)
-	fileformat = FileFormat.new
-	format = PRONOMFormat.instance.find_puid(puid)
-  	fileformat.formatName = format.name
-   	fileformat.formatVersion = format.version
-   	fileformat.registryName = format.registry
-   	fileformat.registryKey = format.puid	
-	fileformat
+    fileformat = FileFormat.new
+    format = PRONOMFormat.instance.find_puid(puid)
+    fileformat.formatName = format.name
+    fileformat.formatVersion = format.version
+    fileformat.registryName = format.registry
+    fileformat.registryKey = format.puid	
+    fileformat
   end 
 
   # retrieve general file format properties such as size and format information
   def retrieveFileProperties(input, formats, uri)
-    result = Result.new
+    result = Premis.new
 
     result.fileObject.location = input
     result.fileObject.uri = uri
     result.fileObject.size = File.size(input).to_s
     result.fileObject.compositionLevel = '0'
-    
+
     unless (formats.empty?)
       if (formats.size ==  1)
         # we know which exactly what format this file is 
-		    fileformat = findFormat(formats.first)
+        fileformat = findFormat(formats.first)
         result.fileObject.formats << fileformat
         result.status = "format identified"
       else

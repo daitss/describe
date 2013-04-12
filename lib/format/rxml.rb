@@ -8,7 +8,7 @@ class RXML < FormatBase
     # retrieve and dump the XML metadata
     xmlMD = @jhove.find_first('//jhove:property[jhove:name/text()="XMLMetadata"]', NAMESPACES)
     unless (xmlMD.nil?)
-      @fileObject.objectExtension = apply_xsl("xml2TextMD.xsl").root
+      @result.fileObject.objectExtension = apply_xsl("xml2TextMD.xsl").root
     else 
       Datyl::Logger.warn "no XMLMetadata found"
     end
