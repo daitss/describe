@@ -53,7 +53,7 @@ class PDFA < PDF
         @result.anomaly.add('pdfaPilot:' + error)
       end
       # set the status as invalid
-      super.setInvalid
+      FormatBase.instance_method(:setInvalid).bind(self).call()
     end
     doc = nil
   end
