@@ -53,7 +53,24 @@ class FormatBase
     end
   end
 
+  # is the return status indicates that the file is valid?
+  def isValid?
+    valid = false
+    unless @result.status.nil?
+      if @result.status.casecmp("well-formed and valid") >=0
+        valid = true
+      end
+    end
+    valid
+  end
+
   protected
+  def setInvalid
+     if @result.status.casecmp("well-formed and valid") >=0
+       @result.status = "Well-formed but not Valid"
+     end
+  end
+  
   def parse(doc)
     @jhove = doc.find_first("//jhove:repInfo", NAMESPACES)
 

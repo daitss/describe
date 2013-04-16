@@ -44,7 +44,7 @@ class PDFA < PDF
     # retrieve the transformation conversion error from the report.
     namespace = "callas:http://www.callassoftware.com/namespace/pi4"
     hits = doc.find("//callas:hits[@severity='Error']", namespace)
-    unless hits.nil?
+    if hits.length > 0
       # retrieve the detail description of the validation errors
       hits.each do |hit|
         rule_id = hit.find_first("@rule_id", namespace).value
@@ -52,6 +52,8 @@ class PDFA < PDF
         # record the pdf/a validation errors as anomalies
         @result.anomaly.add('pdfaPilot:' + error)
       end
+      # set the status as invalid
+      super.setInvalid
     end
     doc = nil
   end
