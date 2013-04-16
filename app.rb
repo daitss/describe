@@ -173,15 +173,51 @@ get '/describe' do
   response.finish
 end
 
-get '/' do
-  # render haml index template
-  config = get_config
-  max_upload_file_size = config.max_upload_file_size   
-  haml :index, :locals => {:max_upload_file_size => "#{max_upload_file_size}"}
-end
+# POST a file to the description service to 
+# ex:  curl -F file=@GLASS.WAV http://localhost:7002/describe
+post '/describe' do
+  halt 400, "missing parameter file='@filename'" unless params['file']
+  halt 400, "missing [file][:tempfile] parameter file='@filename'" unless params['file'][:tempfile]
+ 
+  # set originalName, "originalName" param is optional
+  unless params['originalName'].nil?
+    originalName = params['originalName']
+  else
+    originalName = params['file'][:filename]
+  end
+  
+  input = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(originalName))
+  FileUtils::ln_s(params['file'][:tempfile].path, input)
+  
+  # uri parameter is optional, set the file url if uri param is not specified  
+  unless params['uri'].nil?
+    uri = params['uri'] 
+  else
+    uri = input
+  end
 
-get '/information' do
-  haml :'information/index'
+  throw :halt, [400,  "invalid url"] if (input.nil?)
+ 
+  # make sure the file exist and it's a valid file
+  throw :halt, [404, "either #{input} does not exist or it is not a valid file"] unless File.file?(input)
+  begin
+    pool = FormatPool.instance
+    @result = pool.describe(input, uri, originalName)
+    headers 'Content-Type' => 'application/xml'
+    # dump the xml output to the response, pretty the xml output (ruby bug)
+    body erb(:premis)
+    @result.clear
+    @result = nil
+    FileUtils.rm input
+    # remove the temporary file created by sinatra-curl
+    params['file'][:tempfile].unlink unless params['file'][:tempfile].nil?
+  rescue => e
+    Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
+    Datyl::Logger.err e.backtrace.join("\n")
+    FileUtils.rm input
+    throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
+  end
+  response.finish
 end
 
 # note: use /description to keep in sync with oss thin setup
@@ -226,6 +262,17 @@ post '/description' do
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
   end
   response.finish
+end
+
+get '/' do
+  # render haml index template
+  config = get_config
+  max_upload_file_size = config.max_upload_file_size   
+  haml :index, :locals => {:max_upload_file_size => "#{max_upload_file_size}"}
+end
+
+get '/information' do
+  haml :'information/index'
 end
 
 get '/status' do
