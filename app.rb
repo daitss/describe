@@ -173,7 +173,7 @@ get '/describe' do
   response.finish
 end
 
-# POST a file to the description service to 
+# POST a file to the description service 
 # ex:  curl -F file=@GLASS.WAV http://localhost:7002/describe
 post '/describe' do
   halt 400, "missing parameter file='@filename'" unless params['file']
@@ -220,6 +220,7 @@ post '/describe' do
   response.finish
 end
 
+#TODO change PIM to use post /describe method
 # note: use /description to keep in sync with oss thin setup
 post '/description' do
   halt 400, "Query parameter document is required" unless params['document']
