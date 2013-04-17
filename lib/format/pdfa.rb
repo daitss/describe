@@ -31,8 +31,6 @@ class PDFA < PDF
       command_output = `#{command}`
       Datyl::Logger.info "command output #{command_output}"
       output_code = $?
-      Datyl::Logger.info "output_code #{output_code}"
-      Datyl::Logger.info "reportpath #{File.size(reportpath)}"
       parse_report(reportpath) if File.size?(reportpath)
       FileUtils.rm reportpath
     end
@@ -52,8 +50,8 @@ class PDFA < PDF
         # record the pdf/a validation errors as anomalies
         @result.anomaly.add('pdfaPilot:' + error)
       end
-      # set the status as invalid
-      FormatBase.instance_method(:setInvalid).bind(self).call()
+      # mark the status as invalid
+      @invalid = true
     end
     doc = nil
   end
