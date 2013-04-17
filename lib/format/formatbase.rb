@@ -46,7 +46,7 @@ class FormatBase
         end
         @result.status = @jhove.find_first('jhove:status', NAMESPACES).content
         if @result.status.casecmp("well-formed and valid") >=0 && @invalid
-          @result.status = "Well-formed but not Valid"
+          @result.status = "Well-Formed, but not valid""
         end
         
         @jhove = nil
