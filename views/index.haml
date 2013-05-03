@@ -10,9 +10,9 @@
 %br
 
 %div{:id => "input-file", :class => "form-container"}
-  %form{:action => '/description', :method => 'POST', :enctype => 'multipart/form-data'}
-    %label{:for => 'document'} File:
-    %input{:name => 'document', :id => 'uploadfile',  :size => '60', :type => 'file'}
+  %form{:action => '/describe', :method => 'POST', :enctype => 'multipart/form-data'}
+    %label{:for => 'file'} File:
+    %input{:name => 'file', :id => 'uploadfile',  :size => '60', :type => 'file'}
     %input{:type => 'submit', :value => 'Submit' }
     %br
     %br
@@ -21,13 +21,11 @@
       description service via HTTP protocol. For example, to use curl to upload a local file named 00001.pdf to 
       the description service and save the result to premis.xml,
     %br
-    %p curl -F "document=@00001.pdf" -F "extension=pdf" http://description.fcla.edu/description > premis.xml
+    %p curl -F "file=@00001.pdf" http://description.fcla.edu/describe > premis.xml
     %br
     - if !max_upload_file_size.empty?
       %p= "The file upload is limit to #{max_upload_file_size}."
  
-    %input{:name => 'extension', :id => 'extension', :size => '24', :type => 'hidden'}
-
 %div{:id => "input-uri", :class => "form-container"}
   %form{:action => '/describe', :method => 'get'}
     %label{:for => "location"} Address:

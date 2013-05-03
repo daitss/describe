@@ -25,7 +25,8 @@ class FormatBase
   def extract(input, uri)
     @uri = uri
     @location = input
-
+    @invalid = false
+    
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
       output = "extract_#{Process.pid}.xml"
@@ -35,15 +36,19 @@ class FormatBase
         io = open output
         XML.default_keep_blanks = false
         doc = XML::Document.io io
-
-        # parse the jhove output, extracting only the information we need
+        # parse the jhove output, extracting the metadata we need to record
         parse(doc)
+         
         # parse the validation result, record anomaly
         messages = @jhove.find('jhove:messages/jhove:message', NAMESPACES)
         messages.each do |msg|
           @result.anomaly.add msg.content unless msg.content.empty?
         end
         @result.status = @jhove.find_first('jhove:status', NAMESPACES).content
+        if @result.status.casecmp("well-formed and valid") >=0 && @invalid
+          @result.status = "Well-Formed, but not valid"
+        end
+        
         @jhove = nil
         io.close 
         FileUtils.rm output       
@@ -53,7 +58,7 @@ class FormatBase
     end
   end
 
-  protected
+  protected  
   def parse(doc)
     @jhove = doc.find_first("//jhove:repInfo", NAMESPACES)
 
