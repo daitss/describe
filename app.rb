@@ -232,18 +232,20 @@ post '/description' do
   input = io.path + '.' + extension;
   io.close!
   uri = input
+
   # pp request.env
   case params['document']
     when Hash
       File.link(params['document'][:tempfile].path, input)
+      originalName = params['document'][:filename]
     when String
       tmp = File.new(input, "w+")
       tmp.write params['document']
       tmp.close
       tmp = nil
+      originalName = input      
     end
   
-  originalName = params['document'][:filename]
   # describe the transmitted file with format identifier and metadata
   begin
     pool = FormatPool.instance
@@ -254,12 +256,9 @@ post '/description' do
     @result.clear
     @result = nil
     FileUtils.rm input
-    # remove the temporary file created by sinatra-rack
-    params['document'][:tempfile].unlink unless params['document'][:tempfile].nil?
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
-    FileUtils.rm input
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
   end
   response.finish
