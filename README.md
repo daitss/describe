@@ -5,11 +5,15 @@ Description Service
 * Format validation and characterization using JHOVE
 * Transform the result of format characterization into standard schema such as TextMD, DocMD, MIX and AES
 * Transform the format description result into PREMIS schema
+ 
+Current Production Code
+-----------------------
+git commit sha1 - c825e6c6207a2f6dd38243e6dc6aa5ae2f834317
 
 Requirements
 ------------
 * ruby (tested on 1.8.6 and 1.8.7)
-* java (tested on 1.5 and 1.6)
+* java (tested on 1.5,1.6,1.7)
 * ruby-devel, rubygems, git and g++
 * zlib, libxml2-devel and libxslt-devel development libraries
 * bundler gem (http://gembundler.com/)
