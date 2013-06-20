@@ -8,7 +8,7 @@ Description Service
  
 Current Production Code
 -----------------------
-git commit sha1 - c825e6c6207a2f6dd38243e6dc6aa5ae2f834317
+* https://github.com/daitss/describe/tree/c825e6c6207a2f6dd38243e6dc6aa5ae2f834317
 
 Requirements
 ------------
