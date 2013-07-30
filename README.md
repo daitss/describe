@@ -8,7 +8,7 @@ Description Service
  
 Current Production Code
 -----------------------
-* https://github.com/daitss/describe/tree/c825e6c6207a2f6dd38243e6dc6aa5ae2f834317
+* Release 2.4.0, https://github.com/daitss/describe/releases/tag/v2.4.0
 
 Requirements
 ------------
