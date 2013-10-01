@@ -1,6 +1,6 @@
 require 'rake/dsl_definition'
 require 'rake'
-require 'rake/rdoctask'
+require 'rdoc/task'
 #require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 

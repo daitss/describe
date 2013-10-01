@@ -6,6 +6,10 @@ gem "libxml-ruby", :require => 'libxml'
 gem "libxslt-ruby", "<=1.0.1", :require => 'libxslt'
 gem 'haml'
 gem 'semver'
+gem 'rake'
+gem 'rdoc'
+gem 'capistrano'
+gem 'railsless-deploy'
 
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 
