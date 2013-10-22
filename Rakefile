@@ -1,6 +1,6 @@
 require 'rake/dsl_definition'
 require 'rake'
-require 'rake/rdoctask'
+require 'rdoc/task'
 #require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
@@ -54,7 +54,7 @@ end
 
 desc "deploy to development site (describe.marsala.fcla.edu)"
 task :marsala do
-	    sh "cap deploy -S target=marsala.fcla.edu:/opt/web-services/sites/describe -S who=daitss:daitss"
+	    sh "cap deploy -S target=marsala.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
 end
 
 desc "deploy to ripple's test site (describe.ripple.fcla.edu)"
