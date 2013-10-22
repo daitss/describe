@@ -1,0 +1,25 @@
+Tue, 22 Oct 2013 11:42:44 -0400
+lib/config.rb	Wed, 05 Oct 2011 14:33:07 -0400
+lib/format/ascii.rb	Thu, 13 Sep 2012 14:12:01 -0400
+lib/format/audio.rb	Thu, 13 Sep 2012 14:11:54 -0400
+lib/format/formatbase.rb	Wed, 17 Apr 2013 14:15:56 -0400
+lib/format/image.rb	Thu, 13 Sep 2012 14:12:12 -0400
+lib/format/jp2.rb	Thu, 13 Sep 2012 14:12:23 -0400
+lib/format/jpeg.rb	Thu, 13 Sep 2012 14:12:38 -0400
+lib/format/pdf.rb	Mon, 11 Mar 2013 13:01:20 -0400
+lib/format/pdfa.rb	Wed, 17 Apr 2013 13:45:31 -0400
+lib/format/rxml.rb	Thu, 13 Sep 2012 14:13:27 -0400
+lib/format/tiff.rb	Thu, 13 Sep 2012 14:08:47 -0400
+lib/format/utf8.rb	Thu, 13 Sep 2012 14:13:40 -0400
+lib/formatpool.rb	Mon, 18 Mar 2013 12:57:08 -0400
+lib/jar.rb	Tue, 08 Jun 2010 12:32:19 -0400
+lib/memory_debug.rb	Wed, 09 Feb 2011 12:42:41 -0500
+lib/RDroid.rb	Thu, 16 May 2013 14:02:07 -0400
+lib/registry/fda_format.rb	Tue, 18 Jan 2011 09:48:41 -0500
+lib/registry/format2validator.rb	Tue, 08 Feb 2011 13:08:00 -0500
+lib/registry/format_tree.rb	Tue, 18 Jan 2011 09:56:54 -0500
+lib/registry/pronom_format.rb	Tue, 18 Jan 2011 09:57:58 -0500
+lib/registry/registry.rb	Tue, 18 Jan 2011 09:57:22 -0500
+lib/registry/validator.rb	Wed, 05 Oct 2011 14:33:07 -0400
+lib/RJhove.rb	Thu, 16 May 2013 14:02:22 -0400
+lib/structures.rb	Thu, 16 May 2013 14:02:25 -0400
