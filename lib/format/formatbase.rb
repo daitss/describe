@@ -1,5 +1,5 @@
 require 'xml'
-require 'libxslt'
+require 'nokogiri'
 require 'structures'
 require 'fileutils'
 require 'rjb'
@@ -76,13 +76,12 @@ class FormatBase
   # apply stylesheet into an xml document
   def apply_xsl xsl_file_name
     stylesheet_file = xsl_file xsl_file_name
-    stylesheet_doc = open(stylesheet_file) { |io| LibXML::XML::Document::io io }
-    stylesheet = LibXSLT::XSLT::Stylesheet.new stylesheet_doc
+    stylesheet = Nokogiri::XSLT(File.read(stylesheet_file))
 
     # apply the xslt
-    jdoc = LibXML::XML::Document.string @jhove.to_s
+    doc = Nokogiri::XML @jhove.to_s
     # jdoc.root = jdoc.import @jhove
-    stylesheet.apply jdoc
+    stylesheet.transform(doc)
   end
 
 end
