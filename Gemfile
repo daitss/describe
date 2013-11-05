@@ -1,9 +1,9 @@
 source "http://rubygems.org"
+gem 'nokogiri'
 gem "sinatra"
 gem "log4r"
 gem "rjb"
 gem "libxml-ruby", :require => 'libxml'
-gem 'nokogiri'
 gem 'haml'
 gem 'semver'
 
