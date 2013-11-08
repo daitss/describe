@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-gem 'nokogiri'
+gem 'nokogiri', "~> 1.5.10"
 gem "sinatra"
 gem "log4r"
 gem "rjb"
