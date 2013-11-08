@@ -1,10 +1,10 @@
 require 'rjb'
-require './lib/config'
-require './lib/structures'
-require './lib/registry/format2validator'
-require './lib/registry/pronom_format'
-require './lib/registry/validator'
-require './lib/registry/registry'
+require_relative 'config'
+require_relative 'structures'
+require_relative 'registry/format2validator'
+require_relative 'registry/pronom_format'
+require_relative 'registry/validator'
+require_relative 'registry/registry'
 require 'datyl/logger'
 
 class FormatPool

@@ -1,4 +1,4 @@
-require './lib/format/formatbase'
+require_relative 'formatbase'
 require 'datyl/logger'
 
 class RXML < FormatBase

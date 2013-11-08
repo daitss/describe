@@ -1,4 +1,4 @@
-require './lib/format/formatbase.rb'
+require_relative 'formatbase.rb'
 require 'datyl/logger'
 
 class Audio < FormatBase

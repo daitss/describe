@@ -1,4 +1,4 @@
-require './lib/format/image.rb'
+require_relative 'image.rb'
 
 class Jpeg < Image
   def parse(xml)

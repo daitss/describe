@@ -1,10 +1,9 @@
 require 'xml'
 require 'nokogiri'
-require './lib/structures'
+require_relative '../structures'
 require 'fileutils'
 require 'rjb'
 require 'set'
-require './lib/jar'
 
 class FormatBase
   NAMESPACES = {
