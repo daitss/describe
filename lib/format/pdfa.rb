@@ -1,4 +1,4 @@
-require 'format/pdf'
+require './lib/format/pdf'
 require 'tmpdir'
 
 INPUTFILE = '$INPUT_FILE$'

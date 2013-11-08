@@ -1,4 +1,4 @@
-require 'format/image'
+require './lib/format/image'
 
 class Tiff < Image
 

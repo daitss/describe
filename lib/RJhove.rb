@@ -1,10 +1,10 @@
-require 'structures'
-require 'registry/format2validator'
-require 'registry/pronom_format'
-require 'registry/validator'
-require 'registry/registry'
+require './lib/structures'
+require './lib/registry/format2validator'
+require './lib/registry/pronom_format'
+require './lib/registry/validator'
+require './lib/registry/registry'
 require 'datyl/logger'
-require 'config'
+require './lib/config'
 
 class Result
   attr_accessor :fileObject

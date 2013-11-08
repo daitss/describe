@@ -4,8 +4,8 @@
 # the metadata extracted here conform to premis data dictionary.  Please
 # see Premis data dictionary 2.0 for explaination of the metadata.
 
-require 'registry/format_tree'
-require 'registry/fda_format'
+require './lib/registry/format_tree'
+require './lib/registry/fda_format'
 require 'ruby-debug'
 require 'digest/md5'
 require 'digest/sha1'

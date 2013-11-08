@@ -1,6 +1,6 @@
 require 'xml'
 require 'singleton'
-require 'config'
+require './lib/config'
 
 # Registry class performs registry identifier lookup by a defined name string
 class Registry
