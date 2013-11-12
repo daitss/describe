@@ -1,5 +1,4 @@
-#require 'xml'
-#abs = FileUtils.pwd
+require 'xml'
 path = 'http://www.fcla.edu/daitss-test/files/'
 
 # TODO make sure all test cases include formatDesignation (formatName) test
@@ -52,7 +51,7 @@ Given /^a PDF\/A conformed file$/ do
 end
 
 Given /^a PDF with embedded language metadata$/ do
- @file = "#{path}/useLang.pdf"
+  @file = "#{path}/useLang.pdf"
 end
 
 Given /^a PDF embedded with multiple images$/ do
@@ -72,11 +71,11 @@ Given /^a tagged PDF file$/ do
 end
 
 Given /^a PDF with annotations$/ do
- @file = "#{path}/outalbert_j.pdf"
+  @file = "#{path}/outalbert_j.pdf"
 end
 
 Given /^a PDF with CreatingApplication but not CreateDate$/ do
- @file = "#{path}/00020.pdf"
+  @file = "#{path}/00020.pdf"
 end
 
 Given /^a PDF with bad Encoding property in its font dictionary/ do
