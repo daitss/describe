@@ -5,8 +5,6 @@ path = 'http://www.fcla.edu/daitss-test/files/'
 # TODO make sure all test cases include formatDesignation (formatName) test
 Given /^an empty file$/ do
   @file = "#{path}/empty"
-	p "given html path=#{path} @file=#{@file}"
-  @file = "#{path}/empty"
 end
 
 Given /^an aiff file$/ do
@@ -135,11 +133,11 @@ Given /^a file whose format is power point$/ do
 end
 
 Given /^a file whose format is mpeg$/ do
-    @file = "#{path}/jitter.mpg"
+  @file = "#{path}/jitter.mpg"
 end
-	
+
 Given /^a file whose format is mdb$/ do
-    @file = "#{path}/surveydata.mdb"
+  @file = "#{path}/surveydata.mdb"
 end
 
 Given /^a double-quoted xml file$/ do
@@ -151,8 +149,6 @@ Given /^a single-quoted xml file$/ do
 end
 
 Given /^a html file$/ do
-	@file = "#{path}/ccsurvey.html"
-	p "given html path=#{path} @file=#{@file}"
   @file = "#{path}/ccsurvey.html"
 end
 
@@ -161,11 +157,7 @@ Given /^a wave file$/ do
 end
 
 When /^describing the file$/ do
- begin	
    get '/describe', :location => @file
- rescue
-	 puts "describing file rescue #{$?}"
- end
 end
 
 Then /^I should receive (.+?) on the format version$/ do |version|

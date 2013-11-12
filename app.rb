@@ -132,11 +132,8 @@ get '/describe' do
   when "http"
     resource = Net::HTTP.get_response url
     index = url.path.rindex('.')
-    if index 
-      file_ext = url.path.slice(index, url.path.length) 
-    else
-	  file_ext = '.empty'
-    end  
+    file_ext = ""
+    file_ext = url.path.slice(index, url.path.length) if index 
     io = Tempfile.new(['file2describe', file_ext])
     io.write resource.body
     io.flush
