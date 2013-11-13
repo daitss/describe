@@ -79,7 +79,7 @@ class FormatPool
         parser.send vdr.method, input, uri
 
         # if result shows an invalid file, try the next validator in the list if there is any
-        if (result.fileObject != nil && isValid(result.status))
+        if (result.fileObject != nil && isValid(result.status)) then
           break
         end
       end

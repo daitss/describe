@@ -166,7 +166,6 @@ end
 
 Then /^I should receive (.+?) on the format id$/ do |id|
   last_response.body =~ /formatRegistryKey>(.*?)<\/formatRegistryKey>/
-  puts $1
   $1.should == id
 end
 

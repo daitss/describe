@@ -28,7 +28,7 @@ class FormatBase
     
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      output = Dir.tmpdir + "jhove_#{Process.pid}.xml"
+      output = Dir.tmpdir + "/jhove_#{Process.pid}.xml"
       begin        
         @jhoveEngine.validateFile @module, input, output
  
