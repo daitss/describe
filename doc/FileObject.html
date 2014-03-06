@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class FileObject - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/structures.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-calculateFixity">#calculateFixity</a>
+    
+    <li><a href="#method-i-clear">#clear</a>
+    
+    <li><a href="#method-i-resolveFormats">#resolveFormats</a>
+    
+    <li><a href="#method-i-trimFormatList">#trimFormatList</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ASCII.html">ASCII</a>
+  
+    <li><a href="./Audio.html">Audio</a>
+  
+    <li><a href="./BitstreamObject.html">BitstreamObject</a>
+  
+    <li><a href="./FDAFormat.html">FDAFormat</a>
+  
+    <li><a href="./FileFormat.html">FileFormat</a>
+  
+    <li><a href="./FileObject.html">FileObject</a>
+  
+    <li><a href="./Format2Validator.html">Format2Validator</a>
+  
+    <li><a href="./FormatBase.html">FormatBase</a>
+  
+    <li><a href="./FormatError.html">FormatError</a>
+  
+    <li><a href="./FormatPool.html">FormatPool</a>
+  
+    <li><a href="./FormatTree.html">FormatTree</a>
+  
+    <li><a href="./Image.html">Image</a>
+  
+    <li><a href="./Inhibitor.html">Inhibitor</a>
+  
+    <li><a href="./JP2.html">JP2</a>
+  
+    <li><a href="./Jar.html">Jar</a>
+  
+    <li><a href="./Jpeg.html">Jpeg</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./PDF.html">PDF</a>
+  
+    <li><a href="./PDFA.html">PDFA</a>
+  
+    <li><a href="./PRONOMFormat.html">PRONOMFormat</a>
+  
+    <li><a href="./Premis.html">Premis</a>
+  
+    <li><a href="./RDroid.html">RDroid</a>
+  
+    <li><a href="./RJhove.html">RJhove</a>
+  
+    <li><a href="./RXML.html">RXML</a>
+  
+    <li><a href="./Registry.html">Registry</a>
+  
+    <li><a href="./Result.html">Result</a>
+  
+    <li><a href="./Tiff.html">Tiff</a>
+  
+    <li><a href="./UTF8.html">UTF8</a>
+  
+    <li><a href="./Validator.html">Validator</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class FileObject</h1>
+
+  <div id="description" class="description">
+    
+<p>extracted metadata of a file object</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-compositionLevel" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">compositionLevel</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-createAppName" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">createAppName</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-createAppVersion" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">createAppVersion</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-createDate" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">createDate</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-formats" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">formats</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-inhibitors" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">inhibitors</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-location" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">location</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-md5" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">md5</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-objectExtension" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">objectExtension</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-originalName" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">originalName</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-sha1" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">sha1</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-size" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">size</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-uri" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">uri</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/structures.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
+        <span class="ruby-ivar">@formats</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@inhibitors</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-calculateFixity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">calculateFixity</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>calculate md5 and sha1 for the file<a href="Object.html">Object</a></p>
+          
+
+          
+          <div class="method-source-code" id="calculateFixity-source">
+            <pre><span class="ruby-comment"># File lib/structures.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">calculateFixity</span>
+  <span class="ruby-ivar">@md5</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">file</span>(<span class="ruby-ivar">@location</span>).<span class="ruby-identifier">hexdigest</span> 
+  <span class="ruby-ivar">@sha1</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">file</span>(<span class="ruby-ivar">@location</span>).<span class="ruby-identifier">hexdigest</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- calculateFixity-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- calculateFixity-method -->
+
+    
+      <div id="method-i-clear" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clear-source">
+            <pre><span class="ruby-comment"># File lib/structures.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@format</span>
+    <span class="ruby-ivar">@formats</span>.<span class="ruby-identifier">clear</span>
+    <span class="ruby-ivar">@formats</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@inhibitors</span>
+    <span class="ruby-ivar">@inhibitors</span>.<span class="ruby-identifier">clear</span>
+    <span class="ruby-ivar">@inhibitors</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>   
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear-method -->
+
+    
+      <div id="method-i-resolveFormats" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">resolveFormats</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>make sure all formats have associated format registry id.  Otherwise, look
+up the fda format registry to retrieve the locally defined format id.</p>
+          
+
+          
+          <div class="method-source-code" id="resolveFormats-source">
+            <pre><span class="ruby-comment"># File lib/structures.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">resolveFormats</span>
+      <span class="ruby-identifier">fdaRegistry</span> = <span class="ruby-constant">FDAFormat</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">registryName</span>.<span class="ruby-identifier">nil?</span>
+             <span class="ruby-identifier">fmt</span> = <span class="ruby-identifier">fdaRegistry</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">format</span>.<span class="ruby-identifier">formatName</span>)
+             <span class="ruby-comment"># raise FormatError.new(&quot;No format registry defined for format name #{format.formatName}.&quot;) if fmt.nil?</span>
+             <span class="ruby-identifier">format</span>.<span class="ruby-identifier">registryName</span> = <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">registry</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">nil?</span>
+             <span class="ruby-identifier">format</span>.<span class="ruby-identifier">registryKey</span> = <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">id</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- resolveFormats-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- resolveFormats-method -->
+
+    
+      <div id="method-i-trimFormatList" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">trimFormatList</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>trim down the list of identified formats to the most specific.  Ex., if
+both PDF/A and PDF/1.4 are listed as identified formats for the object,
+only PDF/A shall be recorded.</p>
+          
+
+          
+          <div class="method-source-code" id="trimFormatList-source">
+            <pre><span class="ruby-comment"># File lib/structures.rb, line 101</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">trimFormatList</span>
+      <span class="ruby-identifier">formatTree</span> = <span class="ruby-constant">FormatTree</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">branches</span> = <span class="ruby-identifier">formatTree</span>.<span class="ruby-identifier">getBranches</span>(<span class="ruby-identifier">format</span>.<span class="ruby-identifier">formatName</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">branches</span>
+          <span class="ruby-comment"># create an array excluding the current format</span>
+          <span class="ruby-identifier">otherFormats</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">formats</span>)
+          <span class="ruby-identifier">otherFormats</span>.<span class="ruby-identifier">delete_if</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">formatName</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">formatName</span> }
+          <span class="ruby-comment"># remove the duplicate format from the list of identified formats</span>
+          <span class="ruby-identifier">otherFormats</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fmt</span><span class="ruby-operator">|</span> 
+            <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">format</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">branches</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">formatName</span>) 
+                <span class="ruby-keyword">end</span>
+                <span class="ruby-identifier">otherFormats</span>.<span class="ruby-identifier">clear</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-comment"># trim duplicate formats, duplicate may occurs because JHOVE sometimes dumps out profile (ex. JP2) that is already an format.</span>
+      <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">uniq!</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- trimFormatList-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- trimFormatList-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

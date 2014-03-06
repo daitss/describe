@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class RJhove - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/RJhove.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Object.html">Object</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">Singleton</span>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-extractAll">#extractAll</a>
+    
+    <li><a href="#method-i-findFormat">#findFormat</a>
+    
+    <li><a href="#method-i-getValidator">#getValidator</a>
+    
+    <li><a href="#method-i-isValid">#isValid</a>
+    
+    <li><a href="#method-i-retrieveFileProperties">#retrieveFileProperties</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ASCII.html">ASCII</a>
+  
+    <li><a href="./Audio.html">Audio</a>
+  
+    <li><a href="./BitstreamObject.html">BitstreamObject</a>
+  
+    <li><a href="./FDAFormat.html">FDAFormat</a>
+  
+    <li><a href="./FileFormat.html">FileFormat</a>
+  
+    <li><a href="./FileObject.html">FileObject</a>
+  
+    <li><a href="./Format2Validator.html">Format2Validator</a>
+  
+    <li><a href="./FormatBase.html">FormatBase</a>
+  
+    <li><a href="./FormatError.html">FormatError</a>
+  
+    <li><a href="./FormatPool.html">FormatPool</a>
+  
+    <li><a href="./FormatTree.html">FormatTree</a>
+  
+    <li><a href="./Image.html">Image</a>
+  
+    <li><a href="./Inhibitor.html">Inhibitor</a>
+  
+    <li><a href="./JP2.html">JP2</a>
+  
+    <li><a href="./Jar.html">Jar</a>
+  
+    <li><a href="./Jpeg.html">Jpeg</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./PDF.html">PDF</a>
+  
+    <li><a href="./PDFA.html">PDFA</a>
+  
+    <li><a href="./PRONOMFormat.html">PRONOMFormat</a>
+  
+    <li><a href="./Premis.html">Premis</a>
+  
+    <li><a href="./RDroid.html">RDroid</a>
+  
+    <li><a href="./RJhove.html">RJhove</a>
+  
+    <li><a href="./RXML.html">RXML</a>
+  
+    <li><a href="./Registry.html">Registry</a>
+  
+    <li><a href="./Result.html">Result</a>
+  
+    <li><a href="./Tiff.html">Tiff</a>
+  
+    <li><a href="./UTF8.html">UTF8</a>
+  
+    <li><a href="./Validator.html">Validator</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class RJhove</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 36</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
+  <span class="ruby-ivar">@validators</span> = <span class="ruby-identifier">open</span>(<span class="ruby-identifier">config_file</span>(<span class="ruby-string">'validators.xml'</span>)) { <span class="ruby-operator">|</span><span class="ruby-identifier">io</span><span class="ruby-operator">|</span> <span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">io</span> <span class="ruby-identifier">io</span> }
+  <span class="ruby-identifier">jhoveEngine</span> = <span class="ruby-constant">Jar</span>.<span class="ruby-identifier">import_from_jars</span>(<span class="ruby-string">'fcla.format.api.JhoveEngine'</span>)
+  <span class="ruby-ivar">@jhoveEngine</span> = <span class="ruby-identifier">jhoveEngine</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">config_file</span>(<span class="ruby-string">'jhove.conf'</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-extractAll" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">extractAll</span><span
+            class="method-args">(input, formats, uri, result)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>given a list of tentative format id, extract technical metadata of the
+input file</p>
+          
+
+          
+          <div class="method-source-code" id="extractAll-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extractAll</span>(<span class="ruby-identifier">input</span>, <span class="ruby-identifier">formats</span>, <span class="ruby-identifier">uri</span>, <span class="ruby-identifier">result</span>)
+  <span class="ruby-comment"># get the list of validators for validating the matching formats</span>
+  <span class="ruby-identifier">validators</span> = <span class="ruby-identifier">getValidator</span>(<span class="ruby-identifier">formats</span>)
+ 
+  <span class="ruby-comment"># make sure there is a validator defined for this validator id</span>
+  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">validators</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-identifier">validators</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">vdr</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment"># create the parser</span>
+      <span class="ruby-identifier">require</span> <span class="ruby-string">&quot;format/&quot;</span><span class="ruby-operator">+</span> <span class="ruby-identifier">vdr</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">downcase</span>
+      <span class="ruby-identifier">parser</span> = <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">vdr</span>.<span class="ruby-identifier">class</span>).<span class="ruby-identifier">new</span> <span class="ruby-identifier">vdr</span>.<span class="ruby-identifier">parameter</span>
+      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">jhoveEngine</span> = <span class="ruby-ivar">@jhoveEngine</span>
+      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">result</span> = <span class="ruby-identifier">result</span>        
+   
+      <span class="ruby-comment"># validate and extract metadata</span>
+      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">send</span> <span class="ruby-identifier">vdr</span>.<span class="ruby-identifier">method</span>, <span class="ruby-identifier">input</span>, <span class="ruby-identifier">uri</span>
+      
+      <span class="ruby-comment"># if result shows an invalid file, try the next validator in the list if there is any</span>
+      <span class="ruby-keyword">if</span> (<span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">isValid</span>(<span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span>))
+        <span class="ruby-keyword">break</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">Datyl</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;no validator is defined for these formats: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;,&quot;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">validators</span>.<span class="ruby-identifier">clear</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- extractAll-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- extractAll-method -->
+
+    
+      <div id="method-i-findFormat" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">findFormat</span><span
+            class="method-args">(puid)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>given a puid, find the registry format information</p>
+          
+
+          
+          <div class="method-source-code" id="findFormat-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">findFormat</span>(<span class="ruby-identifier">puid</span>)
+      <span class="ruby-identifier">fileformat</span> = <span class="ruby-constant">FileFormat</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">format</span> = <span class="ruby-constant">PRONOMFormat</span>.<span class="ruby-identifier">instance</span>.<span class="ruby-identifier">find_puid</span>(<span class="ruby-identifier">puid</span>)
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">formatName</span> = <span class="ruby-identifier">format</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">formatVersion</span> = <span class="ruby-identifier">format</span>.<span class="ruby-identifier">version</span>
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">registryName</span> = <span class="ruby-identifier">format</span>.<span class="ruby-identifier">registry</span>
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">registryKey</span> = <span class="ruby-identifier">format</span>.<span class="ruby-identifier">puid</span>        
+      <span class="ruby-identifier">fileformat</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- findFormat-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- findFormat-method -->
+
+    
+      <div id="method-i-getValidator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getValidator</span><span
+            class="method-args">(formats)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>get the list of validators that may be used to validate the list of
+identified formats</p>
+          
+
+          
+          <div class="method-source-code" id="getValidator-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getValidator</span>(<span class="ruby-identifier">formats</span>)
+  <span class="ruby-identifier">validators_list</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">fmt2val</span> = <span class="ruby-constant">Format2Validator</span>.<span class="ruby-identifier">new</span>
+
+  <span class="ruby-comment"># Set does not allow duplicate, thus it makes sure only a unique validator is put into the ValidatorSet.</span>
+  <span class="ruby-identifier">validatorSet</span> = <span class="ruby-constant">Set</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">fmt2val</span>.<span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">format</span>)
+    <span class="ruby-identifier">fmt2val</span>.<span class="ruby-identifier">validators</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">val</span><span class="ruby-operator">|</span> <span class="ruby-identifier">validatorSet</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">val</span>)}
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">fmt2val</span>.<span class="ruby-identifier">clear</span>
+  <span class="ruby-comment"># Datyl::Logger.info &quot;applicable validators found: #{validatorSet.to_a.join(&quot;,&quot;)}&quot;  </span>
+  <span class="ruby-comment"># return a prioritized list of validators if applicable</span>
+  <span class="ruby-identifier">validators</span> = <span class="ruby-constant">SortedSet</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">validatorSet</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">xml</span> = <span class="ruby-ivar">@validators</span>.<span class="ruby-identifier">find_first</span>(<span class="ruby-node">&quot;//validator[name/text()='#{val}']&quot;</span>)
+    <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span>)
+      <span class="ruby-identifier">val</span> = <span class="ruby-constant">Validator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@validators</span>, <span class="ruby-node">&quot;//validator[name/text()='#{val}']&quot;</span>)
+      <span class="ruby-identifier">validators</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">val</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">validatorSet</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">validators</span>.<span class="ruby-identifier">sort</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- getValidator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- getValidator-method -->
+
+    
+      <div id="method-i-isValid" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">isValid</span><span
+            class="method-args">(status)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>is the return status from the validator indicates that the file is valid?</p>
+          
+
+          
+          <div class="method-source-code" id="isValid-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 148</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">isValid</span>(<span class="ruby-identifier">status</span>)
+  <span class="ruby-identifier">valid</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">status</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-comment"># Datyl::Logger.info &quot;status : #{status}&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">status</span>.<span class="ruby-identifier">casecmp</span>(<span class="ruby-string">&quot;well-formed and valid&quot;</span>) <span class="ruby-operator">&gt;=</span><span class="ruby-value">0</span>
+      <span class="ruby-identifier">valid</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">valid</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- isValid-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- isValid-method -->
+
+    
+      <div id="method-i-retrieveFileProperties" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">retrieveFileProperties</span><span
+            class="method-args">(input, formats, uri)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>retrieve general file format properties such as size and format information</p>
+          
+
+          
+          <div class="method-source-code" id="retrieveFileProperties-source">
+            <pre><span class="ruby-comment"># File lib/RJhove.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">retrieveFileProperties</span>(<span class="ruby-identifier">input</span>, <span class="ruby-identifier">formats</span>, <span class="ruby-identifier">uri</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>
+
+  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">location</span> = <span class="ruby-identifier">input</span>
+  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">uri</span> = <span class="ruby-identifier">uri</span>
+  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">size</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">size</span>(<span class="ruby-identifier">input</span>).<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">compositionLevel</span> = <span class="ruby-string">'0'</span>
+  
+  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">formats</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-keyword">if</span> (<span class="ruby-identifier">formats</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span>  <span class="ruby-value">1</span>)
+      <span class="ruby-comment"># we know which exactly what format this file is </span>
+                  <span class="ruby-identifier">fileformat</span> = <span class="ruby-identifier">findFormat</span>(<span class="ruby-identifier">formats</span>.<span class="ruby-identifier">first</span>)
+      <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">formats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">fileformat</span>
+      <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;format identified&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment"># ambiguous formats, record all (based on premis data dictionary 2.0, page 196)</span>
+      <span class="ruby-identifier">formatName</span> = <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> 
+        <span class="ruby-identifier">fileformat</span> = <span class="ruby-identifier">findFormat</span>(<span class="ruby-identifier">f</span>)
+        <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">formatNote</span> = <span class="ruby-string">&quot;Candidate Format&quot;</span>
+        <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">formats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">fileformat</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;multiple formats identified&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">fileformat</span> = <span class="ruby-constant">FileFormat</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-comment"># for empty file, the format Name should be 'N/A'</span>
+    <span class="ruby-keyword">if</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">zero?</span>(<span class="ruby-identifier">input</span>))
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">formatName</span> = <span class="ruby-string">'N/A'</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment"># for unempty file that can't be identified, the format name is 'unknown'</span>
+      <span class="ruby-identifier">fileformat</span>.<span class="ruby-identifier">formatName</span> = <span class="ruby-string">'Unknown'</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">result</span>.<span class="ruby-identifier">fileObject</span>.<span class="ruby-identifier">formats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">fileformat</span>
+    <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;cannot identify file format&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- retrieveFileProperties-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- retrieveFileProperties-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
