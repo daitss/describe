@@ -1,157 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-	<% unless @result.fileObject.nil? %>
-	<!-- premis file object -->
-	<object xsi:type="file">
-		<objectIdentifier>
-			<objectIdentifierType>URI</objectIdentifierType>
-			<objectIdentifierValue><%= @result.fileObject.uri %></objectIdentifierValue>
-		</objectIdentifier>
-		<objectCharacteristics>
-			<compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
-			<fixity>
-				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-				<messageDigest><%= @result.fileObject.md5 %></messageDigest>
-				<messageDigestOriginator>Archive</messageDigestOriginator>
-			</fixity>
-			<fixity>
-				<messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
-				<messageDigest><%= @result.fileObject.sha1 %></messageDigest>
-				<messageDigestOriginator>Archive</messageDigestOriginator>
-			</fixity>
-			<size><%= @result.fileObject.size %></size>
-			<% @result.fileObject.formats.each do |format| %>
-			<format>
-				<formatDesignation>
-					<formatName><%= format.formatName %></formatName>
-					<% unless format.formatVersion.nil? %>
-					<formatVersion><%= format.formatVersion %></formatVersion>
-					<% end %>
-				</formatDesignation>
-				<% unless format.registryKey.nil? %>
-				<formatRegistry>
-					<formatRegistryName><%= format.registryName %></formatRegistryName>
-					<formatRegistryKey><%= format.registryKey %></formatRegistryKey>
-				</formatRegistry>
-				<% end %>
-				<% unless format.formatNote.nil? %>
-	            <formatNote><%= format.formatNote %></formatNote>
-			    <% end %>
-			</format>
-			<% end %>
-			<% if @result.fileObject.createAppName or @result.fileObject.createDate%>
-			<creatingApplication>
-				<creatingApplicationName><%= ERB::Util::h(@result.fileObject.createAppName) %></creatingApplicationName>
-				<% if @result.fileObject.createAppVersion %>
-				<creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
-				<% end %>
-				<% if @result.fileObject.createDate %>
-				<dateCreatedByApplication><%= @result.fileObject.createDate %></dateCreatedByApplication>
-				<% end %>
-			</creatingApplication>
-			<% end %>
-			<% if @result.fileObject.inhibitors && !@result.fileObject.inhibitors.empty?%>
-			<inhibitors>
-			<% @result.fileObject.inhibitors.each do |inh| %>
-				<inhibitorType><%= inh.type %></inhibitorType>
-				<% if inh.target %><inhibitorTarget><%= inh.target %></inhibitorTarget><% end %>
-				<% if inh.key %><inhibitorKey><%= inh.key %></inhibitorKey><% end %>
-			<% end %>
-			</inhibitors>
-			<% end %>
-			<%unless @result.fileObject.objectExtension.nil? %>
-			<objectCharacteristicsExtension>
-				<%= @result.fileObject.objectExtension %>
-			</objectCharacteristicsExtension>
-			<%end%>
-		</objectCharacteristics>
-		<% if @result.fileObject.originalName %>
-		<originalName><%= ERB::Util::h(@result.fileObject.originalName)%></originalName>
-		<% end %>
-		<% unless @result.bitstreams.nil? %>
-		<% @result.bitstreams.each do |bs| %>
-		<relationship>
-			<relationshipType>structural</relationshipType>
-			<relationshipSubType>includes</relationshipSubType>
-			<relatedObjectIdentification>
-				<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-				<relatedObjectIdentifierValue><%= bs.uri %></relatedObjectIdentifierValue>
-			</relatedObjectIdentification>
-		</relationship>
-		<% end %>
-		<% end %>
-		<linkingEventIdentifier>
-			<linkingEventIdentifierType>URI</linkingEventIdentifierType>
-			<linkingEventIdentifierValue>1</linkingEventIdentifierValue>
-		</linkingEventIdentifier>
-	</object>
-	<% end %>
+  <% unless @result.fileObject.nil? %>
+  <!-- premis file object -->
+  <object xsi:type="file">
+    <objectIdentifier>
+      <objectIdentifierType>URI</objectIdentifierType>
+      <objectIdentifierValue><%= @result.fileObject.uri %></objectIdentifierValue>
+    </objectIdentifier>
+    <objectCharacteristics>
+      <compositionLevel><%= @result.fileObject.compositionLevel %></compositionLevel>
+      <fixity>
+        <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+        <messageDigest><%= @result.fileObject.md5 %></messageDigest>
+        <messageDigestOriginator>Archive</messageDigestOriginator>
+      </fixity>
+      <fixity>
+        <messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+        <messageDigest><%= @result.fileObject.sha1 %></messageDigest>
+        <messageDigestOriginator>Archive</messageDigestOriginator>
+      </fixity>
+      <size><%= @result.fileObject.size %></size>
+      <% @result.fileObject.formats.each do |format| %>
+      <format>
+        <formatDesignation>
+          <formatName><%= format.formatName %></formatName>
+          <% unless format.formatVersion.nil? %>
+          <formatVersion><%= format.formatVersion %></formatVersion>
+          <% end %>
+        </formatDesignation>
+        <% unless format.registryKey.nil? %>
+        <formatRegistry>
+          <formatRegistryName><%= format.registryName %></formatRegistryName>
+          <formatRegistryKey><%= format.registryKey %></formatRegistryKey>
+        </formatRegistry>
+        <% end %>
+        <% unless format.formatNote.nil? %>
+        <formatNote><%= format.formatNote %></formatNote>
+        <% end %>
+      </format>
+      <% end %>
+      <% if @result.fileObject.createAppName or @result.fileObject.createDate%>
+      <creatingApplication>
+        <creatingApplicationName><%= ERB::Util::h(@result.fileObject.createAppName) %></creatingApplicationName>
+        <% if @result.fileObject.createAppVersion %>
+        <creatingApplicationVersion><%= @result.fileObject.createAppVersion %></creatingApplicationVersion>
+        <% end %>
+        <% if @result.fileObject.createDate %>
+        <dateCreatedByApplication><%= @result.fileObject.createDate %></dateCreatedByApplication>
+        <% end %>
+      </creatingApplication>
+      <% end %>
+      <% if @result.fileObject.inhibitors && !@result.fileObject.inhibitors.empty?%>
+      <inhibitors>
+        <% @result.fileObject.inhibitors.each do |inh| %>
+        <inhibitorType><%= inh.type %></inhibitorType>
+        <% if inh.target %><inhibitorTarget><%= inh.target %></inhibitorTarget><% end %>
+        <% if inh.key %><inhibitorKey><%= inh.key %></inhibitorKey><% end %>
+        <% end %>
+      </inhibitors>
+      <% end %>
+      <%unless @result.fileObject.objectExtension.nil? %>
+      <objectCharacteristicsExtension>
+        <%= @result.fileObject.objectExtension %>
+      </objectCharacteristicsExtension>
+      <%end%>
+    </objectCharacteristics>
+    <% if @result.fileObject.originalName %>
+    <originalName><%= ERB::Util::h(@result.fileObject.originalName)%></originalName>
+    <% end %>
+    <% unless @result.bitstreams.nil? %>
+    <% @result.bitstreams.each do |bs| %>
+    <relationship>
+      <relationshipType>structural</relationshipType>
+      <relationshipSubType>includes</relationshipSubType>
+      <relatedObjectIdentification>
+        <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+        <relatedObjectIdentifierValue><%= bs.uri %></relatedObjectIdentifierValue>
+      </relatedObjectIdentification>
+    </relationship>
+    <% end %>
+    <% end %>
+    <linkingEventIdentifier>
+    <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+    <linkingEventIdentifierValue>1</linkingEventIdentifierValue>
+  </linkingEventIdentifier>
+</object>
+<% end %>
 
-	<% unless @result.bitstreams.nil? %>
-	<!-- premis bitstream object -->
-	<% @result.bitstreams.each do |bs| %>
-	<object xsi:type="bitstream">
-		<objectIdentifier>
-			<objectIdentifierType>URI</objectIdentifierType>
-			<objectIdentifierValue><%= bs.uri %></objectIdentifierValue>
-		</objectIdentifier>
-		<objectCharacteristics>
-			<compositionLevel>0</compositionLevel>
-			<format>
-				<% unless bs.formatName.nil? %>
-				<formatDesignation>
-					<formatName><%= bs.formatName%></formatName>
-				</formatDesignation>
-				<% end %>
-			</format>
-			<objectCharacteristicsExtension>
-				<%= bs.objectExtension %>
-			</objectCharacteristicsExtension>
-		</objectCharacteristics>
-	</object>
-	<% end %>
-	<% end %>
+<% unless @result.bitstreams.nil? %>
+<!-- premis bitstream object -->
+<% @result.bitstreams.each do |bs| %>
+<object xsi:type="bitstream">
+  <objectIdentifier>
+    <objectIdentifierType>URI</objectIdentifierType>
+    <objectIdentifierValue><%= bs.uri %></objectIdentifierValue>
+  </objectIdentifier>
+  <objectCharacteristics>
+    <compositionLevel>0</compositionLevel>
+    <format>
+      <% unless bs.formatName.nil? %>
+      <formatDesignation>
+        <formatName><%= bs.formatName%></formatName>
+      </formatDesignation>
+      <% end %>
+    </format>
+    <objectCharacteristicsExtension>
+      <%= bs.objectExtension %>
+    </objectCharacteristicsExtension>
+  </objectCharacteristics>
+</object>
+<% end %>
+<% end %>
 
-	<!-- premis event -->
-	<event>
-		<eventIdentifier>
-			<eventIdentifierType>URI</eventIdentifierType>
-			<eventIdentifierValue>1</eventIdentifierValue>
-		</eventIdentifier>
-		<eventType>describe</eventType>
-		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
-		<eventDetail><%=  @result.status %></eventDetail>
-		<eventOutcomeInformation>
-			<eventOutcome>success</eventOutcome>
-			<% unless @result.anomaly.nil? or @result.anomaly.empty? %>
-			<eventOutcomeDetail>
-				<eventOutcomeDetailExtension>
-					<% @result.anomaly.each do |anomaly| %>
-					<anomaly><%= ERB::Util::h(anomaly) %></anomaly>
-					<% end %>
-				</eventOutcomeDetailExtension>
-			</eventOutcomeDetail>
-			<% end %>
-		</eventOutcomeInformation>
-		<linkingAgentIdentifier>
-			<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-			<linkingAgentIdentifierValue>info:fda/daitss/description/<%= DESCRIBE_VERSION %></linkingAgentIdentifierValue>
-		</linkingAgentIdentifier>
-		<linkingObjectIdentifier>
-			<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-			<linkingObjectIdentifierValue><%= @result.fileObject.uri %></linkingObjectIdentifierValue>
-		</linkingObjectIdentifier>
-	</event>
+<!-- premis event -->
+<event>
+  <eventIdentifier>
+    <eventIdentifierType>URI</eventIdentifierType>
+    <eventIdentifierValue>1</eventIdentifierValue>
+  </eventIdentifier>
+  <eventType>describe</eventType>
+  <eventDateTime><%= Time.now.xmlschema %></eventDateTime>
+  <eventDetail><%=  @result.status %></eventDetail>
+  <eventOutcomeInformation>
+    <eventOutcome>success</eventOutcome>
+    <% unless @result.anomaly.nil? or @result.anomaly.empty? %>
+    <eventOutcomeDetail>
+      <eventOutcomeDetailExtension>
+        <% @result.anomaly.each do |anomaly| %>
+        <anomaly><%= ERB::Util::h(anomaly) %></anomaly>
+        <% end %>
+      </eventOutcomeDetailExtension>
+    </eventOutcomeDetail>
+    <% end %>
+  </eventOutcomeInformation>
+  <linkingAgentIdentifier>
+  <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+  <linkingAgentIdentifierValue>info:fda/daitss/description/<%= DESCRIBE_VERSION %></linkingAgentIdentifierValue>
+</linkingAgentIdentifier>
+<linkingObjectIdentifier>
+<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+<linkingObjectIdentifierValue><%= @result.fileObject.uri %></linkingObjectIdentifierValue>
+</linkingObjectIdentifier>
+</event>
 
 <!-- premis agent -->
 <agent>
-	<agentIdentifier>
-		<agentIdentifierType>URI</agentIdentifierType>
-		<agentIdentifierValue>info:fda/daitss/description/<%= DESCRIBE_VERSION %></agentIdentifierValue>
-	</agentIdentifier>
-	<agentName>Format Description Service</agentName>
-	<agentType>Web Service</agentType>
-	<agentNote>built with JHOVE 1.11, DROID 3.0 with DROID signature file version 67.</agentNote>
+  <agentIdentifier>
+    <agentIdentifierType>URI</agentIdentifierType>
+    <agentIdentifierValue>info:fda/daitss/description/<%= DESCRIBE_VERSION %></agentIdentifierValue>
+  </agentIdentifier>
+  <agentName>Format Description Service</agentName>
+  <agentType>Web Service</agentType>
+  <agentNote>built with JHOVE 1.11, DROID 3.0 with DROID signature file version 67.</agentNote>
 </agent>
 </premis>
