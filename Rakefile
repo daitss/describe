@@ -1,6 +1,7 @@
+require 'rubygems'
 require 'rake/dsl_definition'
 require 'rake'
-require 'rake/rdoctask'
+require 'rake/task'
 #require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
@@ -44,27 +45,22 @@ end
 
 desc "deploy to darchive's production site (describe.fda.fcla.edu)"
 task :darchive do
-    sh "cap deploy -S target=darchive.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
-end
-
-desc "deploy to development site (describe.retsina.fcla.edu)"
-task :retsina do
-    sh "cap deploy -S target=retsina.fcla.edu:/opt/web-services/sites/describe -S who=daitss:daitss"
+  sh "cap deploy -S target=darchive.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
 end
 
 desc "deploy to development site (describe.marsala.fcla.edu)"
 task :marsala do
-	    sh "cap deploy -S target=marsala.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
+  sh "cap deploy -S target=marsala.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
 end
 
 desc "deploy to ripple's test site (describe.ripple.fcla.edu)"
 task :ripple do
-    sh "cap deploy -S target=ripple.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
+  sh "cap deploy -S target=ripple.fcla.edu:/opt/web-services/sites/describe -S who=#{user}:#{user}"
 end
 
 desc "deploy to tarchive's coop (describe.tarchive.fcla.edu?)"
 task :tarchive_coop do
-    sh "cap deploy -S target=tarchive.fcla.edu:/opt/web-services/sites/coop/describe -S who=#{user}:#{user}"
+  sh "cap deploy -S target=tarchive.fcla.edu:/opt/web-services/sites/coop/describe -S who=#{user}:#{user}"
 end
 
 defaults = [:restart]
