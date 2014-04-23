@@ -1,4 +1,4 @@
-require 'format/image.rb'
+require_relative 'image.rb'
 
 class JP2 < Image
   def parse(xml)

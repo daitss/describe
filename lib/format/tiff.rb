@@ -1,4 +1,4 @@
-require 'format/image'
+require_relative 'image'
 
 class Tiff < Image
 

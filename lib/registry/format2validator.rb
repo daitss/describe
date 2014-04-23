@@ -1,5 +1,5 @@
 require 'xml'
-require 'config'
+require './lib/config'
 
 # Format2Validator class performs validator lookup by registry id
 class Format2Validator

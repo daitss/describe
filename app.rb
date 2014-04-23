@@ -20,17 +20,16 @@ require 'rubygems'
 require "bundler/setup"
 require 'sinatra'
 require 'uri'
-require 'structures'
 require 'erb'
-require 'ftools'
 require 'pp'
 require 'net/http'
-require 'jar'
 require 'yaml'
 require 'semver'
-require 'format/pdf'
-require 'format/pdfa'
-require 'formatpool'
+require_relative 'lib/structures'
+require_relative 'lib/jar'
+require_relative 'lib/format/pdf'
+require_relative 'lib/format/pdfa'
+require_relative 'lib/formatpool'
 require 'datyl/logger'
 require 'datyl/config'
 
@@ -117,36 +116,28 @@ get '/describe' do
   else
     originalName = url.path
   end
-   
+  
+  tmpfile = nil 
   case url.scheme
   when "file"
-    urlpath = url.path
-    link = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(originalName))
-    FileUtils::ln_s(url.path, link)
-    input = link
+    input = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(originalName))
+    FileUtils::ln_s(url.path, input)
     # uri parameter is optional, set the file url if uri param is not specified
-    unless params['uri'].nil?
-      uri = params['uri']
-    else
-      uri = input
-    end
+    uri = input
+    uri = params['uri'] unless params['uri'].nil?
   when "http"
     resource = Net::HTTP.get_response url
     index = url.path.rindex('.')
-    file_ext = url.path.slice(index, url.path.length) if index
-    io = Tempfile.new(['file2describe', file_ext])
-    io.write resource.body
-    io.flush
-    input = io.path
-    io.close
-    io = nil
+    file_ext = ""
+    file_ext = url.path.slice(index, url.path.length) if index 
+    tmpfile = Tempfile.new(['file2describe', file_ext])
+    tmpfile.write resource.body
+    tmpfile.flush
+    input = tmpfile.path
     resource = nil # ruby memory leak if not nullify the resource from Net::HTTP.get_response
     # uri parameter is optional, set to the specified url if uri param is not specified
-    unless params['uri'].nil?
-      uri = params['uri']
-    else
-      uri = url
-    end
+    uri = url
+    uri = params['uri'] unless params['uri'].nil?
   else
     throw :halt, [400,  "invalid url location type"]
   end
@@ -162,13 +153,14 @@ get '/describe' do
     # dump the xml output to the response, pretty the xml output (ruby bug)
     body erb(:premis)
     @result.clear
-    @result = nil
-    FileUtils.rm input
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
-    FileUtils.rm input
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
+  ensure
+    FileUtils.rm(input) if File.exist?(input)
+    tmpfile.close unless tmpfile.nil?
+    @result = nil
   end
   response.finish
 end
@@ -207,15 +199,14 @@ post '/describe' do
     # dump the xml output to the response, pretty the xml output (ruby bug)
     body erb(:premis)
     @result.clear
-    @result = nil
-    FileUtils.rm input
-    # remove the temporary file created by sinatra-curl
-    params['file'][:tempfile].unlink unless params['file'][:tempfile].nil?
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
-    FileUtils.rm input
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
+  ensure
+    FileUtils.rm(input) if File.exist?(input)  
+    # remove the temporary file created by sinatra-curl
+    params['file'][:tempfile].unlink unless params['file'][:tempfile].nil?  
   end
   response.finish
 end
@@ -260,6 +251,10 @@ post '/description' do
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
+  ensure
+    FileUtils.rm(input) if File.exist?(input)
+    # remove the temporary file created by sinatra-rack
+    params['document'][:tempfile].unlink unless params['document'][:tempfile].nil?    
   end
   response.finish
 end

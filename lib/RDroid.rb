@@ -1,6 +1,6 @@
 require 'rjb'
 require 'singleton'
-require 'config'
+require_relative 'config'
 
 class RDroid
   include Singleton

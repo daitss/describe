@@ -1,5 +1,5 @@
 require 'xml'
-require 'config'
+require './lib/config'
 
 class FormatTree
   def initialize

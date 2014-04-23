@@ -1,10 +1,9 @@
 # -*- mode:ruby; -*-
 #
-#  Set deploy target host/filesystem and test proxy to use from cap command line as so:
+#  Set deploy target host/filesystem to use from cap command line as so:
 #
-#  cap deploy  -S target=ripple.fcla.edu:/opt/web-services/sites/storemaster  -S test_proxy=sake.fcla.edu:3128
+#  cap deploy  -S target=ripple.fcla.edu:/opt/web-services/sites/describe  
 #
-#  The test-proxy is used only in remote spec tests.
 #  One can over-ride user and group settings using -S who=user:group
 
 require 'rubygems'
@@ -13,7 +12,7 @@ require 'bundler/capistrano'
 
 set :repository,   "git://github.com/daitss/describe.git"
 set :scm,          "git"
-set :branch,       "master"
+set :branch,       "ruby1.9.3"
 
 set :use_sudo,     false
 set :user,         "daitss"
@@ -31,12 +30,17 @@ def usage(*messages)
   exit
 end
 
-usage('The deployment target was not set (e.g., target=ripple.fcla.edu:/opt/web-services/sites/silos).') unless (variables[:target] and variables[:target] =~ %r{.*:.*})
+usage('The deployment target was not set (e.g., target=ripple.fcla.edu:/opt/web-services/sites/describe).') unless (variables[:target] and variables[:target] =~ %r{.*:.*})
 
 _domain, _filesystem = variables[:target].split(':', 2)
 
 set :deploy_to,  _filesystem
 set :domain,     _domain
+
+set :default_environment, { 
+  'PATH' => "/opt/ruby-1.9.3-p545/bin:$PATH",
+  'RUBY_VERSION' => 'ruby 1.9.3-p545'
+}
 
 if (variables[:who] and variables[:who] =~ %r{.*:.*})
   _user, _group = variables[:who].split(':', 2)

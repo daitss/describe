@@ -1,4 +1,4 @@
-require 'format/formatbase'
+require_relative 'formatbase'
 require 'datyl/logger'
 
 class UTF8 < FormatBase

@@ -1,4 +1,4 @@
-require 'format/formatbase'
+require_relative 'formatbase'
 require 'erb'
 require 'datyl/logger'
 require 'datyl/config'

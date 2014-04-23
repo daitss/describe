@@ -1,6 +1,6 @@
 require 'xml'
 require 'singleton'
-require 'config'
+require './lib/config'
 
 PRONOM_URL = "http://www.nationalarchives.gov.uk/pronom"
 

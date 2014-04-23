@@ -1,5 +1,4 @@
 require 'xml'
-#abs = FileUtils.pwd
 path = 'http://www.fcla.edu/daitss-test/files/'
 
 # TODO make sure all test cases include formatDesignation (formatName) test
@@ -52,7 +51,7 @@ Given /^a PDF\/A conformed file$/ do
 end
 
 Given /^a PDF with embedded language metadata$/ do
- @file = "#{path}/useLang.pdf"
+  @file = "#{path}/useLang.pdf"
 end
 
 Given /^a PDF embedded with multiple images$/ do
@@ -72,11 +71,11 @@ Given /^a tagged PDF file$/ do
 end
 
 Given /^a PDF with annotations$/ do
- @file = "#{path}/outalbert_j.pdf"
+  @file = "#{path}/outalbert_j.pdf"
 end
 
 Given /^a PDF with CreatingApplication but not CreateDate$/ do
- @file = "#{path}/00020.pdf"
+  @file = "#{path}/00020.pdf"
 end
 
 Given /^a PDF with bad Encoding property in its font dictionary/ do
@@ -133,11 +132,11 @@ Given /^a file whose format is power point$/ do
 end
 
 Given /^a file whose format is mpeg$/ do
-    @file = "#{path}/jitter.mpg"
+  @file = "#{path}/jitter.mpg"
 end
-	
+
 Given /^a file whose format is mdb$/ do
-    @file = "#{path}/surveydata.mdb"
+  @file = "#{path}/surveydata.mdb"
 end
 
 Given /^a double-quoted xml file$/ do
@@ -157,7 +156,7 @@ Given /^a wave file$/ do
 end
 
 When /^describing the file$/ do
-  get '/describe', :location => @file
+   get '/describe', :location => @file
 end
 
 Then /^I should receive (.+?) on the format version$/ do |version|
@@ -167,7 +166,6 @@ end
 
 Then /^I should receive (.+?) on the format id$/ do |id|
   last_response.body =~ /formatRegistryKey>(.*?)<\/formatRegistryKey>/
-  puts $1
   $1.should == id
 end
 

@@ -1,10 +1,9 @@
 require 'xml'
-require 'libxslt'
-require 'structures'
+require 'nokogiri'
+require_relative '../structures'
 require 'fileutils'
 require 'rjb'
 require 'set'
-require 'jar'
 
 class FormatBase
   NAMESPACES = {
@@ -29,7 +28,7 @@ class FormatBase
     
     # create a temperary file to hold the jhove extraction result
     unless (@module.nil?)
-      output = "extract_#{Process.pid}.xml"
+      output = Dir.tmpdir + "/jhove_#{Process.pid}.xml"
       begin        
         @jhoveEngine.validateFile @module, input, output
  
@@ -76,13 +75,12 @@ class FormatBase
   # apply stylesheet into an xml document
   def apply_xsl xsl_file_name
     stylesheet_file = xsl_file xsl_file_name
-    stylesheet_doc = open(stylesheet_file) { |io| LibXML::XML::Document::io io }
-    stylesheet = LibXSLT::XSLT::Stylesheet.new stylesheet_doc
+    stylesheet = Nokogiri::XSLT(File.read(stylesheet_file))
 
     # apply the xslt
-    jdoc = LibXML::XML::Document.string @jhove.to_s
+    doc = Nokogiri::XML @jhove.to_s
     # jdoc.root = jdoc.import @jhove
-    stylesheet.apply jdoc
+    stylesheet.transform(doc)
   end
 
 end

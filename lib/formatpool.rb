@@ -1,10 +1,10 @@
 require 'rjb'
-require 'config'
-require 'structures'
-require 'registry/format2validator'
-require 'registry/pronom_format'
-require 'registry/validator'
-require 'registry/registry'
+require_relative 'config'
+require_relative 'structures'
+require_relative 'registry/format2validator'
+require_relative 'registry/pronom_format'
+require_relative 'registry/validator'
+require_relative 'registry/registry'
 require 'datyl/logger'
 
 class FormatPool
@@ -79,7 +79,7 @@ class FormatPool
         parser.send vdr.method, input, uri
 
         # if result shows an invalid file, try the next validator in the list if there is any
-        if (result.fileObject != nil && isValid(result.status))
+        if (result.fileObject != nil && isValid(result.status)) then
           break
         end
       end
