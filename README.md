@@ -8,12 +8,13 @@ Description Service
  
 Current Production Code
 -----------------------
-* Release 2.4.0, https://github.com/daitss/describe/releases/tag/v2.4.0
+* Release 2.4.1, https://github.com/daitss/describe/releases/tag/v2.4.1
 
 Requirements
 ------------
-* ruby (tested on 1.8.6 and 1.8.7)
-* java (tested on 1.5,1.6,1.7)
+* ruby (tested on 1.8.6 and 1.8.7) - Please use ruby1.8.7 branch
+* ruby 1.9.3
+* java (tested on 1.5, 1.6, 1.7)
 * ruby-devel, rubygems, git and g++
 * zlib, libxml2-devel and libxslt-devel development libraries
 * bundler gem (http://gembundler.com/)
