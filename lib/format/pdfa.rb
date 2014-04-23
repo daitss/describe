@@ -31,8 +31,10 @@ class PDFA < PDF
       command_output = `#{command}`
       Datyl::Logger.info "command output #{command_output}"
       output_code = $?
-      parse_report(reportpath) if File.size?(reportpath)
-      FileUtils.rm reportpath
+      if File.exist?(reportpath)
+        parse_report(reportpath) if File.size?(reportpath)
+        FileUtils.rm reportpath
+      end
     end
   end
   
