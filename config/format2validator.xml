@@ -95,7 +95,8 @@
 	<rid>fmt/6</rid>
 	<rid>x-fmt/396</rid>
 	<rid>x-fmt/397</rid>		
-	<rid>x-fmt/389</rid>	
+	<rid>x-fmt/389</rid>
+        <rid>fmt/141</rid>	
 	<validator>wav</validator>
   </format>
 
