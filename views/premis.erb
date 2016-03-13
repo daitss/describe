@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+<premis xmlns="http://www.loc.gov/premis/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
   <% unless @result.fileObject.nil? %>
   <!-- premis file object -->
   <object xsi:type="file">
@@ -121,7 +121,9 @@
   </eventIdentifier>
   <eventType>describe</eventType>
   <eventDateTime><%= Time.now.xmlschema %></eventDateTime>
-  <eventDetail><%=  @result.status %></eventDetail>
+  <eventDetailInformation>
+   <eventDetail><%=  @result.status %></eventDetail>
+  </eventDetailInformation>
   <eventOutcomeInformation>
     <eventOutcome>success</eventOutcome>
     <% unless @result.anomaly.nil? or @result.anomaly.empty? %>
