@@ -31,10 +31,22 @@ class FormatBase
       output = Dir.tmpdir + "/jhove_#{Process.pid}.xml"
       begin        
         @jhoveEngine.validateFile @module, input, output
- 
+        
         io = open output
         XML.default_keep_blanks = false
-        doc = XML::Document.io io
+        begin
+          doc = XML::Document.io io
+        rescue => err
+          str = File.read(output)
+          # remove characters not acceptable to XML
+          # https://stackoverflow.com/questions/12229572/php-generated-xml-shows-invalid-char-value-27-message
+          new_content = str.tr("^\u{0009}\u{000a}\u{000d}\u{0020}-\u{D7FF}\u{E000}-\u{FFFD}", ' ')
+          # open the file again and write the new content to it
+          File.open(output, 'w') { |line| line.puts new_content }
+          io = open output
+          doc = XML::Document.io io
+        end             
+
         # parse the jhove output, extracting the metadata we need to record
         parse(doc)
          
