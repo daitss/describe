@@ -169,7 +169,7 @@ end
 # ex:  curl -F file=@GLASS.WAV http://localhost:7002/describe
 post '/describe' do
   halt 400, "missing parameter file='@filename'" unless params['file']
-  halt 400, "missing [file][:tempfile] parameter file='@filename'" unless params['file'][:tempfile]
+  halt 400, "missing [file][:tempfile] parameter file='@filename'" unless tempfile = params['file'][:tempfile]
  
   # set originalName, "originalName" param is optional
   unless params['originalName'].nil?
@@ -179,7 +179,7 @@ post '/describe' do
   end
   
   input = File.join(Dir.tmpdir, rand(MAX_RANDOM_NUM).to_s + '_' + File.basename(originalName))
-  FileUtils::ln_s(params['file'][:tempfile].path, input)
+  FileUtils.mv(tempfile.path, input)
   
   # uri parameter is optional, set the file url if uri param is not specified  
   unless params['uri'].nil?
@@ -199,16 +199,22 @@ post '/describe' do
     # dump the xml output to the response, pretty the xml output (ruby bug)
     body erb(:premis)
     @result.clear
+    # take care of ruby rack file handle leak
+    env['rack.request.form_input'].close
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
   ensure
-    FileUtils.rm(input) if File.exist?(input)  
-    # remove the temporary file created by sinatra-curl
-    params['file'][:tempfile].unlink unless params['file'][:tempfile].nil?  
+    FileUtils.rm_rf(input) if File.exist?(input)  
+    # close and remove the temporary file created by sinatra-curl
+    if (tempfile)
+      tempfile.close 
+      tempfile.unlink
+    end
+
   end
-  response.finish
+  status = 200
 end
 
 #TODO change PIM to use post /describe method
@@ -224,10 +230,11 @@ post '/description' do
   io.close!
   uri = input
 
+  tempfile = params['document'][:tempfile]
   # pp request.env
   case params['document']
     when Hash
-      File.link(params['document'][:tempfile].path, input)
+      File.symlink(tempfile.path, input)
       originalName = params['document'][:filename]
     when String
       tmp = File.new(input, "w+")
@@ -246,17 +253,22 @@ post '/description' do
     body erb(:premis)
     @result.clear
     @result = nil
-    FileUtils.rm input
+    FileUtils.rm_rf(input) if File.exist?(input) 
+    # take care of ruby rack file handle leak
+    env['rack.request.form_input'].close
   rescue => e
     Datyl::Logger.err "running into exception #{e} while processing #{originalName}"
     Datyl::Logger.err e.backtrace.join("\n")
     throw :halt, [500, "running into exception #{e} while processing #{originalName}\n#{e.backtrace.join('\n')}"]
   ensure
-    FileUtils.rm(input) if File.exist?(input)
-    # remove the temporary file created by sinatra-rack
-    params['document'][:tempfile].unlink unless params['document'][:tempfile].nil?    
+    FileUtils.rm_rf(input) if File.exist?(input) 
+    # close and remove the temporary file created by sinatra-curl
+    if (tempfile)
+      tempfile.close 
+      tempfile.unlink
+    end 
   end
-  response.finish
+  status = 200
 end
 
 get '/' do

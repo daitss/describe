@@ -62,6 +62,14 @@ Given /^pdf with application metadata$/ do
   @file = "#{path}/etd.pdf"
 end
 
+Given /^a PDF with bad trailing dictionary$/ do
+  @file = "#{path}/03-2013.pdf"
+end
+
+Given /^a PDF with bad PDFA conformance stream$/ do
+  @file = "#{path}/fsu_168965.pdf"
+end
+
 Given /^an password\-protected PDF file$/ do
   @file = "#{path}/pwprotected.pdf"
 end
@@ -87,7 +95,7 @@ Given /^a non\-wellformed PDF$/ do
 end
 
 Given /^tiff with application metadata$/ do
-  @file = "#{path}/MM00000285.tif"
+  @file = "#{path}/00008.tif"
 end
 
 Given /^a TIFF 4\.0 file$/ do
@@ -99,7 +107,7 @@ Given /^a TIFF 5\.0 file$/ do
 end
 
 Given /^a TIFF 6\.0 file$/ do
-  @file = "#{path}/MM00000285.tif"
+  @file = "#{path}/00008.tif"
 end
 
 Given /^a TIFF file with flash, meteringMode and exposureBiasValue metadata$/ do
@@ -131,8 +139,8 @@ Given /^a file whose format is power point$/ do
   @file = "#{path}/test.ppt"
 end
 
-Given /^a file whose format is mpeg$/ do
-  @file = "#{path}/jitter.mpg"
+Given /^a file whose format is mpg$/ do
+  @file = "#{path}/test-mpeg.mpg"
 end
 
 Given /^a file whose format is mdb$/ do
@@ -251,4 +259,14 @@ end
 Then /^I should receive eventDetail equal to 'Not well-formed'$/ do
   last_response.body.to_s =~ /eventDetail>(.*?)<\/eventDetail>/
   $1.should == 'Not well-formed'
+end
+
+Then /^I should receive eventDetail equal to 'Well-Formed, but not valid'$/ do
+  last_response.body.to_s =~ /eventDetail>(.*?)<\/eventDetail>/
+  $1.should == 'Well-Formed, but not valid'
+end
+
+Then /^I should receive eventDetail equal to 'Well-Formed and valid'$/ do
+  last_response.body.to_s =~ /eventDetail>(.*?)<\/eventDetail>/
+  $1.should == 'Well-Formed and valid'
 end

@@ -68,10 +68,13 @@ DEPENDENCIES
   haml
   libxml-ruby
   log4r
-  nokogiri (~> 1.5.10)
+  nokogiri
   rack-test
   rjb
   rspec
   semver
   sinatra
   thin
+
+BUNDLED WITH
+   1.11.2

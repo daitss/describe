@@ -88,3 +88,15 @@ Feature: retrieve the description on a PDF resource
 		Then the status should be ok
 		And I should receive eventDetail equal to 'Not well-formed'
 		
+	Scenario: PDF with bad trailing dictionary
+		Given a PDF with bad trailing dictionary 
+		When describing the file
+		Then the status should be ok
+		And I should receive eventDetail equal to 'Well-Formed, but not valid'
+		
+
+	Scenario: PDF with bad PDFA conformance stream
+		Given a PDF with bad trailing dictionary 
+		When describing the file
+		Then the status should be ok
+		
