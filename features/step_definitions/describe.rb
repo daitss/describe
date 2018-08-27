@@ -26,6 +26,11 @@ Given /^a jpeg file from ufdc$/ do
   @file = "#{path}/00200.QC.jpg"
 end
 
+
+Given /^a jpeg file with ExposureBiasValue metadata$/ do
+  @file = "#{path}/zoca.jpeg"
+end
+
 Given /^a PDF 1\.3 file$/ do
   @file = "#{path}/etd.pdf"
 end
