@@ -31,6 +31,10 @@ Given /^a jpeg file with ExposureBiasValue metadata$/ do
   @file = "#{path}/zoca.jpeg"
 end
 
+Given /^a jpeg file with brightnessValue metadata$/ do
+  @file = "#{path}/DSC00806.JPG"
+end
+
 Given /^a PDF 1\.3 file$/ do
   @file = "#{path}/etd.pdf"
 end
