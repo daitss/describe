@@ -23,6 +23,6 @@ Feature: retrieve the description on an image resource
   Scenario: jpeg ith brightnessValue metadata
     Given a jpeg file with brightnessValue metadata
     When describing the file
-    Then I should receive fmt/43 on the format id
+    Then I should receive fmt/41 on the format id
     And the status should be ok
     And mix should exist    
